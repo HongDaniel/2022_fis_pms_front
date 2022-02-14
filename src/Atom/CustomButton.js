@@ -12,18 +12,21 @@ const CustomButton = (props) => {
         return (
             <Button
                 variant="contained"
+                onClick={props.onClick}
+                value={props.value}
                 style={{
-                width: props.width,
-                height: props.height,
-                color: props.color,
-                borderRadius: props.borderRadius,
-                backgroundColor: props.backgroundColor,
-                border: props.border,
-                fontSize:props.fontSize,
-                boxSizing:"border-box",
-                padding:props.padding,
-                margin:props.margin,
-            }}>
+                    width: props.width,
+                    height: props.height,
+                    color: props.color,
+                    borderRadius: props.borderRadius,
+                    backgroundColor: props.backgroundColor,
+                    border: props.border,
+                    fontSize: props.fontSize,
+                    boxSizing: "border-box",
+                    padding: props.padding,
+                    margin: props.margin,
+                    boxShadow: props.boxShadow
+                }}>
                 {props.content}
             </Button>
         )
@@ -32,17 +35,18 @@ const CustomButton = (props) => {
             <Button
                 variant="outlined"
                 style={{
-                width: props.width,
-                height: props.height,
-                color: props.color,
-                borderRadius: props.borderRadius,
-                backgroundColor: props.backgroundColor,
-                border: props.border,
-                fontSize:props.fontSize,
-                boxSizing:"border-box",
-                padding:props.padding,
-                margin:props.margin,
-            }}>
+                    width: props.width,
+                    height: props.height,
+                    color: props.color,
+                    borderRadius: props.borderRadius,
+                    backgroundColor: props.backgroundColor,
+                    border: props.border,
+                    fontSize: props.fontSize,
+                    boxSizing: "border-box",
+                    padding: props.padding,
+                    margin: props.margin,
+                    boxShadow: props.boxShadow
+                }}>
                 {props.content}
             </Button>
         )
