@@ -7,6 +7,7 @@ import UploadPage from "./Page/UploadPage";
 import ManagePage from "./Page/ManagePage";
 
 function App() {
+    console.log("hello")
     return (
         <div className="App">
             <Routes>
