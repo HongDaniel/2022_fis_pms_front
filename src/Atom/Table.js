@@ -1,5 +1,31 @@
 import React from 'react';
 import {DataGrid} from "@mui/x-data-grid";
+import {makeStyles, ThemeProvider} from "@mui/styles";
+import {createTheme} from "@mui/material";
+
+const useStyles = makeStyles({
+    root: {
+        margin: '10px',
+        backgroundColor: "#DCE2F0",
+      "& .MuiDataGrid-columnsContainer": {
+          backgroundColor: 'black',
+      },
+        "& .MuiDataGrid-iconSeparator": {
+            width: 0,
+            height: 0,
+        },
+    },
+    header: {
+        backgroundColor: '#50586C',
+        border: '0.1px solid white',
+        color: 'white',
+        height: '100vh',
+        padding: '0 30px',
+    },
+    cell: {
+        border: "0.1px solid white",
+    },
+});
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -12,7 +38,7 @@ const columns = [
     {
         field: 'lastName',
         headerName: 'Last name',
-        width: 150,
+        width: 100,
         editable: true,
     },
     {
@@ -48,9 +74,17 @@ const rows = [
 ];
 
 function Table() {
+    const classes = useStyles();
+
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{height: 400, width: '100%'}}>
             <DataGrid
+                classes={{
+                    root: classes.root,
+                    columnHeader: classes.header,
+                    cell: classes.cell,
+                    row: classes.cell,
+                }}
                 rows={rows}
                 columns={columns}
                 pageSize={5}
