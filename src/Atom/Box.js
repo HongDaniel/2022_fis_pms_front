@@ -7,6 +7,8 @@ const Div = styled.div`
   height: ${props => props.height};
   box-shadow: 2px 2px 5px grey;
   border: grey solid 1px;
+  margin: 10px;
+  z-index: -1;
 `
 
 function Box(props) {
