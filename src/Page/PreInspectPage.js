@@ -9,6 +9,8 @@ const PreInspectPage = () => {
             <Box width='80%' height='400px' backgroundColor='white'>
                 <Table />
             </Box>
+
+
         </div>
     );
 };
