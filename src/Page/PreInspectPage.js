@@ -1,9 +1,10 @@
 import React from 'react';
+import Navigation from "../Organism/Navigation";
 
 const PreInspectPage = () => {
     return (
         <div>
-            PreInspectPage
+            <Navigation/>
         </div>
     );
 };
