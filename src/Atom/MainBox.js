@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from "styled-components";
 
+
+export const add = (text) => {
+    return (<H1><Span>{text}</Span></H1>)
+}
+
 const MainBox = styled.div`
   background-color: white;
   width: 1000px;
@@ -23,9 +28,5 @@ const H1 = styled.h1`
 const Span = styled.span`
   background-color: white;
 `
-
-export const add = (text) => {
-    return (<H1><Span>{text}</Span></H1>)
-}
 
 export default MainBox;

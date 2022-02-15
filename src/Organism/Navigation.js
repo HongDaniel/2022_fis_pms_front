@@ -59,8 +59,8 @@ const Container = styled.div`
   align-items: center;
   background-color: #DCE2F0;
   width: 280px;
-  height: 100vh;
-  &>img {
+  //height: 100vh;
+  &>img { //fis logo
     width: 125px;
     margin: 45px 0;
   }
