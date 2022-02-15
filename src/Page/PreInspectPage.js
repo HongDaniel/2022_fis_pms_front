@@ -59,7 +59,7 @@ const PreInspectPage = () => {
     return (
         <Container>
             <Navigation/>
-            <MainBox>
+            <MainBox height={"1250px"}>
                 <Title> 입력 및 검색 </Title>
                 <BtnContainer>
                     <Box width='97%' height='540px' backgroundColor='#eee'>
@@ -78,8 +78,10 @@ display: flex;
   flex-direction: column;
   margin-top: 30px;
   align-items: center;
-  &>div {
+  &>div:nth-child(1) {
+    
     margin-bottom: 30px;
+    
   }
 `;
 
