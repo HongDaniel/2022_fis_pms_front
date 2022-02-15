@@ -1,11 +1,13 @@
 import React from 'react';
+import styled from "styled-components";
 
 const ScanPage = () => {
     return (
-        <div>
+        <Container>
             ScanPage
-        </div>
+        </Container>
     );
 };
-
+const Container = styled.div`
+`;
 export default ScanPage;

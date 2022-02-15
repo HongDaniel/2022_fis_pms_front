@@ -1,11 +1,15 @@
 import React from 'react';
+import styled from "styled-components";
 
 const DocumentExportPage = () => {
     return (
-        <div>
+        <Container>
             DocumentExportPage
-        </div>
+        </Container>
     );
 };
+
+const Container = styled.div`
+`;
 
 export default DocumentExportPage;
