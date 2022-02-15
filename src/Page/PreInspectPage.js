@@ -4,7 +4,8 @@ import Box from "../Atom/Box";
 import styled from "styled-components";
 import Navigation from "../Organism/Navigation";
 import MainBox from "../Atom/MainBox";
-import MainBox2 from "../Atom/MainBox2";
+import Title from "../Atom/Title";
+
 
 const columns = [
     {field: 'id', headerName: 'ID', width: 90},
@@ -57,19 +58,24 @@ const PreInspectPage = () => {
     return (
         <Container>
             <Navigation/>
-            <MainBox2 title={"입력 및 검색"}>
-                <Table />
-            </MainBox2>
-            {/*<Box width='1000px' height='400px' backgroundColor='white'>*/}
-            {/*    <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />*/}
-            {/*</Box>*/}
+            <MainBox>
+                <Title>
+                    색인
+                </Title>
+            <Box width='1000px' height='400px' backgroundColor='white'>
+                <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
+            </Box>
+            </MainBox>
         </Container>
     );
 };
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  position: absolute;
   //height: 100vh;
   //width: auto;
 `;
+
 export default PreInspectPage;
