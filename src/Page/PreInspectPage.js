@@ -6,6 +6,7 @@ import Navigation from "../Organism/Navigation";
 import Title from "../Atom/Title";
 import Container from "../Atom/Container";
 import MainBox from "../Atom/MainBox";
+import CustomInput from "../Atom/CustomInput";
 
 
 const columns = [
@@ -62,9 +63,20 @@ const PreInspectPage = () => {
             <MainBox height={"1250px"}>
                 <Title> 입력 및 검색 </Title>
                 <BtnContainer>
+                    {/*입력정보*/}
                     <Box width='97%' height='540px' backgroundColor='#eee'>
-                        <h3>필수 입력 정보</h3>
+                        <Required>
+                            <h3>필수 입력 정보</h3>
+<label>
+    *기관코드
+    <CustomInput type={"text"} label={"기관코드"}/>
+</label>
+                        </Required>
+                        <Additional>
+                            <h3>부가 입력 정보</h3>
+                        </Additional>
                     </Box>
+                    {/*조회 데이터*/}
                     <Box width='97%' height='590px' backgroundColor='#eee'>
                     </Box>
                 </BtnContainer>
@@ -74,15 +86,27 @@ const PreInspectPage = () => {
 };
 
 const BtnContainer = styled.div`
-display: flex;
+  display: flex;
   flex-direction: column;
   margin-top: 30px;
   align-items: center;
-  &>div:nth-child(1) {
-    
+
+  & > div:nth-child(1) { // 입력정보
+    display: flex;
+    flex-direction: column;
     margin-bottom: 30px;
-    
   }
+
+  & > div:nth-child(2) { // 조회 데이터
+  }
+`;
+
+const Required = styled.div`
+width: 100%;
+    
+`;
+const Additional = styled.div`
+width: 100%;
 `;
 
 

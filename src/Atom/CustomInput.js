@@ -8,7 +8,9 @@ const CustomInput = (props) => {
             <TextField id="outlined-basic"
                        label={props.label}
                        variant="outlined"
+                       name={props.name}
                        type={"text"}
+
             />
         )
     }
@@ -17,6 +19,7 @@ const CustomInput = (props) => {
             <TextField id="outlined-basic"
                        label={props.label}
                        variant="outlined"
+                       name={props.name}
                        type={"number"}
                        InputLabelProps={{
                            shrink: true,
@@ -31,6 +34,7 @@ const CustomInput = (props) => {
                 <Select
                     name={props.name}
                     value={props.defaultValue}
+                    name={props.name}
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx) => {
@@ -47,7 +51,7 @@ const CustomInput = (props) => {
                 <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue={props.defaultValue}
-                    name="radio-buttons-group"
+                    name={props.name}
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx)=>{
