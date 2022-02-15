@@ -20,7 +20,6 @@ const CustomInput = (props) => {
                        label={props.label}
                        sx={{width: props.width}}
                        variant="outlined"
-
                        size={"small"}
                        name={props.name}
                        type={"number"}
