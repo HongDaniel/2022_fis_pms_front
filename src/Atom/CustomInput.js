@@ -1,5 +1,15 @@
 import React from 'react';
-import {FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Select, TextField} from "@mui/material";
+import {
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    InputLabel,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    Select,
+    TextField
+} from "@mui/material";
 
 // text number select
 const CustomInput = (props) => {
@@ -29,8 +39,10 @@ const CustomInput = (props) => {
     else if(props.type==="select"){
         return (
             <FormControl style={{width: props.width}} size="small">
-                {/*<InputLabel id="demo-simple-select-label">{props.labelContent}</InputLabel>*/}
+                <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
                 <Select
+                    label={props.label}
+                    variant="outlined"
                     name={props.name}
                     value={props.defaultValue}
                     onChange={props.handleChange}
