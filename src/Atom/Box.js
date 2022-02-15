@@ -9,15 +9,7 @@ const Box = styled.div`
   border: grey solid 1px;
   margin: 10px;
   position: relative;
-  z-index: 1;
 `
-//
-// function Box(props) {
-//     const { width, height, backgroundColor } = props;
-//     return (
-//         <Div backgroundColor={backgroundColor} width={width} height={height}></Div>
-//     );
-// }
 
 
 export default Box;
