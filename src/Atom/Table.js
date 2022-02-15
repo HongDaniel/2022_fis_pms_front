@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {DataGrid, koKR, nlNL} from "@mui/x-data-grid";
-import {makeStyles, ThemeProvider} from "@mui/styles";
-import {createTheme} from "@mui/material";
+import {DataGrid, koKR} from "@mui/x-data-grid";
+import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,7 +37,7 @@ function Table(props) {
 
     console.log(selectionModel);
     return (
-        <div style={{height: '95%', width: '100%', position: 'absolute', zIndex: 3, }}>
+        <div style={{height: '95%', width: '100%', position: 'absolute'}}>
             <DataGrid
                 classes={{
                     root: classes.root,
@@ -56,6 +55,7 @@ function Table(props) {
                 selectionModel={selectionModel}
                 onSelectionModelChange={setSelectionModel}
                 getRowId={(row) => row.id}
+                localeText={koKR.components.MuiDataGrid.defaultProps.localeText}
             />
         </div>
     );
