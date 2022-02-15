@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import CustomInput from "../Atom/CustomInput";
+import styled from "styled-components";
 
 const ManagePage = () => {
     const [val,setVal] = useState('badasdasd')
@@ -7,9 +7,11 @@ const ManagePage = () => {
         setVal((e.target.value))
     }
     return (
-        <div>
-        </div>
+        <Container>
+
+        </Container>
     );
 };
-
+const Container = styled.div`
+`;
 export default ManagePage;
