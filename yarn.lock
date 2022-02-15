@@ -1480,9 +1480,9 @@
     prop-types "^15.7.2"
     react-is "^17.0.2"
 
-"@mui/base@5.0.0-alpha.68":
+"@mui/base@5.0.0-alpha.68", "@mui/base@^5.0.0-alpha.68":
   version "5.0.0-alpha.68"
-  resolved "https://registry.npmjs.org/@mui/base/-/base-5.0.0-alpha.68.tgz"
+  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.68.tgz#d93d77e662bc8dce47c9415fc6cbcac6658efab7"
   integrity sha512-q+3gX6EHuM/AyOn8fkoANQxSzIHBeuNsrGgb7SPP0y7NuM+4ZHG/b9882+OfHcilaSqPDWUQoLbphcBpw/m/RA==
   dependencies:
     "@babel/runtime" "^7.17.0"
@@ -1554,7 +1554,7 @@
 
 "@mui/system@^5.4.1":
   version "5.4.1"
-  resolved "https://registry.npmjs.org/@mui/system/-/system-5.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.4.1.tgz#cf253369fbf1d960c792f0ec068fa28af81be3d4"
   integrity sha512-07JBYf9iQdxIHZU8cFOLoxBnkQDUPLb7UBhNxo4998yEqpWFJ00WKgEVYBKvPl0X+MRU/20wqFz6yGIuCx4AeA==
   dependencies:
     "@babel/runtime" "^7.17.0"

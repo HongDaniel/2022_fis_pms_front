@@ -28,7 +28,7 @@ const CustomInput = (props) => {
         return (
             <TextField id="outlined-basic"
                        label={props.label}
-                       sx={{width: props.width}}
+                       sx={{width: props.width, m: props.margin}}
                        variant="outlined"
                        name={props.name}
                        type={"number"}
