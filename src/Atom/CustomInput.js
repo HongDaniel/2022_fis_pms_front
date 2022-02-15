@@ -5,12 +5,12 @@ import {FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, S
 const CustomInput = (props) => {
     if(props.type==="text"){
         return (
-            <TextField id="outlined-basic"
+            <TextField id= {props.id}
                        label={props.label}
+                       sx={{width: props.width}}
                        variant="outlined"
-                       name={props.name}
                        type={"text"}
-
+                       size={"small"}
             />
         )
     }
@@ -18,6 +18,7 @@ const CustomInput = (props) => {
         return (
             <TextField id="outlined-basic"
                        label={props.label}
+                       sx={{width: props.width}}
                        variant="outlined"
                        name={props.name}
                        type={"number"}
@@ -35,6 +36,7 @@ const CustomInput = (props) => {
                     name={props.name}
                     value={props.defaultValue}
                     name={props.name}
+                    sx={{width: props.width}}
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx) => {
@@ -52,6 +54,7 @@ const CustomInput = (props) => {
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue={props.defaultValue}
                     name={props.name}
+                    sx={{width: props.width}}
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx)=>{

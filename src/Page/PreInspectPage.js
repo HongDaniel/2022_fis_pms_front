@@ -7,6 +7,7 @@ import Title from "../Atom/Title";
 import Container from "../Atom/Container";
 import MainBox from "../Atom/MainBox";
 import CustomInput from "../Atom/CustomInput";
+import InputContainer from "../Molecule/InputContainer";
 
 
 const columns = [
@@ -65,13 +66,12 @@ const PreInspectPage = () => {
                 <BtnContainer>
                     {/*입력정보*/}
                     <Box width='97%' height='540px' backgroundColor='#eee'>
+
                         <Required>
                             <h3>필수 입력 정보</h3>
-<label>
-    *기관코드
-    <CustomInput type={"text"} label={"기관코드"}/>
-</label>
+                            <InputContainer id={"기관코드"} width={"320px"}/>
                         </Required>
+
                         <Additional>
                             <h3>부가 입력 정보</h3>
                         </Additional>
@@ -102,11 +102,13 @@ const BtnContainer = styled.div`
 `;
 
 const Required = styled.div`
-width: 100%;
-    
+  width: 100%;
+  &>label{
+    margin-right: 50px;
+  }
 `;
 const Additional = styled.div`
-width: 100%;
+  width: 100%;
 `;
 
 
