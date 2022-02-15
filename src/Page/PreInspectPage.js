@@ -73,6 +73,7 @@ const PreInspectPage = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  position: absolute;
   //height: 100vh;
   //width: auto;
 `;
