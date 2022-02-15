@@ -8,6 +8,7 @@ const Box = styled.div`
   box-shadow: 2px 2px 5px grey;
   border: grey solid 1px;
   margin: 10px;
+  margin-top: ${props => props.mt};
   position: relative;
 `
 export default Box;
