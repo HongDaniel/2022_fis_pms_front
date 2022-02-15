@@ -68,10 +68,6 @@ const DocumentExportPage = () => {
     return (
         <Container>
             DocumentExportPage
-            <MainBox>
-                {add("문서반출")}
-                <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
-            </MainBox>
         </Container>
     );
 };

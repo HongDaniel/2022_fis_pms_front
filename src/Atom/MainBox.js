@@ -1,32 +1,13 @@
 import React from 'react';
 import styled from "styled-components";
 
-
-export const add = (text) => {
-    return (<H1><Span>{text}</Span></H1>)
-}
-
 const MainBox = styled.div`
-  background-color: white;
-  width: 1000px;
-  height: 400px;
-  border: #eee solid 2px;
-  margin: 10px;
+  width: 2250px;
+  height: 1250px;
+  margin: 35px 15px;
+  border: 2px solid #eee;
   position: relative;
-`
-
-const H1 = styled.h1`
-  text-align: left;
-  margin-top: -10px;
-  margin-bottom: 10px;
-  margin-left: 20px;
-  height: 20px;
-  line-height: 20px;
-  font-size: 25px;
-`
-
-const Span = styled.span`
-  background-color: white;
-`
+  z-index: 1;
+`;
 
 export default MainBox;
