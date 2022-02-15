@@ -15,11 +15,12 @@ import {
 const CustomInput = (props) => {
     if(props.type==="text"){
         return (
-            <TextField id="outlined-basic"
+            <TextField id= {props.id}
                        label={props.label}
+                       sx={{width: props.width}}
                        variant="outlined"
                        type={"text"}
-                       size={props.size}
+                       size={"small"}
             />
         )
     }
@@ -27,7 +28,9 @@ const CustomInput = (props) => {
         return (
             <TextField id="outlined-basic"
                        label={props.label}
+                       sx={{width: props.width}}
                        variant="outlined"
+                       name={props.name}
                        type={"number"}
                        size={props.size}
                        InputLabelProps={{
@@ -45,6 +48,8 @@ const CustomInput = (props) => {
                     variant="outlined"
                     name={props.name}
                     value={props.defaultValue}
+                    name={props.name}
+                    sx={{width: props.width}}
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx) => {
@@ -61,7 +66,8 @@ const CustomInput = (props) => {
                 <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue={props.defaultValue}
-                    name="radio-buttons-group"
+                    name={props.name}
+                    sx={{width: props.width}}
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx)=>{
