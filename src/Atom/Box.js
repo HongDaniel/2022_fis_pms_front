@@ -10,6 +10,4 @@ const Box = styled.div`
   margin: 10px;
   position: relative;
 `
-
-
 export default Box;

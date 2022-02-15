@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
+import Container from "../Atom/Container";
 
 const ManagePage = () => {
     const [val,setVal] = useState('badasdasd')
@@ -12,6 +13,4 @@ const ManagePage = () => {
         </Container>
     );
 };
-const Container = styled.div`
-`;
 export default ManagePage;
