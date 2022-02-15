@@ -1,6 +1,8 @@
 import React from 'react';
 import Table from "../Atom/Table";
 import Box from "../Atom/Box";
+import styled from "styled-components";
+import Navigation from "../Organism/Navigation";
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -51,13 +53,16 @@ const rows = [
 
 const PreInspectPage = () => {
     return (
-        <div>
+        <Container>
             PreInspectPage
+            <Navigation/>
             <Box width='1000px' height='400px' backgroundColor='white'>
-                <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns}/>
+                <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
             </Box>
-        </div>
+        </Container>
     );
 };
+const Container = styled.div`
 
+`;
 export default PreInspectPage;
