@@ -57,7 +57,9 @@ const PreInspectPage = () => {
     return (
         <Container>
             <Navigation/>
-            <MainBox2 title={"입력 및 검색"}/>
+            <MainBox2 title={"입력 및 검색"}>
+                <Table />
+            </MainBox2>
             {/*<Box width='1000px' height='400px' backgroundColor='white'>*/}
             {/*    <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />*/}
             {/*</Box>*/}

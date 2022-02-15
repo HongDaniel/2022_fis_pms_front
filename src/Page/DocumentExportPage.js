@@ -3,6 +3,7 @@ import Box from "../Atom/Box";
 import styled from "styled-components";
 import Table from "../Atom/Table";
 import MainBox, {add} from "../Atom/MainBox";
+import MainBox2 from "../Atom/MainBox2";
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -69,7 +70,6 @@ const DocumentExportPage = () => {
         <Container>
             DocumentExportPage
             <MainBox>
-                {add("문서반출")}
                 <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
             </MainBox>
         </Container>
