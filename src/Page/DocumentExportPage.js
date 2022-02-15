@@ -3,7 +3,8 @@ import Box from "../Atom/Box";
 import styled from "styled-components";
 import Table from "../Atom/Table";
 import MainBox, {add} from "../Atom/MainBox";
-import MainBox2 from "../Atom/MainBox2";
+import Container from "../Atom/Container";
+
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -75,8 +76,5 @@ const DocumentExportPage = () => {
         </Container>
     );
 };
-
-const Container = styled.div`
-`;
 
 export default DocumentExportPage;
