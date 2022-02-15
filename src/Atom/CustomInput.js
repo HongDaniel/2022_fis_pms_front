@@ -30,6 +30,7 @@ const CustomInput = (props) => {
                        label={props.label}
                        sx={{width: props.width, m: props.margin}}
                        variant="outlined"
+                       size={"small"}
                        name={props.name}
                        type={"number"}
                        size={props.size}
@@ -48,7 +49,6 @@ const CustomInput = (props) => {
                     variant="outlined"
                     name={props.name}
                     value={props.defaultValue}
-                    name={props.name}
                     sx={{width: props.width}}
                     onChange={props.handleChange}
                 >

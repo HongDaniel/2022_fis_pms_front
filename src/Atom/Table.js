@@ -37,7 +37,7 @@ function Table(props) {
 
     console.log(selectionModel);
     return (
-        <div style={{height: '95%', width: '100%', position: 'absolute'}}>
+        <div style={{height: `${props.height}`, width: `${props.width}`, position: 'absolute'}}>
             <DataGrid
                 classes={{
                     root: classes.root,
