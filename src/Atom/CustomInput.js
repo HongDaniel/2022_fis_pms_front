@@ -20,6 +20,8 @@ const CustomInput = (props) => {
                        label={props.label}
                        sx={{width: props.width}}
                        variant="outlined"
+
+                       size={"small"}
                        name={props.name}
                        type={"number"}
                        InputLabelProps={{
@@ -35,7 +37,6 @@ const CustomInput = (props) => {
                 <Select
                     name={props.name}
                     value={props.defaultValue}
-                    name={props.name}
                     sx={{width: props.width}}
                     onChange={props.handleChange}
                 >

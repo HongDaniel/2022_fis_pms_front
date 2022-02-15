@@ -6,8 +6,8 @@ const InputContainer = (props) => {
     console.log(props.labelColor)
     return (
         <Container labelColor={props.labelColor}>
-            <label for={props.id} >*{props.id}</label>
-            <CustomInput type={"text"} label={props.id} width={props.width} id={props.id}/>
+            <label for={props.id} >* {props.id}</label>
+            <CustomInput type={props.type} label={props.id} width={props.width} id={props.id}/>
         </Container>
     );
 };
@@ -18,6 +18,7 @@ const Container = styled.div`
 
   & > label {
     margin-right: 25px;
+    width: 125px;
     color: ${(props)=> props.labelColor};
     font-size: 23px;
   }

@@ -63,13 +63,27 @@ const PreInspectPage = () => {
             <Navigation/>
             <MainBox height={"1250px"}>
                 <Title> 입력 및 검색 </Title>
-                <BtnContainer>
+                <BoxContainer>
                     {/*입력정보*/}
-                    <Box width='97%' height='540px' backgroundColor='#eee'>
+                    <Box width='97%' height='540px' backgroundColor='#fff'>
 
                         <Required>
                             <h3>필수 입력 정보</h3>
-                            <InputContainer id={"기관코드"} width={"320px"}/>
+                            <Row columns={"1fr 1fr"}>
+                                <InputContainer id={"기관코드"} width={"500px"} type={"text"}/>
+                                <InputContainer id={"레이블"} width={"420px"} type={"text"}/>
+                            </Row>
+                            <Row columns={"1fr 1fr"}>
+                                <InputContainer id={"생산기관명"} width={"500px"} type={"text"}/>
+                                <InputContainer id={"철제목"} width={"500px"} type={"text"}/>
+                            </Row>
+                            <Row columns={"1fr 1fr 1fr 1fr 1fr"}>
+                                <InputContainer id={"생산년도"} width={"150px"} type={"number"} defaultValue={"1년"} contents={["1년","30년","영구"]}/>
+                                <InputContainer id={"보존기간"} width={"150px"} type={"select"}/>
+                                <InputContainer id={"구축여부"} width={"150px"} type={"text"}/>
+                                <InputContainer id={"스캔여부"} width={"150px"} type={"text"}/>
+                                <InputContainer id={"박스번호"} width={"150px"} type={"text"}/>
+                            </Row>
                         </Required>
 
                         <Additional>
@@ -79,34 +93,45 @@ const PreInspectPage = () => {
                     {/*조회 데이터*/}
                     <Box width='97%' height='590px' backgroundColor='#eee'>
                     </Box>
-                </BtnContainer>
+                </BoxContainer>
             </MainBox>
         </Container>
     );
 };
 
-const BtnContainer = styled.div`
+const BoxContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 30px;
   align-items: center;
 
-  & > div:nth-child(1) { // 입력정보
-    display: flex;
-    flex-direction: column;
+  & h3 { //필수 입력 정보
+    margin-left: 30px;
+  }
+
+  & > div:nth-child(1) { // 입력정보 box
     margin-bottom: 30px;
   }
 
-  & > div:nth-child(2) { // 조회 데이터
+  & > div:nth-child(2) { // 조회 데이터 box
   }
 `;
 
 const Required = styled.div`
-  width: 100%;
-  &>label{
-    margin-right: 50px;
+  & > div {
+    margin-left: 50px;
   }
 `;
+
+const Row = styled.div`
+    display: grid;
+    grid-template-columns: ${(props)=>props.columns};
+    &>div {
+      margin-bottom: 10px;
+    }
+`;
+
+
 const Additional = styled.div`
   width: 100%;
 `;
