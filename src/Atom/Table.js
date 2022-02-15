@@ -1,12 +1,12 @@
-import React from 'react';
-import {DataGrid} from "@mui/x-data-grid";
+import React, {useState} from 'react';
+import {DataGrid, koKR, nlNL} from "@mui/x-data-grid";
 import {makeStyles, ThemeProvider} from "@mui/styles";
 import {createTheme} from "@mui/material";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         margin: '10px',
-        backgroundColor: "#DCE2F0",
+        backgroundColor: ({cellBG}) => cellBG,
       "& .MuiDataGrid-columnsContainer": {
           backgroundColor: 'black',
       },
@@ -16,68 +16,29 @@ const useStyles = makeStyles({
         },
     },
     header: {
-        backgroundColor: '#50586C',
+        backgroundColor: ({headerBG}) => headerBG,
         border: '0.1px solid white',
         color: 'white',
         height: '100vh',
         padding: '0 30px',
+        width: 1000,
     },
     cell: {
         border: "0.1px solid white",
     },
-});
+}));
 
-const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    {
-        field: 'firstName',
-        headerName: 'First name',
-        width: 150,
-        editable: true,
-    },
-    {
-        field: 'lastName',
-        headerName: 'Last name',
-        width: 100,
-        editable: true,
-    },
-    {
-        field: 'age',
-        headerName: 'Age',
-        type: 'number',
-        width: 110,
-        editable: true,
-    },
-    {
-        field: 'fullName',
-        headerName: 'Full name',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        valueGetter: (params) =>
-            `${params.getValue(params.id, 'firstName') || ''} ${
-                params.getValue(params.id, 'lastName') || ''
-            }`,
-    },
-];
 
-const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+function Table(props) {
+    const {headerBG, cellBG, rows, columns} = props; // 헤더, 셀 색깔
+    const theme = {headerBG, cellBG};
+    const classes = useStyles(theme);
+    const [selectionModel, setSelectionModel] = useState([]); // 체크박스 State
+    const [pageSize, setPageSize] = useState(5);
 
-function Table() {
-    const classes = useStyles();
-
+    console.log(selectionModel);
     return (
-        <div style={{height: 400, width: '100%'}}>
+        <div style={{height: '95%', width: '100%', position: 'absolute', zIndex: 3, }}>
             <DataGrid
                 classes={{
                     root: classes.root,
@@ -87,9 +48,14 @@ function Table() {
                 }}
                 rows={rows}
                 columns={columns}
-                pageSize={5}
+                pageSize={pageSize}
+                onPageSizeChange={(newPage) => setPageSize(newPage)}
+                rowsPerPageOptions={[5, 10, 20]}
                 checkboxSelection
                 disableSelectionOnClick
+                selectionModel={selectionModel}
+                onSelectionModelChange={setSelectionModel}
+                getRowId={(row) => row.id}
             />
         </div>
     );
