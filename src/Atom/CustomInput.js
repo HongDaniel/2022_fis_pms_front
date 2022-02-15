@@ -9,6 +9,7 @@ const CustomInput = (props) => {
                        label={props.label}
                        variant="outlined"
                        type={"text"}
+                       size={props.size}
             />
         )
     }
@@ -18,6 +19,7 @@ const CustomInput = (props) => {
                        label={props.label}
                        variant="outlined"
                        type={"number"}
+                       size={props.size}
                        InputLabelProps={{
                            shrink: true,
                        }}
