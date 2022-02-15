@@ -3,8 +3,9 @@ import Table from "../Atom/Table";
 import Box from "../Atom/Box";
 import styled from "styled-components";
 import Navigation from "../Organism/Navigation";
-import MainBox from "../Atom/MainBox";
 import Title from "../Atom/Title";
+import Container from "../Atom/Container";
+import MainBox from "../Atom/MainBox";
 
 
 const columns = [
@@ -59,23 +60,28 @@ const PreInspectPage = () => {
         <Container>
             <Navigation/>
             <MainBox>
-                <Title>
-                    색인
-                </Title>
-            <Box width='1000px' height='400px' backgroundColor='white'>
-                <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
-            </Box>
+                <Title> 입력 및 검색 </Title>
+                <BtnContainer>
+                    <Box width='97%' height='540px' backgroundColor='#eee'>
+                        <h3>필수 입력 정보</h3>
+                    </Box>
+                    <Box width='97%' height='590px' backgroundColor='#eee'>
+                    </Box>
+                </BtnContainer>
             </MainBox>
         </Container>
     );
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  //height: 100vh;
-  //width: auto;
+const BtnContainer = styled.div`
+display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  align-items: center;
+  &>div {
+    margin-bottom: 30px;
+  }
 `;
+
 
 export default PreInspectPage;

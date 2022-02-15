@@ -7,6 +7,7 @@ import Title from "../Atom/Title";
 import Navigation from "../Organism/Navigation";
 import CustomButton from "../Atom/CustomButton";
 import CustomInput from "../Atom/CustomInput";
+import Container from "../Atom/Container";
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -102,13 +103,5 @@ const DocumentExportPage = () => {
         </Container>
     );
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  //height: 100vh;
-  //width: auto;
-`;
 
 export default DocumentExportPage;

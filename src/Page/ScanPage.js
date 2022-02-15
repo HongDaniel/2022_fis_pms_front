@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import Container from "../Atom/Container";
 
 const ScanPage = () => {
     return (
@@ -8,6 +9,4 @@ const ScanPage = () => {
         </Container>
     );
 };
-const Container = styled.div`
-`;
 export default ScanPage;
