@@ -55,19 +55,6 @@ export const rows = [
     { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
-const H1 = styled.h1`
-  text-align: left;
-  margin-top: -10px;
-  margin-bottom: 10px;
-  margin-left: 20px;
-  height: 20px;
-  line-height: 20px;
-  font-size: 25px;
-`
-
-const Span = styled.span`
-  background-color: white;
-`
 
 const DocumentExportPage = () => {
     return (
@@ -110,8 +97,8 @@ const DocumentExportPage = () => {
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Box width='85vw' height='400px' backgroundColor='white'>
-                            <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
+                        <Box width='2176px' height='400px' backgroundColor='white'>
+                            <Table width='2170px' height='380px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
                         </Box>
                     </div>
                 </MainBox>
@@ -149,8 +136,8 @@ const DocumentExportPage = () => {
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Box width='85vw' height='400px' backgroundColor='white'>
-                            <Table headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
+                        <Box width='2176px' height='400px' backgroundColor='white'>
+                            <Table width='2170px' height='380px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
                         </Box>
                     </div>
                 </MainBox>
