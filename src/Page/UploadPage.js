@@ -88,7 +88,7 @@ const UploadPage = () => {
                         <Content>
                         <CustomButton type={"normal"} name={"검색"} width={"150px"} height={"45px"} fontSize={"24px"}
                                           borderRadius={"5px"} content={"파일 생성"}/>
-                        <Table rows={rows} columns={columns} headerBG={"#50586C"} cellBG={"#DCE2F0"} width={"100%"} height={"50%"}/>
+                        <Table rows={rows} columns={columns} headerBG={"#50586C"} cellBG={"#DCE2F0"} width={"95%"} height={"70%"}/>
                         </Content>
                         </Box>
                 </BoxContainer>
