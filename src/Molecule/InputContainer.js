@@ -5,7 +5,7 @@ import styled from "styled-components";
 const InputContainer = (props) => {
     return (
         <Container labelColor={props.labelColor}>
-            <label for={props.id} >* {props.id}</label>
+            <label style={{fontSize: props.fontSize}} for={props.id} >* {props.id}</label>
             <CustomInput type={props.type}
                          label={props.id}
                          width={props.width}

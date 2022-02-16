@@ -33,7 +33,7 @@ const CustomInput = (props) => {
                        size={"small"}
                        name={props.name}
                        type={"number"}
-                       size={props.size}
+                       size={"small"}
                        InputLabelProps={{
                            shrink: true,
                        }}
@@ -69,6 +69,7 @@ const CustomInput = (props) => {
                     name={props.name}
                     sx={{width: props.width}}
                     onChange={props.handleChange}
+                    row
                 >
                     {props.contents.map((content,idx)=>{
                         return <FormControlLabel value={content} control={<Radio />} label={content} />
