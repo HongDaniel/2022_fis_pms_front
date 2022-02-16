@@ -155,7 +155,6 @@ const InfoContainer = styled.div`
 const Row = styled.div`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
-
   & > div {
     margin-bottom: 10px;
   }
