@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { styled } from '@mui/system';
 import TabsUnstyled from '@mui/base/TabsUnstyled';
 import TabsListUnstyled from '@mui/base/TabsListUnstyled';
@@ -8,6 +8,10 @@ import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import Citems from "../Molecule/Citems";
 import Ginput from "../Molecule/Ginput";
 import Gitems from "../Molecule/Gitems";
+import Performance from "../Molecule/Performance";
+import Process from "../Molecule/Process";
+import DailyWork from "../Molecule/DailyWork";
+import CRecords from "../Molecule/CRecords";
 
 const Tab = styled(TabUnstyled)`
   font-family: IBM Plex Sans, sans-serif;
@@ -63,23 +67,27 @@ const TabsList = styled(TabsListUnstyled)`
   align-content: space-between;
 `;
 
-export default function UnstyledTabsCustomized(props) {
+export default function ManageTabs(props) {
     const {setCurrentTab} = props;
     return (
         <TabsUnstyled onChange={(event) => setCurrentTab(event.target.id)} defaultValue={0}>
             <TabsList>
-                <Tab id={'0'}>철항목</Tab>
-                <Tab id={'1'}>건수입력</Tab>
-                <Tab id={'2'}>건항목</Tab>
+                <Tab id={'0'}>계획대비 실적</Tab>
+                <Tab id={'1'}>기간별 공장</Tab>
+                <Tab id={'2'}>일일 작업</Tab>
+                <Tab id={'3'}>철별 이력</Tab>
             </TabsList>
             <TabPanel value={0}>
-                <Citems />
+                <Performance />
             </TabPanel>
             <TabPanel value={1}>
-                <Ginput />
+                <Process />
             </TabPanel>
             <TabPanel value={2}>
-                <Gitems />
+                <DailyWork />
+            </TabPanel>
+            <TabPanel value={3}>
+                <CRecords />
             </TabPanel>
         </TabsUnstyled>
     );

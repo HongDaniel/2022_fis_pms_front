@@ -7,8 +7,6 @@ function SearchIndexing(props) {
         cur = '철';
     } else if (currentTab === '2') {
         cur = '건';
-    } else {
-        cur = '기관코드';
     }
     return (
         <div>

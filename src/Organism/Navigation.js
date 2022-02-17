@@ -65,7 +65,7 @@ const Navigation = () => {
                             <Label className={'input-file-button'} for={'input-file'}>
                                 기관코드 등록
                             </Label>
-                            <input type={'file'} id={'input-file'} style={{display: 'none'}} />
+                            <input type={'file'} id={'input-file'} style={{display: 'none'}} onChange={(e) => alert(e.target.value)}/>
                         </div>
                     </div>
                 }
