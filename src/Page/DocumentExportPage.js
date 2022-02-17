@@ -97,7 +97,7 @@ const DocumentExportPage = () => {
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Box width='2176px' height='400px' backgroundColor='white'>
+                        <Box width='2176px' height='400px' backgroundColor='#ecf0f1'>
                             <Table width='2170px' height='380px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
                         </Box>
                     </div>
@@ -136,7 +136,7 @@ const DocumentExportPage = () => {
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Box width='2176px' height='400px' backgroundColor='white'>
+                        <Box width='2176px' height='400px' backgroundColor='#ecf0f1'>
                             <Table width='2170px' height='380px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
                         </Box>
                     </div>
