@@ -5,14 +5,15 @@ import DocumentExportPage from "./Page/DocumentExportPage";
 import IndexingPage from "./Page/IndexingPage";
 import UploadPage from "./Page/UploadPage";
 import ManagePage from "./Page/ManagePage";
+import ScanPage from "./Page/ScanPage";
 
 function App() {
-    console.log("hello")
     return (
         <div className="App">
             <Routes>
                 <Route exact path={"/"} element={<PreInspectPage/>}/>
                 <Route exact path={"/export"} element={<DocumentExportPage/>}/>
+                <Route exact path={"/scan"} element={<ScanPage/>}/>
                 <Route exact path={"/index"} element={<IndexingPage/>}/>
                 <Route exact path={"/upload"} element={<UploadPage/>}/>
                 <Route exact path={"/manage"} element={<ManagePage/>}/>

@@ -21,6 +21,9 @@ const Navigation = () => {
             case '문서반출':
                 navigate('/export')
                 break
+            case '스캔':
+                navigate('/scan')
+                break
             case '색인':
                 navigate('/index')
                 break
@@ -41,6 +44,8 @@ const Navigation = () => {
                               fontSize={"23px"} content={"사전조사"} value={"사전조사"} boxShadow ={""} onClick={handleClick}/>
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
                               fontSize={"23px"} content={"문서반출"} value={"문서반출"} onClick={handleClick}/>
+                <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
+                              fontSize={"23px"} content={"스캔 및 보정"} value={"스캔"} onClick={handleClick}/>
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
                               fontSize={"23px"} content={"색인"} value={"색인"} onClick={handleClick}/>
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
