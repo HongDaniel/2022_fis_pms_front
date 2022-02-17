@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CustomButton from "../Atom/CustomButton";
 import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
 import logo from '../Media/logo.png'
+import FileInput from "../Atom/FileInput";
 
 /*
 날짜: 2022/02/14 2:11 PM
@@ -12,6 +13,7 @@ import logo from '../Media/logo.png'
 
 const Navigation = () => {
     let navigate = useNavigate();
+    const [open, setOpen] = useState(false);
     const handleClick = (e) => { // 버튼을 클릭했을 때
         const btnName=e.target.value
         switch (btnName) {
@@ -27,11 +29,18 @@ const Navigation = () => {
             case '업로드':
                 navigate('/upload')
                 break
-            case '관리':
+            case '작업장 관리':
                 navigate('/manage')
                 break
         }
     }
+    const handleClickManage = (e) => {
+        if (open) {
+            setOpen(false);
+        } else {
+            setOpen(true);
+        }
+    };
 
     return (
         <Container>
@@ -46,7 +55,20 @@ const Navigation = () => {
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
                               fontSize={"23px"} content={"업로드"} value={"업로드"} onClick={handleClick}/>
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
-                              fontSize={"23px"} content={"관리"} value={"관리"} onClick={handleClick}/>
+                              fontSize={"23px"} content={"관리"} value={"관리"} onClick={handleClickManage}/>
+                {open &&
+                    <div style={{ marginLeft: '25%', borderLeft: '3px solid #50586C'}}>
+                        <div style={{margin: '10px'}}>
+                            <Button value={"작업장 관리"} onClick={handleClick}>작업장 관리</Button>
+                        </div>
+                        <div style={{margin: '10px'}}>
+                            <Label className={'input-file-button'} for={'input-file'}>
+                                기관코드 등록
+                            </Label>
+                            <input type={'file'} id={'input-file'} style={{display: 'none'}} />
+                        </div>
+                    </div>
+                }
             </BtnContainer>
         </Container>
     );
@@ -72,4 +94,27 @@ width: 95%;
     margin-bottom: 12px;
   }
 `;
+
+const Label = styled.label`
+  display: block;
+  width: 118px;
+  border-bottom: 1px solid #50586C;
+  padding: 6px 25px;
+  font-size: 15pt;
+  background-color: #DCE2F0;
+  color: #50586C;
+  cursor: pointer;
+`
+
+const Button = styled.button`
+  border: none;
+  width: 168px;
+  border-bottom: 1px solid #50586C;
+  padding: 6px 25px;
+  font-size: 15pt;
+  background-color: #DCE2F0;
+  color: #50586C;
+  cursor: pointer;
+`
+
 export default Navigation;

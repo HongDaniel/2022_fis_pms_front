@@ -27,6 +27,7 @@ const CustomInput = (props) => {
     else if(props.type==="number"){
         return (
             <TextField id="outlined-basic"
+                       disabled={props.disabled}
                        label={props.label}
                        sx={{width: props.width, m: props.margin}}
                        variant="outlined"
@@ -45,6 +46,7 @@ const CustomInput = (props) => {
             <FormControl style={{width: props.width}} size="small">
                 <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
                 <Select
+                    disabled={props.disabled}
                     label={props.label}
                     variant="outlined"
                     name={props.name}
