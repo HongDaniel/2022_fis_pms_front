@@ -10,7 +10,7 @@ function Citems(props) {
         <Box mt='0' width='1030px' height='810px' backgroundColor={'#ecf0f1'}>
             <InfoContainer>
                 <Row columns={"1fr"}>
-                    <InputContainer id={"철 제목"} width={"600ㅊpx"} type={"text"} labelColor='red'/>
+                    <InputContainer id={"철 제목"} width={"600px"} type={"text"} labelColor='red'/>
                 </Row>
                 <Row columns={"1fr"}>
                     <InputContainer id={"총 권호수"} width={"600px"} type={"number"}/>
