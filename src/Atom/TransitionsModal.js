@@ -6,18 +6,22 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CustomButton from "./CustomButton";
-import SearchIndexing from "../Organism/SearchIndexing";
+import OfficeSearch from "../Organism/OfficeSearch";
+import CitemSearch from "../Organism/CitemSearch";
+import GitemSearch from "../Organism/GitemSearch";
 
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 1200,
+    height: 500,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    overflow: 'scroll',
 };
 
 export default function TransitionsModal(props) {
@@ -41,7 +45,14 @@ export default function TransitionsModal(props) {
             >
                 <Fade in={open}>
                     <Box sx={style}>
-                        <SearchIndexing currentTab={props.currentTab} />
+                        {props.content === '기관코드 찾기' ?
+                            <OfficeSearch handleClose={handleClose} currentTab={props.currentTab} />
+                            :
+                            props.currentTab === '0' ?
+                                <CitemSearch handleClose={handleClose} currentTab={props.currentTab} />
+                                :
+                                <GitemSearch handleClose={handleClose} currentTab={props.currentTab} />
+                        }
                     </Box>
                 </Fade>
             </Modal>
