@@ -3,6 +3,7 @@ import InputContainer from "./InputContainer";
 import CustomInput from "../Atom/CustomInput";
 import Box from "../Atom/Box";
 import {styled} from "@mui/system";
+import CustomButton from "../Atom/CustomButton";
 
 function Gitems(props) {
     return (
@@ -45,10 +46,14 @@ function Gitems(props) {
                     <PublicContainer>
                         <CustomInput type='radio' name='공개 여부' width='500px' label='공개 여부' contents={["공개", "부분공개", "비공개"]} />
                         <CustomInput type='radio' name='등급' width='800px' label='등급' contents={["1등급", "2등급", "3등급", "4등급", "5등급", "6등급", "7등급", "8등급"]} />
-                        <InputContainer fontSize='12pt' id={"공개제한부분표시"} width={"600px"} type={"text"}/>
+                        <InputContainer fontSize='12pt' id={"공개제한부분표시"} width={"400px"} type={"text"}/>
                     </PublicContainer>
                 </Row>
             </InfoContainer>
+            <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
+                <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
+                <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
+            </div>
         </Box>
     );
 }
@@ -78,7 +83,6 @@ const Row = styled('div')`
 
 const PublicContainer = styled('div')`
   position: absolute;
-  border: 1px solid black;
   width: 900px;
   margin-top: 40px;
   & > div {

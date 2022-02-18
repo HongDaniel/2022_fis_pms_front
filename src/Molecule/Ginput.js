@@ -5,8 +5,21 @@ import Table from "../Atom/Table";
 import {columns, rows} from "../Page/DocumentExportPage";
 import Box from "../Atom/Box";
 import {styled} from "@mui/system";
+import CustomInput from "../Atom/CustomInput";
 
 function Ginput(props) {
+    const Repeat = () => {
+        const result = [];
+        for (let i = 0; i < 3; i++) {
+            result.push(<ListContainer columns={'1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
+                <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
+                <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
+                <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
+            </ListContainer>);
+        }
+        return result;
+    }
+
     return (
         <Box mt='0' width='1030px' height='810px' backgroundColor={'#ecf0f1'}>
             <InfoContainer>
@@ -15,14 +28,50 @@ function Ginput(props) {
                     <InputContainer id={"건수"} width={"200px"} labelWidth={'50px'} type={"text"} />
                     <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='쪽수 입력'/>
                 </Row>
+                <ListHeader columns={'1fr 1fr 1fr'} fontSize={'20pt'} weight={'700'} mb={'20px'}>
+                    <div>첫 페이지</div>
+                    <div>끝 페이지</div>
+                    <div>페이지</div>
+                </ListHeader>
+                {Repeat()}
             </InfoContainer>
-            <TableContainer>
-                <Table width='1000px' height='380px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
-            </TableContainer>
+            <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
+                <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
+                <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
+            </div>
         </Box>
     );
 }
 
+const ListHeader = styled('div')`
+  display: grid;
+  grid-template-columns: ${props => props.columns};
+  font-size: 18pt;
+  font-weight: 700;
+  margin-top: 100px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #50586C;
+  color: #ffffff;
+  width: 600px;
+`;
+
+const ListContainer = styled('div')`
+  display: grid;
+  grid-template-columns: ${props => props.columns};
+  font-size: 15pt;
+  font-weight: 400;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #ecf0f1;
+  cursor: pointer;
+  width: 600px;
+  &:hover {
+    transform: scale(1.01);
+  }
+`;
 
 const InfoContainer = styled('div')`
   position: absolute;

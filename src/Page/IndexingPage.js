@@ -11,35 +11,61 @@ import CustomInput from "../Atom/CustomInput";
 import CustomButton from "../Atom/CustomButton";
 import UnstyledTabsCustomized from "../Atom/UnstyledTabsCustomized";
 import TransitionsModal from "../Atom/TransitionsModal";
+import AppendDots from "../Atom/AppendDots";
 
 const IndexingPage = () => {
     const [currentTab, setCurrentTab] = useState(()=>'0');
+    const [openImage, setOpenImage] = useState(() => false);
+
     return (
         <Container>
             <Navigation />
             <MainBox height={'1250px'}>
-                <Title>색인</Title>
+                <Title>
+                    색인
+                    <CustomButton onClick={() => {
+                        if (openImage) {
+                            setOpenImage(false);
+                        } else {
+                            setOpenImage(true);
+                        }
+                    }} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content={openImage ? '목록 보기' : '이미지 보기'}/>
+                </Title>
                 <div style={{display: 'flex', flexDirection: 'row'}}>
-                    <div>
-                        <div style={{margin: '50px 0 0 15px'}}>
-                            <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
-                                <BoxTitle>대상 목록</BoxTitle>
-                                <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
-                            </Box>
+                    {openImage ?
+                        <div>
+                            <div style={{margin: '50px 0 0 15px'}}>
+                                <Box width='1100px' height='1150px' backgroundColor='#ecf0f1'>
+                                    <BoxTitle>이미지</BoxTitle>
+                                    <AppendDots />
+                                </Box>
+                            </div>
                         </div>
-                        <div style={{margin: '50px 0 0 15px'}}>
-                            <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
-                                <BoxTitle>철 목록</BoxTitle>
-                                <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
-                            </Box>
+                        :
+                        <div>
+                            <div style={{margin: '50px 0 0 15px'}}>
+                                <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
+                                    <BoxTitle>대상 목록</BoxTitle>
+                                    <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows}
+                                           columns={columns}/>
+                                </Box>
+                            </div>
+                            <div style={{margin: '50px 0 0 15px'}}>
+                                <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
+                                    <BoxTitle>철 목록</BoxTitle>
+                                    <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows}
+                                           columns={columns}/>
+                                </Box>
+                            </div>
+                            <div style={{margin: '50px 0 0 15px'}}>
+                                <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
+                                    <BoxTitle>건 목록</BoxTitle>
+                                    <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows}
+                                           columns={columns}/>
+                                </Box>
+                            </div>
                         </div>
-                        <div style={{margin: '50px 0 0 15px'}}>
-                            <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
-                                <BoxTitle>건 목록</BoxTitle>
-                                <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
-                            </Box>
-                        </div>
-                    </div>
+                    }
                     <div>
                         <div style={{margin: '50px 0 0 15px'}}>
                             <Box width='1050px' height='140px' backgroundColor='#ecf0f1'>
