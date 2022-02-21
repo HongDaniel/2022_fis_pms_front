@@ -12,6 +12,7 @@ import CustomButton from "../Atom/CustomButton";
 import UnstyledTabsCustomized from "../Atom/UnstyledTabsCustomized";
 import TransitionsModal from "../Atom/TransitionsModal";
 import AppendDots from "../Atom/AppendDots";
+import ImageContainer from "../Molecule/ImageContainer";
 
 const IndexingPage = () => {
     const [currentTab, setCurrentTab] = useState(()=>'0');
@@ -37,7 +38,9 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='1150px' backgroundColor='#ecf0f1'>
                                     <BoxTitle>이미지</BoxTitle>
-                                    <AppendDots />
+                                    <div>
+                                        <ImageContainer />
+                                    </div>
                                 </Box>
                             </div>
                         </div>
