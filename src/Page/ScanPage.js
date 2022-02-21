@@ -10,11 +10,19 @@ import {Cropper} from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import rotate_left from "../Media/rotate_left.png"
 import rotate_right from "../Media/rotate_right.png"
-import {Route} from "react-router-dom";
+import img5 from "../Media/images/img5.png";
+import {display} from "@mui/system";
+
 
 const ScanPage = () => {
-    const [imgSrc, setImgSrc] = useState([]);
+    const [imgSrc, setImgSrc] = useState([img5]);
     const [selectedImg, setSelectedImg] = useState('');
+    const [croppedImgSrc, setCroppedImgSrc] = useState(null);
+    const [isPreview, setIsPreview] = useState(false);
+    const [previewText,setPreviewText]= useState("미리보기");
+    const cropperJS = useRef();
+    let croppedX=0;
+    let croppedY=0;
 
     const uploadImg = (e) => {
         const images = e.target.files;
@@ -29,17 +37,33 @@ const ScanPage = () => {
             }
         }
     }
+
     const handleClick = (e) => {
         setSelectedImg(e.target.src);
     }
-    const handleCropChange = () =>{
-        console.log("crop done");
+    const handleCropChange = () => {
+        console.log("cropped!")
+        const croppedData = cropperJS.current.cropper.getCroppedCanvas().toDataURL();
+        setCroppedImgSrc(croppedData);
     }
-    const RotateLeft = () =>{
-        console.log("Rotate left")
+    const RotateLeft = () => {
+        cropperJS.current.cropper.rotate(-90);
+        handleCropChange();
     }
-    const RotateRight = () =>{
-        console.log("Rotate right")
+    const RotateRight = () => {
+        cropperJS.current.cropper.rotate(90);
+        handleCropChange();
+    }
+
+    const togglePreview = () => {
+        console.log("toggled");
+        setIsPreview((!isPreview));
+        if(isPreview){
+            setPreviewText("미리보기")
+        }
+        else{
+            setPreviewText("다시수정")
+        }
     }
     return (
         <Container>
@@ -61,7 +85,7 @@ const ScanPage = () => {
                             </div>
                             <div>
                                 <label htmlFor={"box"}>박스</label>
-                                <select id={"box"} style={{width: "65px", textAlign: "center"}}>
+                                <select id={"box"} style={{width: "65px", height: "auto", textAlign: "center"}}>
                                     <option value={"1"}>1</option>
                                     <option value={"2"}>2</option>
                                     <option value={"3"}>3</option>
@@ -69,7 +93,7 @@ const ScanPage = () => {
                                     <option value={"5"}>5</option>
                                 </select>
                                 <label htmlFor={"box"}>레이블</label>
-                                <select id={"box"} style={{width: "65px", textAlign: "center"}}>
+                                <select id={"box"} style={{width: "65px", height: "auto", textAlign: "center"}}>
                                     <option value={"1"}>1</option>
                                     <option value={"2"}>2</option>
                                     <option value={"3"}>3</option>
@@ -94,25 +118,53 @@ const ScanPage = () => {
                             </ImageContainer>
                         </Box>
                         <Box width='1400px' height='940px' backgroundColor='#ecf0f1' id={"selectedImg"}>
-                            {selectedImg?
+                            {selectedImg ?
                                 <div>
-                                <Cropper
-                                style={{maxWidth: "1100px", maxHeight: "900px",marginTop:"20px",marginLeft:"50px"}}
-                                src={selectedImg}
-                                aspectRatio={16/9}
-                                guides={true}
-                                background={false}
-                                responsive={true}
-                                cropend={handleCropChange}
-                                />
+                                    {isPreview ?
+                                        <img src={croppedImgSrc} className={"preview"}/> :
+                                        <Cropper
+                                            ref={cropperJS}
+                                            style={{
+                                                maxWidth: "1100px",
+                                                maxHeight: "900px",
+                                                marginTop: "20px",
+                                                marginLeft: "50px"
+                                            }}
+                                            src={selectedImg}
+                                            initialAspectRatio={1}
+                                            viewMode={2}
+                                            autoCropArea={0.8}
+                                            minCropBoxHeight={10}
+                                            minCropBoxWidth={10}
+                                            background={false}
+                                            cropend={handleCropChange}
+                                        />}
+                                    {isPreview?
+                                        <BtnContainer>
+                                        <CustomButton type={"normal"} name={"미리보기"} width={"150px"} height={"50px"}
+                                                              fontSize={"24px"}
+                                                              borderRadius={"5px"} content={`${previewText}`} id={"preview"}
+                                                              onClick={togglePreview}/>
+                                        </BtnContainer>
+                                            :
+                                        <>
                                     <div className={"rotate"}>
-                                    <img src={rotate_left} onClick={RotateLeft}/>
-                                    <img src={rotate_right} onClick={RotateRight}/>
+                                        <img src={rotate_left} onClick={RotateLeft}/>
+                                        <img src={rotate_right} onClick={RotateRight}/>
                                     </div>
-                                    <CustomButton type={"normal"} name={"완료"} width={"150px"} height={"50px"} fontSize={"24px"}
-                                                  borderRadius={"5px"} content={"수정완료"} id={"cropDone"}/>
+                                    <BtnContainer>
+                                        <CustomButton type={"normal"} name={"완료"} width={"150px"} height={"50px"}
+                                                      fontSize={"24px"}
+                                                      borderRadius={"5px"} content={"수정완료"} id={"cropDone"}/>
+                                        <CustomButton type={"normal"} name={"미리보기"} width={"150px"} height={"50px"}
+                                                      fontSize={"24px"}
+                                                      borderRadius={"5px"} content={`${previewText}`} id={"preview"}
+                                                      onClick={togglePreview}/>
+                                    </BtnContainer>
+                                        </>
+                                    }
                                 </div>
-                                :null}
+                                : null}
 
                         </Box>
                     </Bottom>
@@ -121,6 +173,7 @@ const ScanPage = () => {
         </Container>
     );
 };
+
 //style
 const BoxContainer = styled.div`
   display: flex;
@@ -138,6 +191,8 @@ const ImageContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   width: 650px;
   justify-items: center;
+  height: 920px;
+  overflow: auto;
 
   & img {
     object-fit: cover;
@@ -201,37 +256,47 @@ const Bottom = styled.div`
       font-weight: 500;
     }
   }
-  
- 
-  
+
+
   & #selectedImg {
     display: unset;
     position: relative;
-    
+
     & img {
       margin-top: 20px;
-      width: 1100px;
-      height: 900px;
+      max-width: 1100px;
+      max-height: 900px;
     }
-    
-    & .rotate { //회전버튼
-      position: absolute;
-      top: 25px;
-      right: 38px;
-      
-      &>img{
-        width: 50px;
-        height: 50px;
-        margin-right: 25px;
-        cursor: pointer;
-      }
+
+    & .preview { //미리보기
+      margin-left: 50px;
     }
-    
-    & button { //수정완료 버튼
-      position: absolute;
-      top:47.5%;
-      right: 3.3%;
+  }
+
+  & .rotate { //회전버튼
+    position: absolute;
+    top: 25px;
+    right: 38px;
+
+    & > img {
+      width: 50px;
+      height: 50px;
+      margin-right: 25px;
+      cursor: pointer;
     }
+  }
+
+`;
+
+const BtnContainer = styled.div` /*수정완료, 미리보기 버튼*/
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 42.5%;
+  right: 3.3%;
+
+  & > button:nth-child(1) {
+    margin-bottom: 25px;
   }
 `;
 export default ScanPage;
