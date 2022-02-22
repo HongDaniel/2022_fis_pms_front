@@ -8,6 +8,7 @@ import Navigation from "../Organism/Navigation";
 import CustomButton from "../Atom/CustomButton";
 import CustomInput from "../Atom/CustomInput";
 import Container from "../Atom/Container";
+import {Style} from "../Style";
 
 export const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -71,12 +72,12 @@ const DocumentExportPage = () => {
                             <CustomInput type='number' label='끝 레이블' size='small'/>
                         </div>
                         <div style={{marginTop:10}}>
-                            <CustomButton type='normal' color='#ffffff' backgroundColor='#50586C' content='레이블 검색'/>
+                            <CustomButton type='normal' color='#ffffff' backgroundColor={Style.color2} content='레이블 검색'/>
                         </div>
                         <div style={{marginLeft:1350, marginTop:10}}>
-                            <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor='#50586C' content='박스 출력'/>
-                            <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor='#50586C' content='철 출력'/>
-                            <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor='#50586C' content='모두 출력'/>
+                            <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='박스 출력'/>
+                            <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='철 출력'/>
+                            <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='모두 출력'/>
                         </div>
                     </div>
                     <div style={{ justifyContent:'right', display:"flex", flexDirection: "row"}}>
@@ -94,8 +95,8 @@ const DocumentExportPage = () => {
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Box width='2176px' height='400px' backgroundColor='#ecf0f1'>
-                            <Table width='2170px' height='380px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
+                        <Box width='2176px' height='400px' backgroundColor={Style.color3}>
+                            <Table width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={rows} columns={columns} />
                         </Box>
                     </div>
                 </MainBox>
@@ -112,7 +113,7 @@ const DocumentExportPage = () => {
                             <CustomInput type='number' label='끝 날짜' size='small'/>
                         </div>
                         <div style={{marginTop:10}}>
-                            <CustomButton type='normal' width='100px' height='40px' color='#ffffff' backgroundColor='#50586C' content='날짜 검색'/>
+                            <CustomButton type='normal' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='날짜 검색'/>
                         </div>
                         <div style={{marginLeft:50, marginTop:10, display:"flex", flexDirection: "row"}}>
                             <div style={{marginRight: 10}}>
@@ -125,16 +126,16 @@ const DocumentExportPage = () => {
                                 <CustomInput type='number' label='끝 번호' size='small'/>
                             </div>
                             <div>
-                                <CustomButton type='normal' margin='0 5px 0 10px' width='100px' height='40px' color='#ffffff' backgroundColor='#50586C' content='박스 검색'/>
+                                <CustomButton type='normal' margin='0 5px 0 10px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='박스 검색'/>
                             </div>
                             <div>
-                                <CustomButton type='normal' margin='0 5px 0 930px' width='100px' height='40px' color='#ffffff' backgroundColor='#50586C' content='엑셀로 저장'/>
+                                <CustomButton type='normal' margin='0 5px 0 930px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='엑셀로 저장'/>
                             </div>
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Box width='2176px' height='400px' backgroundColor='#ecf0f1'>
-                            <Table width='2170px' height='380px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
+                        <Box width='2176px' height='400px' backgroundColor={Style.color3}>
+                            <Table width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={rows} columns={columns} />
                         </Box>
                     </div>
                 </MainBox>
