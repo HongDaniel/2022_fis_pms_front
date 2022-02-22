@@ -8,13 +8,8 @@ import Container from "../Atom/Container";
 import MainBox from "../Atom/MainBox";
 import InputContainer from "../Molecule/InputContainer";
 import CustomButton from "../Atom/CustomButton";
-<<<<<<< HEAD
 import {Style} from "../Style";
 
-=======
-import {DatePicker, DesktopDatePicker, LocalizationProvider} from "@mui/lab";
-import {TextField} from "@mui/material";
->>>>>>> bdd18ab74392910378e493cb04173e40798cac11
 
 const columns = [
     {field: 'id', headerName: 'ID', width: 90},
@@ -75,22 +70,18 @@ const PreInspectPage = () => {
                 <Title> 입력 및 검색 </Title>
                 <BoxContainer>
                     {/*입력정보*/}
-<<<<<<< HEAD
-                    <Box width='2200px' height='340px' backgroundColor={Style.color3}>
-=======
-                    <Box width='2200px' height='320px' backgroundColor='#ecf0f1'>
->>>>>>> bdd18ab74392910378e493cb04173e40798cac11
 
+                    <Box width='2200px' height='340px' backgroundColor={Style.color3}>
                         <InfoContainer>
                             <h3>필수 입력 정보</h3>
                             <Row columns={"3fr 2fr"}>
-                                <InputContainer id={"철제목"} width={"550px"} height={"45px"} type={"text"}/>
-                                <InputContainer id={"레이블"} width={"550px"} type={"text"}/>
+                                <InputContainer id={"철제목"} width={"350px"} type={"text"}/>
+                                <InputContainer id={"생산년도"} width={"300px"} type={"number"}/>
+
                             </Row>
                             <Row columns={"3fr 2fr"}>
-<<<<<<< HEAD
-                                <InputContainer id={"생산기관명"} width={"600px"} type={"text"}/>
-                                <InputContainer id={"철제목"} width={"550px"} type={"text"}/>
+                                <InputContainer id={"레이블"} width={"350px"} type={"text"}/>
+                                <InputContainer id={"기관코드"} width={"300px"} type={"text"}/>
                             </Row>
                             {/*<Row columns={"1fr 1fr 1fr 1fr 1fr"}>*/}
                             {/*    <InputContainer id={"생산년도"} width={"150px"} type={"number"}/>*/}
@@ -103,25 +94,12 @@ const PreInspectPage = () => {
                             {/*    <InputContainer id={"박스번호"} width={"150px"} type={"number"}/>*/}
                             {/*</Row>*/}
                         </InfoContainer>
-
-=======
-                                {/*<InputContainer id={"생산기관명"} width={"600px"} type={"text"}/>*/}
-                                <InputContainer id={"기관코드"} width={"200px"} type={"number"}/>
-                                <InputContainer id={"생산년도"} width={"200px"} type={"number"}/>
-
-                            </Row>
-                            {/*<Row columns={"1fr 1fr 1fr 1fr 1fr"}>*/}
-                            {/*    <InputContainer id={"보존기간"} width={"150px"} type={"select"} defaultValue={"선택"}*/}
-                            {/*                    contents={["선택", "1년", "30년", "영구"]}/>*/}
-                            {/*    <InputContainer id={"구축여부"} width={"150px"} type={"select"} defaultValue={"선택"}*/}
-                            {/*                    contents={["선택", "구축", "비구축"]}/>*/}
-                            {/*    <InputContainer id={"스캔여부"} width={"150px"} type={"select"} defaultValue={"선택"}*/}
-                            {/*                    contents={["선택", "구축", "비구축"]}/>*/}
-                            {/*    <InputContainer id={"박스번호"} width={"150px"} type={"number"}/>*/}
+                            {/*<Row columns={"1fr 1fr"}>*/}
+                            {/*    <InputContainer id={"생산기관명"} width={"600px"} type={"text"}/>*/}
+                            {/*    <InputContainer id={"기관코드"} width={"200px"} type={"number"}/>*/}
+                            {/*    <InputContainer id={"생산년도"} width={"200px"} type={"number"}/>*/}
                             {/*</Row>*/}
-                        </InfoContainer>
 
->>>>>>> bdd18ab74392910378e493cb04173e40798cac11
                         {/*<InfoContainer>*/}
                         {/*    <h3>부가 입력 정보</h3>*/}
                         {/*    <Row columns={"1fr 1fr 1fr 1fr"}>*/}
@@ -134,36 +112,33 @@ const PreInspectPage = () => {
                         {/*                        contents={["선택", "구축", "비구축"]}/>*/}
                         {/*    </Row>*/}
                         {/*</InfoContainer>*/}
+
                         <BtnContainer>
                             {/*<CustomButton type={"normal"} name={"저장"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
-<<<<<<< HEAD
                             {/*              borderRadius={"25px"} content={"저장"}/>*/}
                             {/*<CustomButton type={"normal"} name={"삭제"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
                             {/*              borderRadius={"25px"} content={"삭제"}/>*/}
-                            <CustomButton type={"normal"} name={"검색"} width={"110px"} height={"45px"} fontSize={"22px"}
+                            <CustomButton type={"normal"} name={"검색"} width={"210px"} height={"55px"} fontSize={"22px"}
                                           borderRadius={"25px"} content={"검색"} backgroundColor={Style.color2}/>
                             {/*<CustomButton type={"normal"} name={"초기화"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
                             {/*              borderRadius={"25px"} content={"초기화"}/>*/}
                             {/*<CustomButton type={"normal"} name={"출력"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
                             {/*              borderRadius={"25px"} content={"출력"}/>*/}
-=======
-                            {/*              borderRadius={"25px"} content={"저장"} backgroundColor={"#50586C"}/>*/}
-                            {/*<CustomButton type={"normal"} name={"삭제"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
-                            {/*              borderRadius={"25px"} content={"삭제"} backgroundColor={"#50586C"}/>*/}
-                            <CustomButton type={"normal"} name={"검색"} width={"310px"} height={"75px"} fontSize={"22px"}
-                                          borderRadius={"25px"} content={"검색"} backgroundColor={"#50586C"}/>
-                            {/*<CustomButton type={"normal"} name={"초기화"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
-                            {/*              borderRadius={"25px"} content={"초기화"} backgroundColor={"#50586C"}/>*/}
-                            {/*<CustomButton type={"normal"} name={"출력"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
-                            {/*              borderRadius={"25px"} content={"출력"} backgroundColor={"#50586C"}/>*/}
->>>>>>> bdd18ab74392910378e493cb04173e40798cac11
                         </BtnContainer>
                     </Box>
 
 
                     {/*조회 데이터*/}
-                    <Box width='2200px' height='590px' backgroundColor={Style.color3}>
-                        <Table rows={rows} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"80%"} height={"90%"}/>
+                    <Box width='2200px' height='790px' backgroundColor={Style.color3}>
+                        <Table rows={rows} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"88%"} height={"85%"}/>
+                        <BtnContainer2>
+                            <CustomButton type={"normal"} name={"저장"} width={"180px"} height={"55px"} fontSize={"22px"}
+                                          borderRadius={"25px"} content={"폴더생성"} backgroundColor={Style.color2}/>
+                            <CustomButton type={"normal"} name={"삭제"} width={"180px"} height={"55px"} fontSize={"22px"}
+                                          borderRadius={"25px"} content={"목록 불러오기"} backgroundColor={Style.color2}/>
+                            <CustomButton type={"normal"} name={"검색"} width={"180px"} height={"55px"} fontSize={"22px"}
+                                          borderRadius={"25px"} content={"엑셀로 저장"} backgroundColor={Style.color2}/>
+                        </BtnContainer2>
                     </Box>
                 </BoxContainer>
             </MainBox>
@@ -178,7 +153,8 @@ const BoxContainer = styled.div`
   align-items: center;
 
   & h3 { //필수 입력 정보
-    margin-left: 30px;
+    margin-left: 50px;
+    font-size: 23px;
   }
 
   & > div:nth-child(1) { // 입력정보 box
@@ -187,6 +163,10 @@ const BoxContainer = styled.div`
   }
 
   & > div:nth-child(2) { // 조회 데이터 box
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    //align-items: center;
     padding: 20px;
     box-sizing: border-box;
   }
@@ -194,7 +174,8 @@ const BoxContainer = styled.div`
 
 const InfoContainer = styled.div`
   & > div {
-    margin-left: 50px;
+    margin-left: 80px;
+    padding: 0 100px;
   }
 `;
 
@@ -207,12 +188,22 @@ const Row = styled.div`
 `;
 
 const BtnContainer = styled.div`
-position: absolute;
+  position: absolute;
   left: 50%;
   transform: translateX(-50%);
   bottom: 25px;
   &>button{
     margin-right: 10px;
+  }
+`;
+
+const BtnContainer2 = styled.div`
+position: absolute;
+  right: 2%;
+  display: flex;
+  flex-direction: column;
+  &>button {
+    margin: 15px 0;
   }
 `;
 export default PreInspectPage;
