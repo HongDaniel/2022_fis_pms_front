@@ -10,13 +10,12 @@ import {Cropper} from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import rotate_left from "../Media/rotate_left.png"
 import rotate_right from "../Media/rotate_right.png"
-import img5 from "../Media/images/img5.png";
 import {display} from "@mui/system";
 import {Style} from "../Style";
 
 
 const ScanPage = () => {
-    const [imgSrc, setImgSrc] = useState([img5]);
+    const [imgSrc, setImgSrc] = useState([]);
     const [selectedImg, setSelectedImg] = useState('');
     const [croppedImgSrc, setCroppedImgSrc] = useState(null);
     const [isPreview, setIsPreview] = useState(false);

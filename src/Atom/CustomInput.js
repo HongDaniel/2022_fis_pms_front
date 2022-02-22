@@ -20,7 +20,7 @@ const CustomInput = (props) => {
                        sx={{width: props.width}}
                        variant="outlined"
                        type={"text"}
-                       size={"small"}
+                       size={"normal"}
             />
         )
     }
