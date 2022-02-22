@@ -114,7 +114,7 @@ const PreInspectPage = () => {
                                height={"85%"}/>
                         <BtnContainer2>
                             <CustomButton type={"normal"} name={"저장"} width={"180px"} height={"55px"} fontSize={"22px"}
-                                          borderRadius={"25px"} content={"폴더생성"} onClick={modalOpen}
+                                          borderRadius={"25px"} content={"철추가"} onClick={modalOpen}
                                           backgroundColor={Style.color2}/>
                             <CustomButton type={"normal"} name={"삭제"} width={"180px"} height={"55px"} fontSize={"22px"}
                                           borderRadius={"25px"} content={"목록 불러오기"} backgroundColor={Style.color2}/>
