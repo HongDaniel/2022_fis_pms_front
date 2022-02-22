@@ -20,12 +20,14 @@ const ScanPage = () => {
     const [croppedImgSrc, setCroppedImgSrc] = useState(null);
     const [isPreview, setIsPreview] = useState(false);
     const [previewText,setPreviewText]= useState("미리보기");
+    const [path,setPath] = useState('');
     const cropperJS = useRef();
     let croppedX=0;
     let croppedY=0;
 
     const uploadImg = (e) => {
         const images = e.target.files;
+        setPath(e.target.value);
         let urls = []
         for (let i = 0; i < images.length; i++) {
             let reader = new FileReader();
@@ -75,17 +77,19 @@ const ScanPage = () => {
                         <Content>
                             <div>
                                 <label for={"route"}>경로</label>
-                                <input type={"text"} style={{width: "320px"}} id={"route"}/>
+                                <input type={"text"} style={{width: "320px",height:"30px",fontSize:"15px",letterSpacing:"1.2px"}} value={path} id={"route"}/>
+                                <label htmlFor={"uploadImg"} className="uploadImg">파일선택</label>
                                 <input type="file"
-                                       id="uploadImg" name="uploadImg"
+                                       id="uploadImg"
                                        accept="image/*"
                                        multiple={"multiple"}
                                        onChange={uploadImg}
+                                       style={{display:"none"}}
                                 />
                             </div>
                             <div>
                                 <label htmlFor={"box"}>박스</label>
-                                <select id={"box"} style={{width: "65px", height: "auto", textAlign: "center"}}>
+                                <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center"}}>
                                     <option value={"1"}>1</option>
                                     <option value={"2"}>2</option>
                                     <option value={"3"}>3</option>
@@ -93,7 +97,7 @@ const ScanPage = () => {
                                     <option value={"5"}>5</option>
                                 </select>
                                 <label htmlFor={"box"}>레이블</label>
-                                <select id={"box"} style={{width: "65px", height: "auto", textAlign: "center"}}>
+                                <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center"}}>
                                     <option value={"1"}>1</option>
                                     <option value={"2"}>2</option>
                                     <option value={"3"}>3</option>
@@ -183,6 +187,15 @@ const BoxContainer = styled.div`
 
   & > div {
     margin: 0;
+  }
+  
+  & .uploadImg {
+    background: ${Style.color2};
+    color: #fff;
+    padding: 3px 5px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
   }
 `;
 
