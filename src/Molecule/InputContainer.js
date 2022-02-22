@@ -16,6 +16,7 @@ const InputContainer = (props) => {
         </Container>
     );
 };
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -23,7 +24,7 @@ const Container = styled.div`
 
   & > label {
     margin-right: 25px;
-    width: ${(props) => props.labelWidth || '125px'};
+    width: ${(props) => props.labelWidth || '140px'};
     color: ${(props)=> props.labelColor};
     font-size: 23px;
   }
