@@ -35,7 +35,7 @@ function Table(props) {
     const [selectionModel, setSelectionModel] = useState([]); // 체크박스 State
     const [pageSize, setPageSize] = useState(5);
 
-    console.log(selectionModel);
+    // console.log(selectionModel);
     return (
         <div style={{height: `${props.height}`, width: `${props.width}`, position: 'absolute'}}>
             <DataGrid

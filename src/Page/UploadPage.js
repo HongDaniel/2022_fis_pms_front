@@ -72,10 +72,10 @@ const UploadPage = () => {
                             </div>
                             <div className={"detail"}>
                                 <input type="checkbox" id="미검수" name="미검수" className={"checkbox"}
-                                       checked/>
+                                       />
                                 <label for="미검수" style={{marginRight:"100px"}}>미검수 포함</label>
                                 <input type="checkbox" id="업로드" name="업로드" className={"checkbox"}
-                                       checked/>
+                                       />
                                 <label htmlFor="업로드" style={{marginRight:"400px"}}>업로드 포함</label>
                                 <label for={"range"}>박스 범위검색</label>
                                 <input type={"number"} name={"start"} id={"range"} className={"range"}/>
