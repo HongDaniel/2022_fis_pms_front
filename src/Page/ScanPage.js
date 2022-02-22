@@ -12,6 +12,7 @@ import rotate_left from "../Media/rotate_left.png"
 import rotate_right from "../Media/rotate_right.png"
 import img5 from "../Media/images/img5.png";
 import {display} from "@mui/system";
+import {Style} from "../Style";
 
 
 const ScanPage = () => {
@@ -71,7 +72,7 @@ const ScanPage = () => {
             <MainBox height={"1220px"}>
                 <Title>스캔 및 보정</Title>
                 <BoxContainer>
-                    <Box width='2200px' height='190px' backgroundColor='#ecf0f1'>
+                    <Box width='2200px' height='190px' backgroundColor={Style.color3}>
                         <Content>
                             <div>
                                 <label for={"route"}>경로</label>
@@ -102,12 +103,12 @@ const ScanPage = () => {
                                 </select>
                             </div>
                             <CustomButton type={"normal"} name={"완료"} width={"310px"} height={"85px"} fontSize={"32px"}
-                                          borderRadius={"25px"} content={"보정 검수 완료"}/>
+                                          borderRadius={"25px"} content={"보정 검수 완료"} backgroundColor={Style.color2}/>
 
                         </Content>
                     </Box>
                     <Bottom>
-                        <Box width='700px' height='940px' backgroundColor='#ecf0f1'>
+                        <Box width='700px' height='940px' backgroundColor={Style.color3}>
                             <h3>이미지 리스트</h3>
                             <ImageContainer onClick={handleClick}>
                                 {imgSrc.map((src, idx) => {
@@ -117,7 +118,7 @@ const ScanPage = () => {
                                 })}
                             </ImageContainer>
                         </Box>
-                        <Box width='1400px' height='940px' backgroundColor='#ecf0f1' id={"selectedImg"}>
+                        <Box width='1400px' height='940px' backgroundColor={Style.color3} id={"selectedImg"}>
                             {selectedImg ?
                                 <div>
                                     {isPreview ?
@@ -144,7 +145,7 @@ const ScanPage = () => {
                                         <CustomButton type={"normal"} name={"미리보기"} width={"150px"} height={"50px"}
                                                               fontSize={"24px"}
                                                               borderRadius={"5px"} content={`${previewText}`} id={"preview"}
-                                                              onClick={togglePreview}/>
+                                                              onClick={togglePreview} backgroundColor={Style.color2}/>
                                         </BtnContainer>
                                             :
                                         <>
@@ -155,11 +156,11 @@ const ScanPage = () => {
                                     <BtnContainer>
                                         <CustomButton type={"normal"} name={"완료"} width={"150px"} height={"50px"}
                                                       fontSize={"24px"}
-                                                      borderRadius={"5px"} content={"수정완료"} id={"cropDone"}/>
+                                                      borderRadius={"5px"} content={"수정완료"} id={"cropDone"} backgroundColor={Style.color2}/>
                                         <CustomButton type={"normal"} name={"미리보기"} width={"150px"} height={"50px"}
                                                       fontSize={"24px"}
                                                       borderRadius={"5px"} content={`${previewText}`} id={"preview"}
-                                                      onClick={togglePreview}/>
+                                                      onClick={togglePreview} backgroundColor={Style.color2}/>
                                     </BtnContainer>
                                         </>
                                     }

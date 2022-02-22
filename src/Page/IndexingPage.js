@@ -13,6 +13,7 @@ import UnstyledTabsCustomized from "../Atom/UnstyledTabsCustomized";
 import TransitionsModal from "../Atom/TransitionsModal";
 import AppendDots from "../Atom/AppendDots";
 import ImageContainer from "../Molecule/ImageContainer";
+import {Style} from "../Style";
 
 const IndexingPage = () => {
     const [currentTab, setCurrentTab] = useState(()=>'0');
@@ -30,13 +31,13 @@ const IndexingPage = () => {
                         } else {
                             setOpenImage(true);
                         }
-                    }} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content={openImage ? '목록 보기' : '이미지 보기'}/>
+                    }} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content={openImage ? '목록 보기' : '이미지 보기'}/>
                 </Title>
                 <div style={{display: 'flex', flexDirection: 'row'}}>
                     {openImage ?
                         <div>
                             <div style={{margin: '50px 0 0 15px'}}>
-                                <Box width='1100px' height='1150px' backgroundColor='#ecf0f1'>
+                                <Box width='1100px' height='1150px' backgroundColor={Style.color3}>
                                     <BoxTitle>이미지</BoxTitle>
                                     <div>
                                         <ImageContainer />
@@ -47,23 +48,23 @@ const IndexingPage = () => {
                         :
                         <div>
                             <div style={{margin: '50px 0 0 15px'}}>
-                                <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
+                                <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>대상 목록</BoxTitle>
-                                    <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows}
+                                    <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={rows}
                                            columns={columns}/>
                                 </Box>
                             </div>
                             <div style={{margin: '50px 0 0 15px'}}>
-                                <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
+                                <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>철 목록</BoxTitle>
-                                    <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows}
+                                    <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={rows}
                                            columns={columns}/>
                                 </Box>
                             </div>
                             <div style={{margin: '50px 0 0 15px'}}>
-                                <Box width='1100px' height='350px' backgroundColor='#ecf0f1'>
+                                <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>건 목록</BoxTitle>
-                                    <Table width='1100px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows}
+                                    <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={rows}
                                            columns={columns}/>
                                 </Box>
                             </div>
@@ -71,7 +72,7 @@ const IndexingPage = () => {
                     }
                     <div>
                         <div style={{margin: '50px 0 0 15px'}}>
-                            <Box width='1050px' height='140px' backgroundColor='#ecf0f1'>
+                            <Box width='1050px' height='140px' backgroundColor={Style.color3}>
                                 <InfoContainer>
                                     <Row columns={"1fr 1fr 1.9fr"}>
                                         <CustomInput type='number' width='410px' label='* 기관명' size='small' margin='0 10px 0 10px'/>
@@ -85,18 +86,18 @@ const IndexingPage = () => {
                                         {/*<span style={{fontSize: '17pt'}}>기관 코드 : </span>*/}
                                         <CustomInput type='number' label='* 박스' size='small' margin='0 10px 0 10px'/>
                                         <CustomInput type='number' label='* 레이블' size='small' margin='0 10px 0 10px'/>
-                                        <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='등록완료'/>
+                                        <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='등록완료'/>
                                         {/*<CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='검색'/>*/}
                                         <TransitionsModal currentTab={currentTab} content={'검색'}/>
-                                        <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='출력'/>
-                                        <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='검수'/>
+                                        <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='출력'/>
+                                        <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='검수'/>
                                     </Row>
                                 </InfoContainer>
                             </Box>
                         </div>
                         <div style={{margin: '20px 0 0 15px'}}>
                             <Box width='1050px' height='990px' backgroundColor='white'>
-                                <Box width='1030px' height='100px' backgroundColor='#ecf0f1'>
+                                <Box width='1030px' height='100px' backgroundColor= {Style.color3}>
                                     {currentTab !== '1' &&
                                         <div style={{position: 'absolute', margin: '30px 0 0 250px'}}>
                                             <Row columns={'1fr 2fr 1fr'}>

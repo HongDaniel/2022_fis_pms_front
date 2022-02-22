@@ -8,6 +8,7 @@ import Box from "../Atom/Box";
 import CustomButton from "../Atom/CustomButton";
 import InputContainer from "../Molecule/InputContainer";
 import Table from "../Atom/Table";
+import {Style} from "../Style";
 
 const UploadPage = () => {
     const columns = [
@@ -62,7 +63,7 @@ const UploadPage = () => {
             <MainBox height={"1220px"}>
                 <Title>업로드</Title>
                 <BoxContainer>
-                    <Box width='2200px' height='320px' backgroundColor='#ecf0f1'>
+                    <Box width='2200px' height='320px' backgroundColor={Style.color3}>
                         <Search>
                             <div className={"code"}>
                                 <label for={"code"}>기관코드</label>
@@ -80,15 +81,15 @@ const UploadPage = () => {
                                 <input type={"number"} name={"start"} id={"range"} className={"range"}/>
                                 <input type={"number"} name={"start"} id={"range"} className={"range"}/>
                                 <CustomButton type={"normal"} name={"검색"} width={"210px"} height={"45px"} fontSize={"24px"}
-                                              borderRadius={"5px"} content={"검색"}/>
+                                              borderRadius={"5px"} content={"검색"} backgroundColor={Style.color2}/>
                             </div>
                         </Search>
                     </Box>
-                    <Box width='2200px' height='810px' backgroundColor='#ecf0f1'>
+                    <Box width='2200px' height='810px' backgroundColor={Style.color3}>
                         <Content>
                         <CustomButton type={"normal"} name={"검색"} width={"150px"} height={"45px"} fontSize={"24px"}
-                                          borderRadius={"5px"} content={"파일 생성"}/>
-                        <Table rows={rows} columns={columns} headerBG={"#50586C"} cellBG={"#DCE2F0"} width={"95%"} height={"70%"}/>
+                                          borderRadius={"5px"} content={"파일 생성"} backgroundColor={Style.color2}/>
+                        <Table rows={rows} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"95%"} height={"70%"}/>
                         </Content>
                         </Box>
                 </BoxContainer>
