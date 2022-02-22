@@ -9,6 +9,7 @@ const InputContainer = (props) => {
             <CustomInput type={props.type}
                          label={props.id}
                          width={props.width}
+                         height={props.height}
                          id={props.id}
                          defaultValue={props.defaultValue}
                          contents={props.contents}/>
