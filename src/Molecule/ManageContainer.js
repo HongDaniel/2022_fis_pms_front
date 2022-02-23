@@ -8,9 +8,9 @@ function ManageContainer(props) {
             <Row columns={"1.1fr 1fr 1fr 0.7fr 1fr"}>
                 <Span>{props.name}</Span>
                 <Label>계획(권)</Label>
-                <CustomInput width={'80px'} type={"text"} />
+                <CustomInput width={'80px'} type={"number"} />
                 <Label>인력</Label>
-                <CustomInput width={'80px'} type={"text"} />
+                <CustomInput width={'80px'} type={"number"} />
             </Row>
         </div>
     );

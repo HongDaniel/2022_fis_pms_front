@@ -9,12 +9,13 @@ import ManageContainer from "./ManageContainer";
 import CustomButton from "../Atom/CustomButton";
 import Table from "../Atom/Table";
 import {columns, rows} from "../Page/DocumentExportPage";
+import {Style} from "../Style";
 
 function Performance(props) {
     return (
         <Box mt='0' width='2200px' height='1140px' backgroundColor={'#ffffff'}>
             <div style={{position: "absolute", margin: '20px'}}>
-                <Box mt='10px' width='2120px' height='400px' backgroundColor={'#ecf0f1'}>
+                <Box mt='10px' width='2120px' height='400px' backgroundColor={Style.color3}>
                     {/*<Title> 계획 입력 </Title>*/}
                     <Row columns={"1fr 1fr 1fr 1fr"}>
                         <ManageContainer name={"전수조사"}/>
@@ -51,20 +52,20 @@ function Performance(props) {
                     </Row>
                 </Box>
                 <Row columns={"1fr 1fr"}>
-                    <Box mt='30px' width='1050px' height='630px' backgroundColor={'#ffffff'}>
+                    <Box mt='30px' width='1050px' height='630px' backgroundColor={Style.color3}>
                         <BoxTitle> 계획 대비 실적(누적) </BoxTitle>
                         <div style={{marginTop: '10px'}}>
                             <Table headerBG='#50586C' cellBG='#DCE2F0' height={'600px'} width={'1050px'} rows={rows} columns={columns}/>
                         </div>
                     </Box>
                     <div>
-                        <Box mt='30px' width='1050px' height='300px' backgroundColor={'#ffffff'}>
+                        <Box mt='30px' width='1050px' height='300px' backgroundColor={Style.color3}>
                             <BoxTitle> 등록된 과 리스트 </BoxTitle>
                             <div style={{marginTop: '10px'}}>
                                 <Table headerBG='#50586C' cellBG='#DCE2F0' height={'270px'} width={'1050px'} rows={rows} columns={columns}/>
                             </div>
                         </Box>
-                        <Box mt='30px' width='1050px' height='300px' backgroundColor={'#ffffff'}>
+                        <Box mt='30px' width='1050px' height='300px' backgroundColor={Style.color3}>
                             <BoxTitle> 과별 공정상황</BoxTitle>
                             <div style={{marginTop: '10px'}}>
                                 <Table headerBG='#50586C' cellBG='#DCE2F0' height={'270px'} width={'1050px'} rows={rows} columns={columns}/>

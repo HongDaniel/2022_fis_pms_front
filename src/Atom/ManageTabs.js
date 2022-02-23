@@ -68,9 +68,8 @@ const TabsList = styled(TabsListUnstyled)`
 `;
 
 export default function ManageTabs(props) {
-    const {setCurrentTab} = props;
     return (
-        <TabsUnstyled onChange={(event) => setCurrentTab(event.target.id)} defaultValue={0}>
+        <TabsUnstyled defaultValue={0}>
             <TabsList>
                 <Tab id={'0'}>계획대비 실적</Tab>
                 <Tab id={'1'}>기간별 공장</Tab>

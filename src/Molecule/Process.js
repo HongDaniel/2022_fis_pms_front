@@ -5,12 +5,13 @@ import CustomInput from "../Atom/CustomInput";
 import CustomButton from "../Atom/CustomButton";
 import Table from "../Atom/Table";
 import {columns, rows} from "../Page/DocumentExportPage";
+import {Style} from "../Style";
 
 function Process(props) {
     return (
         <Box mt='0' width='2200px' height='1140px' backgroundColor={'#ffffff'}>
             <div style={{position: 'absolute', margin: '30px'}}>
-                <Box mt='10px' width='2120px' height='120px' backgroundColor={'#ffffff'}>
+                <Box mt='10px' width='2120px' height='120px' backgroundColor={Style.color3}>
                     <Title>일일 작업 조회</Title>
                     <div style={{margin: 25, display:"flex", flexDirection: "row", position: 'absolute'}}>
                         <div style={{margin:15, fontSize: '18pt'}}>
@@ -30,7 +31,7 @@ function Process(props) {
                         </div>
                     </div>
                 </Box>
-                <Box mt='100px' width='2120px' height='850px' backgroundColor={'#ffffff'}>
+                <Box mt='100px' width='2120px' height='850px' backgroundColor={Style.color3}>
                     <Title>등록 내역</Title>
                     <div style={{margin: '25px', right: '10px', position: 'absolute'}}>
                         <CustomButton type='normal' color='#ffffff' backgroundColor='#50586C' content='엑셀로 저장'/>

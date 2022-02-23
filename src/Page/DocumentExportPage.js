@@ -9,6 +9,7 @@ import CustomButton from "../Atom/CustomButton";
 import CustomInput from "../Atom/CustomInput";
 import Container from "../Atom/Container";
 import {Style} from "../Style";
+import axios from "axios";
 
 export const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -55,6 +56,12 @@ export const rows = [
 ];
 
 const DocumentExportPage = () => {
+    const onSearch = () => {
+        axios.get('http://3.38.19.119:8080/manage/worker')
+            .then((res) => console.log(res.data.data))
+            .catch(err => console.log(err))
+    }
+
     return (
         <Container>
             <Navigation/>
@@ -72,7 +79,7 @@ const DocumentExportPage = () => {
                             <CustomInput type='number' label='끝 레이블' size='small'/>
                         </div>
                         <div style={{marginTop:10}}>
-                            <CustomButton type='normal' color='#ffffff' backgroundColor={Style.color2} content='레이블 검색'/>
+                            <CustomButton onClick={onSearch} type='normal' color='#ffffff' backgroundColor={Style.color2} content='레이블 검색'/>
                         </div>
                         <div style={{marginLeft:1350, marginTop:10}}>
                             <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='박스 출력'/>
