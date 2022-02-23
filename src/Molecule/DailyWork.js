@@ -7,13 +7,14 @@ import {styled} from "@mui/system";
 import InputContainer from "./InputContainer";
 import CustomButton from "../Atom/CustomButton";
 import CustomInput from "../Atom/CustomInput";
+import {Style} from "../Style";
 
 function DailyWork(props) {
     const Worker = ({name}) => {
         return (
             <Row style={{margin: '0px'}} columns={'1fr 1fr 3fr'}>
                 <span style={{fontSize: '15pt', margin: '10px', display: "block"}}>{name}</span>
-                <CustomInput width={'60px'} type={'text'}/>
+                <CustomInput width={'60px'} type={'number'}/>
                 <span style={{fontSize: '15pt', margin: '10px', display: "block"}}>시간</span>
             </Row>
         )
@@ -22,7 +23,7 @@ function DailyWork(props) {
     return (
         <Box mt='0' width='2200px' height='1140px' backgroundColor={'#ffffff'}>
             <div style={{position: 'absolute', margin: '30px'}}>
-                <Box mt='10px' width='2120px' height='300px' backgroundColor={'#ffffff'}>
+                <Box mt='10px' width='2120px' height='300px' backgroundColor={Style.color3}>
                     <Title>일일 작업 조회</Title>
                     <div style={{position: 'absolute', margin: '40px'}}>
                         <Row columns={'1fr 1fr 2fr 2fr'}>
@@ -46,7 +47,7 @@ function DailyWork(props) {
                         </div>
                     </div>
                 </Box>
-                <Box mt='50px' width='2120px' height='72git0px' backgroundColor={'#ffffff'}>
+                <Box mt='50px' width='2120px' height='720px' backgroundColor={Style.color3}>
                     <Title>등록 내역</Title>
                     <div style={{margin: '20px', top: '50px', position: 'absolute'}}>
                         <Table width='2080px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />

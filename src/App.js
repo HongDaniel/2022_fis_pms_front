@@ -6,11 +6,13 @@ import IndexingPage from "./Page/IndexingPage";
 import UploadPage from "./Page/UploadPage";
 import ManagePage from "./Page/ManagePage";
 import ScanPage from "./Page/ScanPage";
+import LoginPage from "./Page/LoginPage";
 
 function App() {
     return (
         <div className="App">
             <Routes>
+                <Route exact path={"/login"} element={<LoginPage/>}/>
                 <Route exact path={"/"} element={<PreInspectPage/>}/>
                 <Route exact path={"/export"} element={<DocumentExportPage/>}/>
                 <Route exact path={"/scan"} element={<ScanPage/>}/>

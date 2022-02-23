@@ -3,7 +3,9 @@ import CustomButton from "../Atom/CustomButton";
 import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
 import logo from '../Media/logo.png'
+import LogoutIcon from '@mui/icons-material/Logout';
 import FileInput from "../Atom/FileInput";
+import {Style} from "../Style";
 
 /*
 날짜: 2022/02/14 2:11 PM
@@ -75,6 +77,9 @@ const Navigation = () => {
                     </div>
                 }
             </BtnContainer>
+            <Bottom>
+                <LogoutIcon className="icon" onClick={()=>navigate('/login')}/>{/*로그아웃*/}
+            </Bottom>
         </Container>
     );
 };
@@ -90,6 +95,15 @@ const Container = styled.div`
   &>img { //fis logo
     width: 125px;
     margin: 45px 0;
+  }
+  & .icon {
+    //color: #FFD400;
+    color: ${Style.color2};
+    font-size: 42px;
+  }
+  & .icon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
   }
 `;
 
@@ -121,5 +135,11 @@ const Button = styled.button`
   color: #50586C;
   cursor: pointer;
 `
+
+const Bottom = styled.div`
+  align-self: end;
+  justify-self: center;
+  margin-bottom: 45px;
+`;
 
 export default Navigation;

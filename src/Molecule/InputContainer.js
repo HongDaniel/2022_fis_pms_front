@@ -12,7 +12,9 @@ const InputContainer = (props) => {
                          height={props.height}
                          id={props.id}
                          defaultValue={props.defaultValue}
-                         contents={props.contents}/>
+                         contents={props.contents}
+                         size={props.size}
+            />
         </Container>
     );
 };
