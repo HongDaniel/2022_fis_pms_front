@@ -223,10 +223,10 @@ const PreInspectPage = () => {
                         <div className={"info"}>
                             <h3>필수 입력 정보</h3>
                             <InputContainer id={"레이블"} width={"320px"} type={"text"} handleChange={handleChange}/>
+                            <InputContainer id={"생산기관명"} width={"320px"} type={"number"} handleChange={handleChange}/>
+                            <InputContainer id={"기관코드"} width={"320px"} type={"text"} handleChange={handleChange}/>
                             <InputContainer id={"철제목"} name={"f_name"}width={"320px"} type={"text"} handleChange={handleChange}/>
                             <InputContainer id={"생산년도"} width={"320px"} type={"number"} handleChange={handleChange}/>
-                            <InputContainer id={"기관코드"} width={"320px"} type={"text"} handleChange={handleChange}/>
-                            <InputContainer id={"생산년도"} width={"150px"} type={"number"} handleChange={handleChange}/>
                             <InputContainer id={"보존기간"} width={"150px"} type={"select"} defaultValue={"선택"}
                                             contents={["선택", "1년", "30년", "영구"]} handleChange={handleChange}/>
                             <InputContainer id={"구축여부"} width={"150px"} type={"select"} defaultValue={"선택"}
@@ -235,12 +235,13 @@ const PreInspectPage = () => {
                                             contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
                             <InputContainer id={"박스번호"} width={"150px"} type={"number"} handleChange={handleChange}/>
                         </div>
+
                         <div className={"info"}>
                             <h3>부가 입력 정보</h3>
                             <InputContainer id={"위치"} width={"150px"} type={"number"} handleChange={handleChange}/>
                             <InputContainer id={"보존장소"} width={"150px"} type={"select"} defaultValue={"선택"}
                                             contents={["선택", "1년", "30년", "영구"]} handleChange={handleChange}/>
-                            <InputContainer id={"문서종류"} width={"150px"} type={"select"} defaultValue={"선택"}
+                            <InputContainer id={"문서유형"} width={"150px"} type={"select"} defaultValue={"선택"}
                                             contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
                             <InputContainer id={"분류번호"} width={"150px"} type={"select"} defaultValue={"선택"}
                                             contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
