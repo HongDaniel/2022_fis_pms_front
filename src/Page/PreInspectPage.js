@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Table from "../Atom/Table";
 import Box from "../Atom/Box";
 import styled from "styled-components";
@@ -42,7 +42,7 @@ const columns = [
         headerName: '철제목',
         description: 'This column has a value getter and is not sortable.',
         width: 280,
-        flex:1
+        flex: 1
     },
     {
         field: 'f_pyear',
@@ -105,20 +105,54 @@ const columns = [
 
 const PreInspectPage = () => {
     const [modal, setModal] = useState(false);
-    const [searchInfo,setSearchInfo] = useState({f_name:"",f_pyear:"",f_labelcode:"",o_code:""});
-    const [searchResult,setSearchResult] = useState([]);
+    const [searchInfo, setSearchInfo] = useState({f_name: "", f_pyear: "", f_labelcode: "", o_code: ""}); //검색하는 정보
+    const [searchResult, setSearchResult] = useState([]); //검색한 정보
+    const [saveInfo,setSaveInfo] = useState({f_id:"",f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:"",f_kplace:"",f_type:"",f_typenum:"",})
     const modalOpen = () => {
         setModal(true);
     }
     const modalClose = () => {
         setModal(false);
     }
-    const handleSearch = async () =>{
+    const handleSearch = async () => { //검색
         console.log("searched");
-        await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`,searchInfo,{withCredentials:true})
-            .then((res)=>{
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, searchInfo, {withCredentials: true})
+            .then((res) => {
                 setSearchResult(res.data);
             })
+    }
+
+    const handleSave = async () => { //철 정보 추가
+        console.log("saved");
+    }
+    useEffect(()=>{
+        console.log(saveInfo)
+    },[saveInfo])
+    const handleChange = (e) => {
+        const label = e.target.id;
+        const value = e.target.value;
+        console.log(label);
+        switch (label) {
+            case ('철제목'):
+                setSaveInfo({...saveInfo,f_name:value});
+                break;
+            case('생산년도'):
+                setSaveInfo({...saveInfo,f_pyear:value});
+                break;
+            case('레이블'):
+                setSaveInfo({...saveInfo,f_name:value});
+                break;
+            case('기관코드'):
+                setSaveInfo({...saveInfo,f_name:value});
+                break;
+            case('생'):
+                setSaveInfo({...saveInfo,f_name:value});
+                break;
+            case(''):
+                setSaveInfo({...saveInfo,f_name:value});
+                break;
+
+        }
     }
 
     return (
@@ -150,7 +184,8 @@ const PreInspectPage = () => {
                             {/*<CustomButton type={"normal"} name={"삭제"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
                             {/*              borderRadius={"25px"} content={"삭제"}/>*/}
                             <CustomButton type={"normal"} name={"검색"} width={"210px"} height={"55px"} fontSize={"22px"}
-                                          borderRadius={"25px"} content={"검색"} backgroundColor={Style.color2} onClick={handleSearch}/>
+                                          borderRadius={"25px"} content={"검색"} backgroundColor={Style.color2}
+                                          onClick={handleSearch}/>
                             {/*<CustomButton type={"normal"} name={"초기화"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
                             {/*              borderRadius={"25px"} content={"초기화"}/>*/}
                             {/*<CustomButton type={"normal"} name={"출력"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
@@ -162,7 +197,8 @@ const PreInspectPage = () => {
                     {/*조회 데이터*/}
                     <Box width='2200px' height='790px' backgroundColor={Style.color3}>
 
-                        <Table rows={searchResult} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"88%"}
+                        <Table rows={searchResult} columns={columns} headerBG={Style.color2} cellBG={Style.color1}
+                               width={"88%"}
                                height={"85%"}/>
 
                         <BtnContainer2>
@@ -178,46 +214,49 @@ const PreInspectPage = () => {
                 </BoxContainer>
             </MainBox>
             {/*폴더생성 모달창*/}
-            {modal?<Modal>
-                <div className={"bg"}></div>
+            {modal ?
+                <Modal>
+                    <div className={"bg"}></div>
 
-                <div id={"modal"}>
+                    <div id={"modal"}>
 
-                    <div className={"info"}>
-                        <h3>필수 입력 정보</h3>
-                        <InputContainer id={"철제목"} width={"350px"} type={"text"}/>
-                        <InputContainer id={"생산년도"} width={"300px"} type={"number"}/>
-                        <InputContainer id={"레이블"} width={"350px"} type={"text"}/>
-                        <InputContainer id={"기관코드"} width={"300px"} type={"text"}/>
-                        <InputContainer id={"생산년도"} width={"150px"} type={"number"}/>
-                        <InputContainer id={"보존기간"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                        contents={["선택", "1년", "30년", "영구"]}/>
-                        <InputContainer id={"구축여부"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                        contents={["선택", "구축", "비구축"]}/>
-                        <InputContainer id={"스캔여부"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                        contents={["선택", "구축", "비구축"]}/>
-                        <InputContainer id={"박스번호"} width={"150px"} type={"number"}/>
+                        <div className={"info"}>
+                            <h3>필수 입력 정보</h3>
+                            <InputContainer id={"레이블"} width={"320px"} type={"text"} handleChange={handleChange}/>
+                            <InputContainer id={"철제목"} name={"f_name"}width={"320px"} type={"text"} handleChange={handleChange}/>
+                            <InputContainer id={"생산년도"} width={"320px"} type={"number"} handleChange={handleChange}/>
+                            <InputContainer id={"기관코드"} width={"320px"} type={"text"} handleChange={handleChange}/>
+                            <InputContainer id={"생산년도"} width={"150px"} type={"number"} handleChange={handleChange}/>
+                            <InputContainer id={"보존기간"} width={"150px"} type={"select"} defaultValue={"선택"}
+                                            contents={["선택", "1년", "30년", "영구"]} handleChange={handleChange}/>
+                            <InputContainer id={"구축여부"} width={"150px"} type={"select"} defaultValue={"선택"}
+                                            contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
+                            <InputContainer id={"스캔여부"} width={"150px"} type={"select"} defaultValue={"선택"}
+                                            contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
+                            <InputContainer id={"박스번호"} width={"150px"} type={"number"} handleChange={handleChange}/>
+                        </div>
+                        <div className={"info"}>
+                            <h3>부가 입력 정보</h3>
+                            <InputContainer id={"위치"} width={"150px"} type={"number"} handleChange={handleChange}/>
+                            <InputContainer id={"보존장소"} width={"150px"} type={"select"} defaultValue={"선택"}
+                                            contents={["선택", "1년", "30년", "영구"]} handleChange={handleChange}/>
+                            <InputContainer id={"문서종류"} width={"150px"} type={"select"} defaultValue={"선택"}
+                                            contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
+                            <InputContainer id={"분류번호"} width={"150px"} type={"select"} defaultValue={"선택"}
+                                            contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
+                        </div>
+                        <div className={"btnContainer"}>
+                            <CustomButton type={"normal"} width={"180px"} height={"55px"} fontSize={"22px"}
+                                          borderRadius={"25px"} content={"저장"} backgroundColor={Style.color2}
+                                          onClick={handleSave}/>
+                            <CustomButton type={"normal"} width={"180px"} height={"55px"} fontSize={"22px"}
+                                          borderRadius={"25px"} content={"취소"} backgroundColor={Style.color2}
+                                          onClick={modalClose}/>
+                        </div>
+
                     </div>
-
-                    <div className={"info"}>
-                        <h3>부가 입력 정보</h3>
-                        <InputContainer id={"위치"} width={"150px"} type={"number"}/>
-                        <InputContainer id={"보존장소"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                        contents={["선택", "1년", "30년", "영구"]}/>
-                        <InputContainer id={"문서종류"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                        contents={["선택", "구축", "비구축"]}/>
-                        <InputContainer id={"분류번호"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                        contents={["선택", "구축", "비구축"]}/>
-                    </div>
-                    <div className={"btnContainer"}>
-                        <CustomButton type={"normal"} width={"180px"} height={"55px"} fontSize={"22px"}
-                                      borderRadius={"25px"} content={"저장"} backgroundColor={Style.color2}/>
-                        <CustomButton type={"normal"}width={"180px"} height={"55px"} fontSize={"22px"}
-                                      borderRadius={"25px"} content={"취소"} backgroundColor={Style.color2} onClick={modalClose}/>
-                    </div>
-
-                </div>
-            </Modal>:null}
+                </Modal>
+                : null}
         </Container>
     );
 };
@@ -287,7 +326,7 @@ const BtnContainer2 = styled.div`
 `;
 
 const Modal = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -297,41 +336,45 @@ const Modal = styled.div`
   align-items: center;
   z-index: 10;
 
-  & .bg {
+  & .bg { //배경색깔
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
   }
-  
-  & #modal{
+
+  & #modal {
     position: absolute;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background-color: #fff;
-    width: 900px;
-    height: 990px;
+    width: 990px;
+    height: 920px;
     padding: 15px;
     box-shadow: 2px 2px 3px grey;
     border-radius: 15px;
-    
+
     & .info {
-      margin-left: 200px;
-      margin-top: 20px;
-      &>div{
-        margin-bottom: 12px;
+      margin-left: 10px;
+      margin-right: 50px;
+
+      & > div { //각 항목 
+        margin-bottom: 30px;
       }
     }
-    
-    & .btnContainer {
-      margin-left: 200px;
-      &>button{
+
+    & .btnContainer { //저장, 취소버튼
+      position: absolute;
+      bottom: 50px;
+      left: 250px;
+
+      & > button {
         margin-top: 20px;
         margin-right: 150px;
       }
     }
-    
+
   }
-  
-  
+
+
 `;
 export default PreInspectPage;
