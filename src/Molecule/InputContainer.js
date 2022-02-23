@@ -14,6 +14,7 @@ const InputContainer = (props) => {
                          defaultValue={props.defaultValue}
                          contents={props.contents}
                          size={props.size}
+                         handleChange={props.handleChange}
             />
         </Container>
     );

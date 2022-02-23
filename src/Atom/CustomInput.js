@@ -21,12 +21,14 @@ const CustomInput = (props) => {
                        variant="outlined"
                        type={"text"}
                        size={props.size}
+                       onChange={props.handleChange}
             />
         )
     }
     else if(props.type==="number"){
         return (
-            <TextField id="outlined-basic"
+            <TextField
+                       id= {props.id}
                        disabled={props.disabled}
                        label={props.label}
                        sx={{width: props.width, m: props.margin}}
@@ -35,6 +37,7 @@ const CustomInput = (props) => {
                        name={props.name}
                        type={"number"}
                        size={"small"}
+                       onChange={props.handleChange}
                        InputLabelProps={{
                            shrink: true,
                        }}
@@ -46,6 +49,7 @@ const CustomInput = (props) => {
             <FormControl style={{width: props.width}} size="small">
                 <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
                 <Select
+                    id= {props.id}
                     disabled={props.disabled}
                     label={props.label}
                     variant="outlined"
@@ -55,7 +59,7 @@ const CustomInput = (props) => {
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx) => {
-                        return <MenuItem key={idx} value={content}>{content}</MenuItem>;
+                        return <MenuItem key={idx} value={content} id= {props.id}>{content}</MenuItem>;
                     })}
                 </Select>
             </FormControl>
