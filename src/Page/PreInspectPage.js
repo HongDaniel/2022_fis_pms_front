@@ -128,30 +128,51 @@ const PreInspectPage = () => {
     useEffect(()=>{
         console.log(saveInfo)
     },[saveInfo])
+
     const handleChange = (e) => {
-        const label = e.target.id;
+        const label = e.target;
         const value = e.target.value;
         console.log(label);
         switch (label) {
+            case('레이블'):
+                setSaveInfo({...saveInfo,f_labelcode:value});
+                break;
+            case('생산기관명'):
+                setSaveInfo({...saveInfo,o_name:value});
+                break;
+            case('기관코드'):
+                setSaveInfo({...saveInfo,o_code:value});
+                break;
             case ('철제목'):
                 setSaveInfo({...saveInfo,f_name:value});
                 break;
             case('생산년도'):
                 setSaveInfo({...saveInfo,f_pyear:value});
                 break;
-            case('레이블'):
-                setSaveInfo({...saveInfo,f_name:value});
+            case('보존기간'):
+                setSaveInfo({...saveInfo,f_kperiod:value});
                 break;
-            case('기관코드'):
-                setSaveInfo({...saveInfo,f_name:value});
+            case('구축여부'):
+                setSaveInfo({...saveInfo,f_db:value});
                 break;
-            case('생'):
-                setSaveInfo({...saveInfo,f_name:value});
+            case('스캔여부'):
+                setSaveInfo({...saveInfo,f_scan:value});
                 break;
-            case(''):
-                setSaveInfo({...saveInfo,f_name:value});
+            case('박스번호'):
+                setSaveInfo({...saveInfo,b_num:value});
                 break;
-
+            case('위치'):
+                setSaveInfo({...saveInfo,f_location:value});
+                break;
+            case('보존장소'):
+                setSaveInfo({...saveInfo,f_kplace:value});
+                break;
+            case('문서유형'):
+                setSaveInfo({...saveInfo,f_type:value});
+                break;
+            case('분류번호'):
+                setSaveInfo({...saveInfo,f_typenum:value});
+                break;
         }
     }
 
@@ -238,14 +259,14 @@ const PreInspectPage = () => {
 
                         <div className={"info"}>
                             <h3>부가 입력 정보</h3>
-                            <InputContainer id={"위치"} width={"150px"} type={"number"} handleChange={handleChange}/>
+                            <InputContainer id={"위치"} width={"150px"} type={"text"} handleChange={handleChange}/>
                             <InputContainer id={"보존장소"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                            contents={["선택", "1년", "30년", "영구"]} handleChange={handleChange}/>
+                                            contents={["선택", "기록관", "전문관리기관"]} handleChange={handleChange}/>
                             <InputContainer id={"문서유형"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                            contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
-                            <InputContainer id={"분류번호"} width={"150px"} type={"select"} defaultValue={"선택"}
-                                            contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
+                                            contents={["선택", "일반문서", "도면류"]} handleChange={handleChange}/>
+                            <InputContainer id={"분류번호"} width={"150px"} type={"number"} handleChange={handleChange}/>
                         </div>
+
                         <div className={"btnContainer"}>
                             <CustomButton type={"normal"} width={"180px"} height={"55px"} fontSize={"22px"}
                                           borderRadius={"25px"} content={"저장"} backgroundColor={Style.color2}
