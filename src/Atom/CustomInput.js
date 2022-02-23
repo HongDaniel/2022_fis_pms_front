@@ -49,7 +49,7 @@ const CustomInput = (props) => {
             <FormControl style={{width: props.width}} size="small">
                 <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
                 <Select
-                    id= {props.id}
+                    id= {props.label}
                     disabled={props.disabled}
                     label={props.label}
                     variant="outlined"
@@ -59,7 +59,8 @@ const CustomInput = (props) => {
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx) => {
-                        return <MenuItem key={idx} value={content} id= {props.id}>{content}</MenuItem>;
+                        // console.log(props.id);
+                        return <MenuItem key={idx} value={content}>{content}</MenuItem>;
                     })}
                 </Select>
             </FormControl>
