@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 
 function Table(props) {
-    const {headerBG, cellBG, rows, columns} = props; // 헤더, 셀 색깔
+    const {headerBG, cellBG, rows, columns,rowID} = props; // 헤더, 셀 색깔
     const theme = {headerBG, cellBG};
     const classes = useStyles(theme);
     const [selectionModel, setSelectionModel] = useState([]); // 체크박스 State
@@ -54,7 +54,7 @@ function Table(props) {
                 disableSelectionOnClick
                 selectionModel={selectionModel}
                 onSelectionModelChange={setSelectionModel}
-                getRowId={(row) => row.id}
+                getRowId={(row) => row.f_id}
                 localeText={koKR.components.MuiDataGrid.defaultProps.localeText}
             />
         </div>

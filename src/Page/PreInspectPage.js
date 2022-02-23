@@ -14,52 +14,93 @@ import NetworkConfig from "../configures/NetworkConfig";
 
 const columns = [
     {
-        field: 'id',
-        headerName: 'ID',
-        width: 90},
-    {
-        field: 'firstName',
-        headerName: 'First name',
-        width: 150,
-        editable: true,
-    },
-    {
-        field: 'lastName',
-        headerName: 'Last name',
-        width: 100,
-        editable: true,
-    },
-    {
-        field: 'age',
-        headerName: 'Age',
+        field: 'f_id',
+        headerName: 'No.',
         type: 'number',
+        width: 90
+    },
+    {
+        field: 'f_labelcode',
+        headerName: '레이블',
+        width: 120,
+        editable: true,
+    },
+    {
+        field: 'o_name',
+        headerName: '생산기관명',
+        width: 230,
+        editable: true,
+    },
+    {
+        field: 'o_code',
+        headerName: '기관코드',
         width: 110,
         editable: true,
     },
     {
-        field: 'fullName',
-        headerName: 'Full name',
+        field: 'f_name',
+        headerName: '철제목',
         description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        flex: 1,
-        valueGetter: (params) =>
-            `${params.getValue(params.id, 'firstName') || ''} ${
-                params.getValue(params.id, 'lastName') || ''
-            }`,
+        width: 280,
+        flex:1
     },
-];
-
-const rows = [
-    {id: 1, lastName: 'Snow', firstName: 'Jon', age: 35},
-    {id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42},
-    {id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45},
-    {id: 4, lastName: 'Stark', firstName: 'Arya', age: 16},
-    {id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null},
-    {id: 6, lastName: 'Melisandre', firstName: null, age: 150},
-    {id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44},
-    {id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36},
-    {id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65},
+    {
+        field: 'f_pyear',
+        headerName: '생산년도',
+        width: 110,
+        editable: true,
+    },
+    {
+        field: 'f_kperiod',
+        headerName: '보존기간',
+        width: 90,
+        editable: true,
+    },
+    {
+        field: 'f_db',
+        headerName: '구축여부',
+        width: 90,
+        editable: true,
+    },
+    {
+        field: 'f_scan',
+        headerName: '스캔여부',
+        width: 90,
+        editable: true,
+    },
+    {
+        field: 'b_num',
+        headerName: '박스번호',
+        width: 90,
+        editable: true,
+    },
+    {
+        field: 'f_location',
+        headerName: '위치',
+        width: 110,
+        editable: true,
+    },
+    {
+        field: 'f_kplace',
+        headerName: '보존장소',
+        type: 'number',
+        width: 120,
+        editable: true,
+    },
+    {
+        field: 'f_type',
+        headerName: '문서유형',
+        type: 'number',
+        width: 120,
+        editable: true,
+    },
+    {
+        field: 'f_typenum',
+        headerName: '분류번호',
+        type: 'number',
+        width: 90,
+        editable: true,
+    },
 ];
 
 const PreInspectPage = () => {
@@ -76,7 +117,7 @@ const PreInspectPage = () => {
         console.log("searched");
         await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`,searchInfo,{withCredentials:true})
             .then((res)=>{
-                console.log(res.data);
+                setSearchResult(res.data);
             })
     }
 
@@ -120,8 +161,10 @@ const PreInspectPage = () => {
 
                     {/*조회 데이터*/}
                     <Box width='2200px' height='790px' backgroundColor={Style.color3}>
-                        <Table rows={rows} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"88%"}
+
+                        <Table rows={searchResult} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"88%"}
                                height={"85%"}/>
+
                         <BtnContainer2>
                             <CustomButton type={"normal"} name={"저장"} width={"180px"} height={"55px"} fontSize={"22px"}
                                           borderRadius={"25px"} content={"철추가"} onClick={modalOpen}
