@@ -9,9 +9,14 @@ import MainBox from "../Atom/MainBox";
 import InputContainer from "../Molecule/InputContainer";
 import CustomButton from "../Atom/CustomButton";
 import {Style} from "../Style";
+import axios from "axios";
+import NetworkConfig from "../configures/NetworkConfig";
 
 const columns = [
-    {field: 'id', headerName: 'ID', width: 90},
+    {
+        field: 'id',
+        headerName: 'ID',
+        width: 90},
     {
         field: 'firstName',
         headerName: 'First name',
@@ -58,16 +63,21 @@ const rows = [
 ];
 
 const PreInspectPage = () => {
-    const [value, setValue] = useState(new Date('2014-08-18T21:11:54'));
     const [modal, setModal] = useState(false);
-    const handleChange = (newValue) => {
-        setValue(newValue);
-    };
+    const [searchInfo,setSearchInfo] = useState({f_name:"",f_pyear:"",f_labelcode:"",o_code:""});
+    const [searchResult,setSearchResult] = useState([]);
     const modalOpen = () => {
         setModal(true);
     }
     const modalClose = () => {
         setModal(false);
+    }
+    const handleSearch = async () =>{
+        console.log("searched");
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`,searchInfo,{withCredentials:true})
+            .then((res)=>{
+                console.log(res.data);
+            })
     }
 
     return (
@@ -99,7 +109,7 @@ const PreInspectPage = () => {
                             {/*<CustomButton type={"normal"} name={"삭제"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
                             {/*              borderRadius={"25px"} content={"삭제"}/>*/}
                             <CustomButton type={"normal"} name={"검색"} width={"210px"} height={"55px"} fontSize={"22px"}
-                                          borderRadius={"25px"} content={"검색"} backgroundColor={Style.color2}/>
+                                          borderRadius={"25px"} content={"검색"} backgroundColor={Style.color2} onClick={handleSearch}/>
                             {/*<CustomButton type={"normal"} name={"초기화"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
                             {/*              borderRadius={"25px"} content={"초기화"}/>*/}
                             {/*<CustomButton type={"normal"} name={"출력"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
