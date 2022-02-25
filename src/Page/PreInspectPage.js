@@ -17,12 +17,12 @@ const columns = [
         field: 'f_id',
         headerName: 'No.',
         type: 'number',
-        width: 90
+        width: 70
     },
     {
         field: 'f_labelcode',
         headerName: '레이블',
-        width: 120,
+        width: 90,
         editable: true,
     },
     {
@@ -47,13 +47,13 @@ const columns = [
     {
         field: 'f_pyear',
         headerName: '생산년도',
-        width: 110,
+        width: 90,
         editable: true,
     },
     {
         field: 'f_kperiod',
         headerName: '보존기간',
-        width: 90,
+        width: 130,
         editable: true,
     },
     {
@@ -84,7 +84,7 @@ const columns = [
         field: 'f_kplace',
         headerName: '보존장소',
         type: 'number',
-        width: 120,
+        width: 140,
         editable: true,
     },
     {
@@ -106,7 +106,7 @@ const columns = [
 const PreInspectPage = () => {
     const [modal, setModal] = useState(false);
     const [searchInfo, setSearchInfo] = useState({f_name: "", f_pyear: "", f_labelcode: "", o_code: ""}); //검색하는 정보
-    const [searchResult, setSearchResult] = useState([]); //검색한 정보
+    const [searchResult, setSearchResult] = useState(()=>JSON.parse(localStorage.getItem("searchResult"))||[]); //검색한 정보
     const [saveInfo,setSaveInfo] = useState({f_id:"",f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:"",f_kplace:"",f_type:"",f_typenum:"",})
     const modalOpen = () => {
         setModal(true);
@@ -115,19 +115,47 @@ const PreInspectPage = () => {
         setModal(false);
     }
     const handleSearch = async () => { //검색
-        console.log("searched");
         await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, searchInfo, {withCredentials: true})
             .then((res) => {
-                setSearchResult(res.data);
+                const data = (res.data).filter((el)=>{
+                    if(el.f_name.includes(searchInfo.f_name)&&el.f_pyear.includes(searchInfo.f_pyear)&&el.f_labelcode.includes(searchInfo.f_labelcode)&&el.o_code.includes(searchInfo.o_code)) {
+                        return el
+                    }
+                })
+                setSearchResult(data);
             })
     }
+
+    useEffect(()=>{
+        localStorage.setItem("searchResult",JSON.stringify(searchResult));
+    },[searchResult]);
 
     const handleSave = async () => { //철 정보 추가
         console.log("saved");
     }
-    useEffect(()=>{
-        console.log(saveInfo)
-    },[saveInfo])
+
+    // useEffect(()=>{
+    //     // console.log(saveInfo)
+    // },[saveInfo])
+
+    const handleSearchInfo = (e) => {
+        const label = e.target.id;
+        const content = e.target.value;
+        switch (label) {
+            case("철제목"):
+                setSearchInfo({...searchInfo,f_name: content})
+                break;
+            case("레이블"):
+                setSearchInfo({...searchInfo,f_labelcode: content})
+                break;
+            case("생산년도"):
+                setSearchInfo({...searchInfo,f_pyear: String(content)})
+                break;
+            case("기관코드"):
+                setSearchInfo({...searchInfo,o_code: String(content)})
+                break;
+        }
+    };
 
     const handleChange = (e) => {
         const label = e.target;
@@ -176,32 +204,41 @@ const PreInspectPage = () => {
         }
     }
 
+    const handleUpload = async (e) =>{ //목록 불러오기
+        const file = e.target.files[0];
+        console.log(file);
+        let formData = new FormData();
+        formData.append("file",file);
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
+            .then((res) => {
+                console.log(res);
+            }).catch((err)=>{
+                console.log(err);
+            });
+    }
+
     return (
         <Container>
             <Navigation/>
-            <MainBox height={"1250px"}>
+            <MainBox height={"1140px"}>
                 <Title> 입력 및 검색 </Title>
                 <BoxContainer>
                     {/*입력정보*/}
-
-                    <Box width='2200px' height='340px' backgroundColor={Style.color3}>
+                    <Box width='2000px' height='340px' backgroundColor={Style.color3}>
                         <InfoContainer>
                             <h3>필수 입력 정보</h3>
                             <Row columns={"3fr 2fr"}>
-                                <InputContainer id={"철제목"} width={"350px"} type={"text"}/>
-                                <InputContainer id={"생산년도"} width={"300px"} type={"number"}/>
-
+                                <InputContainer id={"철제목"} width={"350px"} type={"text"} handleChange={handleSearchInfo}/>
+                                <InputContainer id={"생산년도"} width={"300px"} type={"number"} handleChange={handleSearchInfo}/>
                             </Row>
                             <Row columns={"3fr 2fr"}>
-                                <InputContainer id={"레이블"} width={"350px"} type={"text"}/>
-                                <InputContainer id={"기관코드"} width={"300px"} type={"text"}/>
+                                <InputContainer id={"레이블"} width={"350px"} type={"text"} handleChange={handleSearchInfo}/>
+                                <InputContainer id={"기관코드"} width={"300px"} type={"number"} handleChange={handleSearchInfo}/>
                             </Row>
                         </InfoContainer>
 
 
                         <BtnContainer>
-                            {/*<CustomButton type={"normal"} name={"저장"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
-                            {/*              borderRadius={"25px"} content={"저장"}/>*/}
                             {/*<CustomButton type={"normal"} name={"삭제"} width={"110px"} height={"45px"} fontSize={"22px"}*/}
                             {/*              borderRadius={"25px"} content={"삭제"}/>*/}
                             <CustomButton type={"normal"} name={"검색"} width={"210px"} height={"55px"} fontSize={"22px"}
@@ -213,21 +250,21 @@ const PreInspectPage = () => {
                             {/*              borderRadius={"25px"} content={"출력"}/>*/}
                         </BtnContainer>
                     </Box>
-
-
                     {/*조회 데이터*/}
-                    <Box width='2200px' height='790px' backgroundColor={Style.color3}>
+                    <Box width='2000px' height='670px' backgroundColor={Style.color3}>
 
-                        <Table rows={searchResult} columns={columns} headerBG={Style.color2} cellBG={Style.color1}
-                               width={"88%"}
-                               height={"85%"}/>
-
+                        <Table rows={searchResult} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"88%"} height={"85%"}/>
                         <BtnContainer2>
                             <CustomButton type={"normal"} name={"저장"} width={"180px"} height={"55px"} fontSize={"22px"}
                                           borderRadius={"25px"} content={"철추가"} onClick={modalOpen}
                                           backgroundColor={Style.color2}/>
-                            <CustomButton type={"normal"} name={"삭제"} width={"180px"} height={"55px"} fontSize={"22px"}
-                                          borderRadius={"25px"} content={"목록 불러오기"} backgroundColor={Style.color2}/>
+                            <label htmlFor={"uploadExcel"} className="uploadExcel">목록 불러오기</label>
+                            <input type="file"
+                                   id="uploadExcel"
+                                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                   onChange={handleUpload}
+                                   style={{display:"none"}}
+                            />
                             <CustomButton type={"normal"} name={"검색"} width={"180px"} height={"55px"} fontSize={"22px"}
                                           borderRadius={"25px"} content={"엑셀로 저장"} backgroundColor={Style.color2}/>
                         </BtnContainer2>
@@ -238,9 +275,7 @@ const PreInspectPage = () => {
             {modal ?
                 <Modal>
                     <div className={"bg"}></div>
-
                     <div id={"modal"}>
-
                         <div className={"info"}>
                             <h3>필수 입력 정보</h3>
                             <InputContainer id={"레이블"} width={"320px"} type={"text"} handleChange={handleChange}/>
@@ -345,6 +380,22 @@ const BtnContainer2 = styled.div`
   & > button {
     margin: 15px 0;
   }
+
+  & .uploadExcel {
+    width: 180px;
+    height: 55px;
+    font-size: 22px;
+    border-radius: 25px;
+    background-color: ${Style.color2};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+  }
+  //type={"normal"} name={"삭제"} width={"180px"} height={"55px"} fontSize={"22px"}
+  //borderRadius={"25px"} content={"목록 불러오기"} onClick={handleUpload}
+  //backgroundColor={Style.color2}
 `;
 
 const Modal = styled.div`
