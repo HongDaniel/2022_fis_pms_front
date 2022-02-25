@@ -32,7 +32,6 @@ function Table(props) {
     const {headerBG, cellBG, rows, columns,rowID} = props; // 헤더, 셀 색깔
     const theme = {headerBG, cellBG};
     const classes = useStyles(theme);
-    const [selectionModel, setSelectionModel] = useState([]); // 체크박스 State
     const [pageSize, setPageSize] = useState(5);
 
     // console.log(selectionModel);
@@ -52,8 +51,8 @@ function Table(props) {
                 rowsPerPageOptions={[5, 10, 20]}
                 checkboxSelection
                 disableSelectionOnClick
-                selectionModel={selectionModel}
-                onSelectionModelChange={setSelectionModel}
+                selectionModel={props.selectionModel}
+                onSelectionModelChange={props.setSelectionModel}
                 getRowId={(row) => row.f_id}
                 localeText={koKR.components.MuiDataGrid.defaultProps.localeText}
             />
