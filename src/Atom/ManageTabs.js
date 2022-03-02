@@ -72,7 +72,7 @@ export default function ManageTabs(props) {
         <TabsUnstyled defaultValue={0}>
             <TabsList>
                 <Tab id={'0'}>계획대비 실적</Tab>
-                <Tab id={'1'}>기간별 공장</Tab>
+                <Tab id={'1'}>기간별 공정</Tab>
                 <Tab id={'2'}>일일 작업</Tab>
                 <Tab id={'3'}>철별 이력</Tab>
             </TabsList>
