@@ -157,10 +157,15 @@ const PreInspectPage = () => {
         }
     };
 
+    const onKeyPress = (e) =>{
+        if(e.key==='Enter'){
+            handleSearch();
+        }
+    }
+
     const handleChange = (e) => {
         const label = e.target;
         const value = e.target.value;
-        console.log(label);
         switch (label) {
             case('레이블'):
                 setSaveInfo({...saveInfo,f_labelcode:value});
@@ -206,7 +211,7 @@ const PreInspectPage = () => {
 
     const handleUpload = async (e) =>{ //목록 불러오기
         const file = e.target.files[0];
-        console.log(file);
+        // console.log(file);
         let formData = new FormData();
         formData.append("file",file);
         await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
@@ -228,12 +233,12 @@ const PreInspectPage = () => {
                         <InfoContainer>
                             <h3>필수 입력 정보</h3>
                             <Row columns={"3fr 2fr"}>
-                                <InputContainer id={"철제목"} width={"350px"} type={"text"} handleChange={handleSearchInfo}/>
-                                <InputContainer id={"생산년도"} width={"300px"} type={"number"} handleChange={handleSearchInfo}/>
+                                <InputContainer id={"철제목"} width={"350px"} type={"text"} handleChange={handleSearchInfo} onKeyPress={onKeyPress}/>
+                                <InputContainer id={"생산년도"} width={"300px"} type={"number"} handleChange={handleSearchInfo} onKeyPress={onKeyPress}/>
                             </Row>
                             <Row columns={"3fr 2fr"}>
-                                <InputContainer id={"레이블"} width={"350px"} type={"text"} handleChange={handleSearchInfo}/>
-                                <InputContainer id={"기관코드"} width={"300px"} type={"number"} handleChange={handleSearchInfo}/>
+                                <InputContainer id={"레이블"} width={"350px"} type={"text"} handleChange={handleSearchInfo} onKeyPress={onKeyPress}/>
+                                <InputContainer id={"기관코드"} width={"300px"} type={"number"} handleChange={handleSearchInfo} onKeyPress={onKeyPress}/>
                             </Row>
                         </InfoContainer>
 
