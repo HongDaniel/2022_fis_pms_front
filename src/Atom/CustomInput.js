@@ -22,7 +22,7 @@ const CustomInput = (props) => {
                        type={"text"}
                        size={props.size}
                        onChange={props.handleChange}
-                       value={props.value}
+                       onKeyPress={props.onKeyPress}
             />
         )
     }
@@ -39,6 +39,7 @@ const CustomInput = (props) => {
                        type={"number"}
                        size={"small"}
                        onChange={props.handleChange}
+                       onKeyPress={props.onKeyPress}
                        InputLabelProps={{
                            shrink: true,
                        }}
@@ -57,6 +58,7 @@ const CustomInput = (props) => {
                     name={props.name}
                     value={props.defaultValue}
                     sx={{width: props.width}}
+                    onKeyPress={props.onKeyPress}
                     onChange={props.handleChange}
                 >
                     {props.contents.map((content,idx) => {
@@ -76,6 +78,7 @@ const CustomInput = (props) => {
                     defaultValue={props.defaultValue}
                     name={props.name}
                     sx={{width: props.width}}
+                    onKeyPress={props.onKeyPress}
                     onChange={props.handleChange}
                     row
                 >
