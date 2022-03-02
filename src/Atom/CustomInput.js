@@ -22,6 +22,7 @@ const CustomInput = (props) => {
                        type={"text"}
                        size={props.size}
                        onChange={props.handleChange}
+                       value={props.value}
             />
         )
     }

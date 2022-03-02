@@ -174,6 +174,7 @@ const DocumentExportPage = () => {
 
     const [exportRows, setExportRows] = useState([]);
     const [selectionModel, setSelectionModel] = useState([]); // 체크박스 State
+    const [selectionScanModel, setSelectionScanModel] = useState([]); // 체크박스 State
 
     const addEList = () => {
         const eList = [];
@@ -200,7 +201,6 @@ const DocumentExportPage = () => {
             })
             .catch((err) => console.log(err))
     }
-
     const onLabelSearch = () => {
         axios.get('http://3.38.19.119:8080/export/search/label', searchInfo)
             .then((res) => {
@@ -225,6 +225,11 @@ const DocumentExportPage = () => {
             })
             .catch(err => console.log(err))
     }
+    useEffect(() => {
+        onLabelSearch();
+        onDateSearch();
+    }, []);
+
     const handleChange = (e) => {
         const label = e.target;
         const value = e.target.value;
@@ -272,8 +277,16 @@ const DocumentExportPage = () => {
             }
             setRegisterInfo({...registerInfo, f_scan: make})
         }
+    };
 
-    }
+    const handleScan = (e) => {
+        const formData = new FormData();
+        const file = e.target.files[0];
+        formData.append("file", file);
+        console.log(formData);
+        axios.post("http://3.38.19.119:8080/images/origin", formData, { headers: { "Content-Type" : "multipart/form-data" } })
+            .then(res => console.log(res));
+    };
 
     return (
         <Container>
@@ -352,13 +365,27 @@ const DocumentExportPage = () => {
                                 <CustomButton onClick={onBoxSearch} type='normal' margin='0 5px 0 10px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='박스 검색'/>
                             </div>
                             <div>
-                                <CustomButton type='normal' margin='0 5px 0 930px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='엑셀로 저장'/>
+                                {/*<form action="upload" id="uploadForm" method="post" encType="multipart/form-data">*/}
+                                {/*    <input type="file" name="file" id="file" style={{display:'none'}}/>*/}
+                                {/*</form>*/}
+                                <CustomButton onClick={()=>{
+                                    if (selectionScanModel.length === 0 || selectionScanModel.length > 1) {
+                                        alert('레이블을 하나만 선택해주세요.');
+                                        return;
+                                    }
+                                    const inputFile = document.getElementById("input-file");
+                                    inputFile.click();
+                                }} type='normal' margin='0 5px 0 800px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='스캔'/>
+                                <input onChange={handleScan} type="file" id="input-file" style={{display: "none"}}/>
+                            </div>
+                            <div>
+                                <CustomButton type='normal' margin='0 5px 0 10px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='엑셀로 저장'/>
                             </div>
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
                         <Box width='2176px' height='400px' backgroundColor={Style.color3}>
-                            <Table width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={exportRows} columns={exCol} />
+                            <Table selectionModel={selectionScanModel} setSelectionModel={setSelectionScanModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={exportRows} columns={exCol} />
                         </Box>
                     </div>
                 </MainBox>
