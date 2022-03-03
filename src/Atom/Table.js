@@ -34,13 +34,12 @@ function Table(props) {
     const classes = useStyles(theme);
     const [selectionModel, setSelectionModel] = useState([]); // 체크박스 State
     const [pageSize, setPageSize] = useState(7);
+
     useEffect(() => {
-        props.setSelected(selectionModel)
-        // console.log(selectionModel);
+        // props.setSelected(selectionModel)
+        console.log(selectionModel);
     }, [selectionModel]);
 
-
-    // console.log(selectionModel);
     return (
         <div style={{height: `${props.height}`, width: `${props.width}`, position: 'absolute'}}>
             <DataGrid
