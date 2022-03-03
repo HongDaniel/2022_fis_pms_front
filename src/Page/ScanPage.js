@@ -12,6 +12,8 @@ import rotate_left from "../Media/rotate_left.png"
 import rotate_right from "../Media/rotate_right.png"
 import {display} from "@mui/system";
 import {Style} from "../Style";
+import axios from "axios";
+import NetworkConfig from "../configures/NetworkConfig";
 
 
 const ScanPage = () => {
@@ -22,8 +24,6 @@ const ScanPage = () => {
     const [previewText,setPreviewText]= useState("미리보기");
     const [path,setPath] = useState('');
     const cropperJS = useRef();
-    let croppedX=0;
-    let croppedY=0;
 
     const uploadImg = (e) => {
         const images = e.target.files;
@@ -67,6 +67,12 @@ const ScanPage = () => {
             setPreviewText("다시수정")
         }
     }
+
+    const getPicture = async () =>{
+        const imgData=new FormData();
+        imgData.append('img','')
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/0`,imgData,{withCredentials:true})
+    }
     return (
         <Container>
             <Navigation/>
@@ -84,6 +90,7 @@ const ScanPage = () => {
                                        accept="image/*"
                                        multiple={"multiple"}
                                        onChange={uploadImg}
+                                       onClick={getPicture}
                                        style={{display:"none"}}
                                 />
                             </div>
@@ -106,7 +113,8 @@ const ScanPage = () => {
                                 </select>
                             </div>
                             <CustomButton type={"normal"} name={"완료"} width={"310px"} height={"85px"} fontSize={"32px"}
-                                          borderRadius={"25px"} content={"보정 검수 완료"} backgroundColor={Style.color2}/>
+                                          borderRadius={"25px"} content={"보정 검수 완료"} backgroundColor={Style.color2}
+                            />
 
                         </Content>
                     </Box>
