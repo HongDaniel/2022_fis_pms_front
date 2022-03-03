@@ -18,7 +18,7 @@ function App() {
                 <Route exact path={"/scan"} element={<ScanPage/>}/>
                 <Route exact path={"/index"} element={<IndexingPage/>}/>
                 <Route exact path={"/upload"} element={<UploadPage/>}/>
-                <Route exact path={"/manage"} element={<ManagePage/>}/>
+                <Route exact path={"/manage/workplace"} element={<ManagePage/>}/>
             </Routes>
         </div>
     );

@@ -6,21 +6,26 @@ import {RiLockPasswordLine} from "react-icons/ri";
 import {Style} from "../Style";
 import CustomButton from "../Atom/CustomButton";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 function LoginForm(props) {
     const navigate = useNavigate();
+
     return (
         <Main>
             <Container>
                 <img src={logo}/> {/*회사로고*/}
-                <form onSubmit={()=>{navigate('/',  {replace: false})}} className="inputContainer">
+                <form onSubmit={()=>{
+                    props.onClickFunction();
+                    navigate('/',  {replace: false});
+                }} className="inputContainer">
                     <InputRow> {/*아이디*/}
                         <div className="icon"><BiUser/></div>
-                        <input name="u_nickname" id="username" type="text" placeholder="아이디" onChange={props.onChangeFunction}/>
+                        <input required name="u_nickname" id="username" type="text" placeholder="아이디" onChange={props.onChangeFunction}/>
                     </InputRow>
                     <InputRow> {/*비밀번호*/}
                         <div className="icon"><RiLockPasswordLine/></div>
-                        <input name="u_pwd" id="password" type="password" placeholder="비밀번호" onChange={props.onChangeFunction}/>
+                        <input required name="u_pwd" id="password" type="password" placeholder="비밀번호" onChange={props.onChangeFunction}/>
                     </InputRow>
                     <CustomButton type="normal" width="100%" height="40px" backgroundColor={Style.color2}
                                   color={Style.color1} borderRadius={"10px"} content={"로그인"} submitType={"submit"}/>

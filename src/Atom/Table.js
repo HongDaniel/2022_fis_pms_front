@@ -39,6 +39,7 @@ function Table(props) {
         // console.log(selectionModel);
     }, [selectionModel]);
 
+
     // console.log(selectionModel);
     return (
         <div style={{height: `${props.height}`, width: `${props.width}`, position: 'absolute'}}>
@@ -56,8 +57,8 @@ function Table(props) {
                 rowsPerPageOptions={[5, 10, 20]}
                 checkboxSelection
                 disableSelectionOnClick
-                selectionModel={selectionModel}
-                onSelectionModelChange={setSelectionModel}
+                selectionModel={props.selectionModel}
+                onSelectionModelChange={props.setSelectionModel}
                 getRowId={(row) => row.f_id}
                 localeText={koKR.components.MuiDataGrid.defaultProps.localeText}
             />

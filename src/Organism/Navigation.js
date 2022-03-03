@@ -6,6 +6,7 @@ import logo from '../Media/logo.png'
 import LogoutIcon from '@mui/icons-material/Logout';
 import FileInput from "../Atom/FileInput";
 import {Style} from "../Style";
+import axios from "axios";
 
 /*
 날짜: 2022/02/14 2:11 PM
@@ -16,6 +17,7 @@ import {Style} from "../Style";
 const Navigation = () => {
     let navigate = useNavigate();
     const [open, setOpen] = useState(false);
+    const [files, setFiles] = useState(null);
     const handleClick = (e) => { // 버튼을 클릭했을 때
         const btnName=e.target.value
         switch (btnName) {
@@ -35,7 +37,7 @@ const Navigation = () => {
                 navigate('/upload')
                 break
             case '작업장 관리':
-                navigate('/manage')
+                navigate('/manage/workplace')
                 break
         }
     }
@@ -46,7 +48,14 @@ const Navigation = () => {
             setOpen(true);
         }
     };
-
+    const handleUpload = (e) => {
+        const formData = new FormData();
+        const file = e.target.files[0];
+        formData.append("file", file);
+        console.log(formData);
+        axios.post("http://3.38.19.119:8080/manage/worker", formData, { headers: { "Content-Type" : "multipart/form-data" } })
+            .then(res => console.log(res));
+    }
     return (
         <Container>
             <img src={logo} alt={"logo"}/>
@@ -72,7 +81,7 @@ const Navigation = () => {
                             <Label className={'input-file-button'} for={'input-file'}>
                                 기관코드 등록
                             </Label>
-                            <input type={'file'} id={'input-file'} style={{display: 'none'}} onChange={(e) => alert(e.target.value)}/>
+                            <input type={'file'} name='excel' id={'input-file'} style={{display: 'none'}} onChange={handleUpload}/>
                         </div>
                     </div>
                 }
