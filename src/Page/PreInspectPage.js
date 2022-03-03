@@ -108,6 +108,7 @@ const PreInspectPage = () => {
     const [searchInfo, setSearchInfo] = useState({f_name: "", f_pyear: "", f_labelcode: "", o_code: ""}); //검색하는 정보
     const [searchResult, setSearchResult] = useState(()=>JSON.parse(localStorage.getItem("searchResult"))||[]); //검색한 정보
     const [saveInfo,setSaveInfo] = useState({f_id:"",f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:"",f_kplace:"",f_type:"",f_typenum:"",})
+    const [selected,setSelected] = useState([]);
     const modalOpen = () => {
         setModal(true);
     }
@@ -117,6 +118,7 @@ const PreInspectPage = () => {
     const handleSearch = async () => { //검색
         await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, searchInfo, {withCredentials: true})
             .then((res) => {
+                // console.log(res.data);
                 const data = (res.data).filter((el)=>{
                     if(el.f_name.includes(searchInfo.f_name)&&el.f_pyear.includes(searchInfo.f_pyear)&&el.f_labelcode.includes(searchInfo.f_labelcode)&&el.o_code.includes(searchInfo.o_code)) {
                         return el
@@ -221,7 +223,16 @@ const PreInspectPage = () => {
                 console.log(err);
             });
     }
-
+    const handleDelete=async ()=>{
+        const fid = 7;
+        await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file/${fid}`)
+            .then((res)=>{
+                console.log(res);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+    }
     return (
         <Container>
             <Navigation/>
@@ -257,12 +268,17 @@ const PreInspectPage = () => {
                     </Box>
                     {/*조회 데이터*/}
                     <Box width='2000px' height='670px' backgroundColor={Style.color3}>
+                        <Table rows={searchResult} columns={columns} setSelected={setSelected} headerBG={Style.color2} cellBG={Style.color1} width={"88%"} height={"85%"}/>
 
-                        <Table rows={searchResult} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"88%"} height={"85%"}/>
                         <BtnContainer2>
                             <CustomButton type={"normal"} name={"저장"} width={"180px"} height={"55px"} fontSize={"22px"}
                                           borderRadius={"25px"} content={"철추가"} onClick={modalOpen}
                                           backgroundColor={Style.color2}/>
+
+                            <CustomButton type={"normal"} name={"삭제"} width={"180px"} height={"55px"} fontSize={"22px"}
+                                          borderRadius={"25px"} content={"철삭제"} onClick={handleDelete}
+                                          backgroundColor={Style.color2}/>
+
                             <label htmlFor={"uploadExcel"} className="uploadExcel">목록 불러오기</label>
                             <input type="file"
                                    id="uploadExcel"
@@ -383,7 +399,10 @@ const BtnContainer2 = styled.div`
   flex-direction: column;
 
   & > button {
-    margin: 15px 0;
+    margin: 10px 0;
+  }
+  & > label {
+    margin: 10px 0;
   }
 
   & .uploadExcel {

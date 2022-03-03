@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {DataGrid, koKR} from "@mui/x-data-grid";
 import {makeStyles} from "@mui/styles";
 
@@ -32,7 +32,13 @@ function Table(props) {
     const {headerBG, cellBG, rows, columns,rowID} = props; // 헤더, 셀 색깔
     const theme = {headerBG, cellBG};
     const classes = useStyles(theme);
-    const [pageSize, setPageSize] = useState(5);
+    const [selectionModel, setSelectionModel] = useState([]); // 체크박스 State
+    const [pageSize, setPageSize] = useState(7);
+    useEffect(() => {
+        props.setSelected(selectionModel)
+        // console.log(selectionModel);
+    }, [selectionModel]);
+
 
     // console.log(selectionModel);
     return (
