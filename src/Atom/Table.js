@@ -32,7 +32,7 @@ function Table(props) {
     const {headerBG, cellBG, rows, columns,rowID} = props; // 헤더, 셀 색깔
     const theme = {headerBG, cellBG};
     const classes = useStyles(theme);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(7);
 
     // console.log(selectionModel);
     return (
@@ -48,7 +48,7 @@ function Table(props) {
                 columns={columns}
                 pageSize={pageSize}
                 onPageSizeChange={(newPage) => setPageSize(newPage)}
-                rowsPerPageOptions={[5, 10, 20]}
+                rowsPerPageOptions={[7, 10, 20]}
                 checkboxSelection
                 disableSelectionOnClick
                 selectionModel={props.selectionModel}
