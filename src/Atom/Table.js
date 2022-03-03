@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {DataGrid, koKR} from "@mui/x-data-grid";
 import {makeStyles} from "@mui/styles";
 
@@ -34,7 +34,11 @@ function Table(props) {
     const classes = useStyles(theme);
     const [pageSize, setPageSize] = useState(7);
 
-    // console.log(selectionModel);
+    useEffect(() => {
+        // props.setSelected(selectionModel)
+        console.log(props.selectionModel);
+    }, [props.selectionModel]);
+
     return (
         <div style={{height: `${props.height}`, width: `${props.width}`, position: 'absolute'}}>
             <DataGrid

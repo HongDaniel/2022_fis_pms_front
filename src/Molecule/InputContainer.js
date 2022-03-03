@@ -15,6 +15,7 @@ const InputContainer = (props) => {
                          contents={props.contents}
                          size={props.size}
                          handleChange={props.handleChange}
+                         onKeyPress={props.onKeyPress}
             />
         </Container>
     );
