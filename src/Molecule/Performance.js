@@ -8,8 +8,36 @@ import CustomInput from "../Atom/CustomInput";
 import ManageContainer from "./ManageContainer";
 import CustomButton from "../Atom/CustomButton";
 import Table from "../Atom/Table";
-import {columns, rows} from "../Page/DocumentExportPage";
+import {rows} from "../Page/DocumentExportPage";
 import {Style} from "../Style";
+
+const columns = [
+    {
+        field: 'id',
+        headerName: 'No. ',
+        sortable: true,
+        width: 300,
+    },
+    {
+        field: 'f_name',
+        headerName: '철 제목',
+        sortable: true,
+        width: 1200,
+    },
+    {
+        field: 'f_pyear',
+        headerName: '생산년도',
+        sortable: true,
+        width: 300,
+    },
+    {
+        field: 'f_kperiod',
+        headerName: '보존기간',
+        sortable: true,
+        width: 200,
+        flex: 1,
+    },
+];
 
 function Performance(props) {
     return (

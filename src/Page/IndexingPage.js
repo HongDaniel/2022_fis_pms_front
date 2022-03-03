@@ -15,6 +15,138 @@ import AppendDots from "../Atom/AppendDots";
 import ImageContainer from "../Molecule/ImageContainer";
 import {Style} from "../Style";
 
+const boxColumns = [
+    {
+        field: 'f_labelcode',
+        headerName: '레이블',
+        sortable: true,
+        width: 150,
+    },
+    {
+        field: 'f_name',
+        headerName: '사전조사 철제목',
+        sortable: true,
+        width: 480,
+    },
+    {
+        field: 'f_pyear',
+        headerName: '생산년도',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'f_kperiod',
+        headerName: '보존기간',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'b_num',
+        headerName: '박스번호',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'f_complete',
+        headerName: '완료',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'f_check',
+        headerName: '검수',
+        sortable: true,
+        width: 80,
+        flex: 1,
+    },
+];
+
+const cColumns = [
+    {
+        field: 'f_id',
+        headerName: 'No. ',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'f_labelcode',
+        headerName: '레이블',
+        sortable: true,
+        width: 110,
+    },
+    {
+        field: 'f_volumeamount',
+        headerName: '권호수',
+        sortable: true,
+        width: 110,
+    },
+    {
+        field: 'f_name',
+        headerName: '철제목',
+        sortable: true,
+        width: 480,
+    },
+    {
+        field: 'f_pyear',
+        headerName: '생산년도',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'f_eyear',
+        headerName: '종료년도',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'f_kperiod',
+        headerName: '보존기간',
+        sortable: true,
+        width: 80,
+        flex: 1,
+    },
+];
+
+const gColumns = [
+    {
+        field: 'f_labelcode',
+        headerName: 'No. ',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'c_pdate',
+        headerName: '생산(접수)일자',
+        sortable: true,
+        width: 300,
+    },
+    {
+        field: 'c_title',
+        headerName: '건 제목',
+        sortable: true,
+        width: 400,
+    },
+    {
+        field: 'c_spage',
+        headerName: '첫페이지',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'c_epage',
+        headerName: '끝페이지',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'c_kperiod',
+        headerName: '보존기간',
+        sortable: true,
+        width: 80,
+        flex: 1,
+    },
+];
+
 const IndexingPage = () => {
     const [currentTab, setCurrentTab] = useState(()=>'0');
     const [openImage, setOpenImage] = useState(() => false);
@@ -51,21 +183,21 @@ const IndexingPage = () => {
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>대상 목록</BoxTitle>
                                     <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={rows}
-                                           columns={columns}/>
+                                           columns={boxColumns}/>
                                 </Box>
                             </div>
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>철 목록</BoxTitle>
                                     <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={rows}
-                                           columns={columns}/>
+                                           columns={cColumns}/>
                                 </Box>
                             </div>
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>건 목록</BoxTitle>
                                     <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={rows}
-                                           columns={columns}/>
+                                           columns={gColumns}/>
                                 </Box>
                             </div>
                         </div>

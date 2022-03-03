@@ -295,7 +295,7 @@ const PreInspectPage = () => {
                     </Box>
                     {/*조회 데이터*/}
                     <Box width='2000px' height='670px' backgroundColor={Style.color3}>
-                        <Table rows={searchResult} columns={columns} setSelected={setSelected} headerBG={Style.color2} cellBG={Style.color1} width={"88%"} height={"85%"}/>
+                        <Table rows={searchResult} columns={columns} selectionModel={selected} setSelectionModel={setSelected} headerBG={Style.color2} cellBG={Style.color1} width={"88%"} height={"85%"}/>
 
                         <BtnContainer3>
                             <CustomButton type={"normal"} name={"저장"} width={"120px"} height={"50px"} fontSize={"22px"}
