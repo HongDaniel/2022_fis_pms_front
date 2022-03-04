@@ -107,7 +107,7 @@ const PreInspectPage = () => {
     const [modal, setModal] = useState(false);
     const [searchInfo, setSearchInfo] = useState({f_name: "", f_pyear: "", f_labelcode: "", o_code: ""}); //검색하는 정보
     const [searchResult, setSearchResult] = useState(()=>JSON.parse(localStorage.getItem("searchResult"))||[]); //검색한 정보
-    const [saveInfo,setSaveInfo] = useState({f_id:"",f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:"",f_kplace:"",f_type:"",f_typenum:"",})
+    const [saveInfo,setSaveInfo] = useState({f_id:null,f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:"",f_kplace:"",f_type:"",f_typenum:"",})
     const [selected,setSelected] = useState([]);
     const modalOpen = () => { setModal(true); } // 모달창 열기
     const modalClose = () => { setModal(false); } // 모달창 닫기
@@ -127,9 +127,6 @@ const PreInspectPage = () => {
     useEffect(()=>{
         localStorage.setItem("searchResult",JSON.stringify(searchResult));
     },[searchResult]);
-
-
-
 
     const handleSearchInfo = (e) => { //검색내용 트랙킹
         const label = e.target.id;
@@ -156,15 +153,13 @@ const PreInspectPage = () => {
         }
     }
 
-    // useEffect(() => {
-    //     console.log(saveInfo);
-    // }, [saveInfo]);
+    useEffect(() => {
+        console.log(saveInfo);
+    }, [saveInfo]);
 
     const handleChange = (e) => { //모달창의 입력정보
-        const label = e.target.id;
+        const label = e.target.id||e.target.name;
         const value = e.target.value;
-        // console.log(value);
-
         switch (label) {
             case('레이블'):
                 setSaveInfo({...saveInfo,f_labelcode:value});
@@ -221,21 +216,22 @@ const PreInspectPage = () => {
     }
     const handleSave = async () => { //철 정보 추가
         const data = {
-            "f_id": null,
-            "o_code": "1234567",
-            "f_labelcode": "000012",
-            "o_name": "서울 강남구",
-            "f_name": "강남구청 인사과",
-            "f_pyear": "2022",
-            "f_kperiod": "SEMI",
+            "b_num": "123",
             "f_db": "YES",
+            "f_id": 2,
+            "f_kperiod": "YEAR1",
+            "f_kplace": "ARCHIVIST",
+            "f_labelcode": "string",
+            "f_location": "string",
+            "f_name": "string",
+            "f_pyear": "1234",
             "f_scan": "YES",
-            "b_num": "007",
-            "f_location": "123",
-            "f_kplace": "PROFESSION",
             "f_type": "GENERAL",
-            "f_typenum": "123"
+            "f_typenum": "string",
+            "o_code": "string",
+            "o_name": "string"
         }
+
         await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, data, {withCredentials: true})
             .then((res) => {
                 console.log(res);
@@ -253,19 +249,24 @@ const PreInspectPage = () => {
     };
 
     const handleDelete=async ()=>{ //철삭제
-        const fid = 7;
+        const fid = selected[0];
         await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file/${fid}`)
             .then((res)=>{
-                console.log(res);
+                // console.log(res);
+                setSearchResult(searchResult.filter((el) => {
+                    if (el.f_id !== fid) {
+                        return el;
+                    }
+                }));
             })
             .catch((err)=>{
                 console.log(err);
             })
     }
 
-    useEffect(() => { //항목이 선택될 때 업데이트
-        console.log(selected)
-    }, [selected]);
+    // useEffect(() => { //항목이 선택될 때 업데이트
+    //     console.log(selected)
+    // }, [selected]);
 
     return (
         <Container>
@@ -333,22 +334,22 @@ const PreInspectPage = () => {
                             <InputContainer id={"생산기관명"} width={"320px"} type={"text"} handleChange={handleChange}/>
                             <InputContainer id={"기관코드"} width={"320px"} type={"number"} handleChange={handleChange}/>
                             <InputContainer id={"철제목"} name={"f_name"}width={"320px"} type={"text"} handleChange={handleChange}/>
-                            <InputContainer id={"생산년도"} width={"320px"} type={"number"} handleChange={handleChange}/>
-                            <InputContainer id={"보존기간"} width={"150px"} type={"select"} defaultValue={"선택"}
+                            <InputContainer id={"생산년도"} width={"320px"} type={"number"} maxLength={4} handleChange={handleChange}/>
+                            <InputContainer id={"보존기간"} width={"150px"} type={"select"}
                                             contents={["선택", "1년", "30년", "영구"]} handleChange={handleChange}/>
-                            <InputContainer id={"구축여부"} width={"150px"} type={"select"} defaultValue={"선택"}
+                            <InputContainer id={"구축여부"} width={"150px"} type={"select"}
                                             contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
-                            <InputContainer id={"스캔여부"} width={"150px"} type={"select"} defaultValue={"선택"}
+                            <InputContainer id={"스캔여부"} width={"150px"} type={"select"}
                                             contents={["선택", "구축", "비구축"]} handleChange={handleChange}/>
-                            <InputContainer id={"박스번호"} width={"150px"} type={"number"} handleChange={handleChange}/>
+                            <InputContainer id={"박스번호"} width={"150px"} type={"number"} maxLength={3} handleChange={handleChange}/>
                         </div>
 
                         <div className={"info"}>
                             <h3>부가 입력 정보</h3>
                             <InputContainer id={"위치"} width={"150px"} type={"text"} handleChange={handleChange}/>
-                            <InputContainer id={"보존장소"} width={"150px"} type={"select"} defaultValue={"선택"}
+                            <InputContainer id={"보존장소"} width={"150px"} type={"select"}
                                             contents={["선택", "기록관", "전문관리기관"]} handleChange={handleChange}/>
-                            <InputContainer id={"문서유형"} width={"150px"} type={"select"} defaultValue={"선택"}
+                            <InputContainer id={"문서유형"} width={"150px"} type={"select"}
                                             contents={["선택", "일반문서", "도면류"]} handleChange={handleChange}/>
                             <InputContainer id={"분류번호"} width={"150px"} type={"number"} handleChange={handleChange}/>
                         </div>
@@ -452,7 +453,7 @@ const BtnContainer2 = styled.div`
 `;
 const BtnContainer3 = styled.div`
 position: absolute;
-  right: 450px;
+  right: 600px;
   bottom: 60px;
   &>button {
     margin-right: 15px;

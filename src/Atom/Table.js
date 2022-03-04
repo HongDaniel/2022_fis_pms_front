@@ -35,8 +35,7 @@ function Table(props) {
     const [pageSize, setPageSize] = useState(7);
 
     useEffect(() => {
-        // props.setSelected(selectionModel)
-        console.log(props.selectionModel);
+        // console.log(props.selectionModel);
     }, [props.selectionModel]);
 
     return (

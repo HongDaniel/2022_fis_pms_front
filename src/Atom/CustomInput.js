@@ -27,6 +27,7 @@ const CustomInput = (props) => {
         )
     }
     else if(props.type==="number"){
+        const maxLength=props.maxLength||30;
         return (
             <TextField
                        id= {props.id}
@@ -40,6 +41,9 @@ const CustomInput = (props) => {
                        size={"small"}
                        onChange={props.handleChange}
                        onKeyPress={props.onKeyPress}
+                       onInput = {(e) =>{
+                           e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0,maxLength)
+                       }}
                        InputLabelProps={{
                            shrink: true,
                        }}
@@ -55,7 +59,7 @@ const CustomInput = (props) => {
                     disabled={props.disabled}
                     label={props.label}
                     variant="outlined"
-                    name={props.name}
+                    name={props.label}
                     value={props.defaultValue}
                     sx={{width: props.width}}
                     onKeyPress={props.onKeyPress}
