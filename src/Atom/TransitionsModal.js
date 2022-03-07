@@ -9,6 +9,7 @@ import CustomButton from "./CustomButton";
 import OfficeSearch from "../Organism/OfficeSearch";
 import CitemSearch from "../Organism/CitemSearch";
 import GitemSearch from "../Organism/GitemSearch";
+import axios from "axios";
 
 const style = {
     position: 'absolute',
@@ -31,7 +32,11 @@ export default function TransitionsModal(props) {
 
     return (
         <div>
-            <CustomButton onClick={handleOpen} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content={props.content}/>
+            <CustomButton onClick={()=>{
+                axios.get("http://3.38.19.119:8080/index/label")
+                    .then((res) => console.log(res.data));
+                handleOpen();
+            }} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content={props.content}/>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

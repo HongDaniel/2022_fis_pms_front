@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 
 function CitemSearch(props) {
     const {currentTab, handleClose} = props;
+
     const tmp = [
         {id: "4720000", num:"001", name: "문화홍보실 인처관리1", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
         {id: "4720001", num:"002", name: "문화홍보실 인처관리2", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
@@ -35,7 +36,10 @@ function CitemSearch(props) {
             {tmp.map((item) => {
                 return (
                     <ListContainer key={item.id} name={item.id} onDoubleClick={handleDoubleClick} columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
-                        {Object.values(item).map((x) => {return (<div name={item.id}>{x}</div>)})}
+                        {Object.values(item).map((x) => {
+                            return (<div name={item.id}>{x}</div>)
+                        }
+                        )}
                     </ListContainer>
                 )
             })}
