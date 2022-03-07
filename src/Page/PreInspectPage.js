@@ -111,6 +111,7 @@ const PreInspectPage = () => {
     const [selected,setSelected] = useState([]);
     const modalOpen = () => { setModal(true); } // 모달창 열기
     const modalClose = () => { setModal(false); } // 모달창 닫기
+
     const handleSearch = async () => { //검색
         await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, searchInfo, {withCredentials: true})
             .then((res) => {
@@ -154,7 +155,7 @@ const PreInspectPage = () => {
     }
 
     useEffect(() => {
-        console.log(saveInfo);
+        // console.log(saveInfo);
     }, [saveInfo]);
 
     const handleChange = (e) => { //모달창의 입력정보
@@ -203,13 +204,19 @@ const PreInspectPage = () => {
         }
     }
     const handleUpload = async (e) =>{ //목록 불러오기
-        const file = e.target.files[0];
-        // console.log(file);
         let formData = new FormData();
-        formData.append("file",file);
+        formData.append("excelfile",e.target.files[0]);
+        // FormData의 value 확인
+        for (let key of formData.keys()) {
+            console.log(key);
+        }
+        for (let value of formData.values()) {
+            console.log(value);
+        }
+        e.target.value='';
         await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
             .then((res) => {
-                console.log(res);
+                console.log(res.data);
             }).catch((err)=>{
                 console.log(err);
             });
@@ -252,7 +259,7 @@ const PreInspectPage = () => {
         const fid = selected[0];
         await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file/${fid}`)
             .then((res)=>{
-                // console.log(res);
+                console.log(res);
                 setSearchResult(searchResult.filter((el) => {
                     if (el.f_id !== fid) {
                         return el;
