@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
             width: 0,
             height: 0,
         },
+        "& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer": {
+            display: ({headerCheckBox}) => headerCheckBox,
+        }
     },
     header: {
         backgroundColor: ({headerBG}) => headerBG,
@@ -29,10 +32,21 @@ const useStyles = makeStyles(theme => ({
 
 
 function Table(props) {
-    const {headerBG, cellBG, rows, columns,rowID} = props; // 헤더, 셀 색깔
-    const theme = {headerBG, cellBG};
+    const {headerBG, cellBG, rows, columns, rowID} = props; // 헤더, 셀 색깔
+    let headerCheckBox = '';
+    if (props.isRowSelectable) {
+        headerCheckBox = 'none';
+    }
+    const theme = {headerBG, cellBG, headerCheckBox};
     const classes = useStyles(theme);
     const [pageSize, setPageSize] = useState(7);
+    const handleRowSelectable = (params) => {
+        if (props.selectionModel.length > 0) {
+            return params.row.f_id === props.selectionModel[0];
+        } else {
+            return true;
+        }
+    }
 
     useEffect(() => {
         // props.setSelected(selectionModel)
@@ -53,8 +67,9 @@ function Table(props) {
                 pageSize={pageSize}
                 onPageSizeChange={(newPage) => setPageSize(newPage)}
                 rowsPerPageOptions={[7, 10, 20]}
-                checkboxSelection
-                disableSelectionOnClick
+                checkboxSelection={true}
+                isRowSelectable={props.isRowSelectable && handleRowSelectable}
+                // disableSelectionOnClick
                 selectionModel={props.selectionModel}
                 onSelectionModelChange={props.setSelectionModel}
                 getRowId={(row) => row.f_id}

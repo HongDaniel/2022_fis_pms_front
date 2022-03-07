@@ -87,7 +87,11 @@ const Navigation = () => {
                 }
             </BtnContainer>
             <Bottom>
-                <LogoutIcon className="icon" onClick={()=>navigate('/login')}/>{/*로그아웃*/}
+                <LogoutIcon className="icon" onClick={()=>{
+                    axios.post("http://3.38.19.119:8080/logout")
+                        .then(console.log);
+                    navigate('/login');
+                }}/>{/*로그아웃*/}
             </Bottom>
         </Container>
     );

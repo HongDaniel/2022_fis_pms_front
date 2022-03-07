@@ -281,11 +281,15 @@ const DocumentExportPage = () => {
 
     const handleScan = (e) => {
         const formData = new FormData();
-        const file = e.target.files[0];
-        formData.append("file", file);
-        console.log(formData);
+        const files = e.target.files;
+        formData.append('fileId', selectionScanModel[0]);
+        for (let i = 0; i < files.length; i++) {
+            formData.append("images", files[i]);
+            console.log(files[i])
+        }
         axios.post("http://3.38.19.119:8080/images/origin", formData, { headers: { "Content-Type" : "multipart/form-data" } })
-            .then(res => console.log(res));
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
     };
 
     return (
@@ -376,7 +380,7 @@ const DocumentExportPage = () => {
                                     const inputFile = document.getElementById("input-file");
                                     inputFile.click();
                                 }} type='normal' margin='0 5px 0 800px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='스캔'/>
-                                <input onChange={handleScan} type="file" id="input-file" style={{display: "none"}}/>
+                                <input multiple={'multiple'} onChange={handleScan} type="file" id="input-file" style={{display: "none"}}/>
                             </div>
                             <div>
                                 <CustomButton type='normal' margin='0 5px 0 10px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='엑셀로 저장'/>
@@ -385,7 +389,7 @@ const DocumentExportPage = () => {
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
                         <Box width='2176px' height='400px' backgroundColor={Style.color3}>
-                            <Table selectionModel={selectionScanModel} setSelectionModel={setSelectionScanModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={exportRows} columns={exCol} />
+                            <Table isRowSelectable={true} selectionModel={selectionScanModel} setSelectionModel={setSelectionScanModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={exportRows} columns={exCol} />
                         </Box>
                     </div>
                 </MainBox>
