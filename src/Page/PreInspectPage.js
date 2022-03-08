@@ -200,7 +200,7 @@ const PreInspectPage = () => {
     const [modal, setModal] = useState(false);
     const [searchInfo, setSearchInfo] = useState({f_name: "", f_pyear: "", f_labelcode: "", o_code: ""}); //검색하는 정보
     const [searchResult, setSearchResult] = useState(()=>JSON.parse(localStorage.getItem("searchResult"))||[]); //검색한 정보
-    const [saveInfo,setSaveInfo] = useState({f_id:null,f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:{chung:"",yall:"",bun:"",suga:""},f_kplace:"",f_type:"",f_typenum:"",})
+    const [saveInfo,setSaveInfo] = useState({f_id:"",f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:{chung:"",yall:"",bun:"",suga:""},f_kplace:"",f_type:"",f_typenum:"",})
     const [selected,setSelected] = useState([]);
     const [selectedRow,setSelectedRow] = useState({});
     const [formState,setFormState] = useState('');
@@ -216,17 +216,17 @@ const PreInspectPage = () => {
             })
     }
 
-    useEffect(()=>{
-        localStorage.setItem("searchResult",JSON.stringify(searchResult));
-    },[searchResult]);
+    // useEffect(()=>{
+    //     localStorage.setItem("searchResult",JSON.stringify(searchResult));
+    // },[searchResult]);
 
     // useEffect(() => { // 검색결과 조회
     //     console.log(searchInfo);
     // }, [searchInfo]);
 
-    useEffect(()=>{
-        console.log(selectedRow);
-    },[selectedRow])
+    // useEffect(()=>{
+    //     console.log(selectedRow);
+    // },[selectedRow])
 
     const handleSearchInfo = (e) => { //검색내용 트랙킹
         const label = e.target.id;
@@ -385,12 +385,6 @@ const PreInspectPage = () => {
         let formData = new FormData();
         formData.append("excelfile",e.target.files[0]);
         // FormData의 value 확인
-        for (let key of formData.keys()) {
-            console.log(key);
-        }
-        for (let value of formData.values()) {
-            console.log(value);
-        }
         e.target.value='';
         await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
             .then((res) => {
@@ -411,9 +405,25 @@ const PreInspectPage = () => {
                     console.log(err);
                 })
     };
-    const handleModify = async () => {
 
+    const handleModify = async () => {
+        if (saveInfo.f_labelcode==="" || saveInfo.o_name==="" || saveInfo.o_code===""|| saveInfo.f_name===""|| saveInfo.f_pyear===""|| saveInfo.f_kperiod===""|| saveInfo.f_db===""|| saveInfo.f_scan===""||  saveInfo.b_num===""){
+            window.alert("필수 입력 정보를 모두 입력해주세요!");
+        }
+        else {
+            await axios.patch(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, saveInfo, {withCredentials: true})
+                .then((res)=>{
+                    console.log(res);
+                    handleSearch();
+                    setSaveInfo({f_location:{}});
+                    modalClose();
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+        }
     };
+
     const handleCancel = () =>{
         modalClose();
     }
@@ -427,30 +437,8 @@ const PreInspectPage = () => {
         if(selected.length==1){
             modalOpen();
             setFormState('수정');
-            // setSelectedRow(searchResult.filter(row => parseInt(row.f_id) === selected[0])[0]);
-            const tmp={
-                "o_code": "3690052",
-                "f_labelcode": "202942.0",
-                "o_name": "울산광역시 중구 건설도시국 건축허가과",
-                "f_name": "87 2-804(박규섭)",
-                "f_id": null,
-                "f_pyear": "2987.0",
-                "f_kperiod": "영구",
-                "f_db": null,
-                "f_scan": null,
-                "b_num": "009",
-                "f_location": {
-                    "chung": "",
-                    "suga": "",
-                    "yall": "",
-                    "bun": ""
-                },
-                "f_kplace": null,
-                "f_type": null,
-                "f_typenum": ""
-            }
-            setSelectedRow(tmp);
-            setSaveInfo(tmp);
+            setSelectedRow(searchResult.filter(row => parseInt(row.f_id) === selected[0])[0]); // 선택한 행
+            setSaveInfo(selectedRow);
         }
         else {
             window.alert("수정하고 싶은 철 1개를 선택해주세요");
