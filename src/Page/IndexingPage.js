@@ -157,6 +157,85 @@ const IndexingPage = () => {
     const [selectionBoxModel, setSelectionBoxModel] = useState([]);
     const [selectionCModel, setSelectionCModel] = useState([]);
     const [selectionGModel, setSelectionGModel] = useState([]);
+    const styleForm = {}
+    if (selectionBoxModel.length === 0) {
+        styleForm.display = 'none';
+    } else {
+        styleForm.display = '';
+    }
+
+    const [cInfo, setCInfo] = useState({});
+
+    const handleChange = (e) => {
+        let label = e.target.id;
+        let v;
+        const value = e.target.value;
+        if (label === undefined) {
+            label = e.target.name;
+        }
+        console.log(label, value)
+        switch (label) {
+            case('철 제목'):
+                setCInfo({...cInfo, f_name: value})
+                break;
+            case('총 권호수'):
+                setCInfo({...cInfo, f_volumeamount: value})
+                break;
+            case('분류 번호'):
+                setCInfo({...cInfo, f_typenum: value})
+                break;
+            case('담당자'):
+                setCInfo({...cInfo, f_manager: value})
+                break;
+            case('보존 기간'):
+                if (value === "1년") {
+                    v = 'YEAR1';
+                } else if (value === "3년") {
+                    v = 'YEAR3';
+                } else if (value === "5년") {
+                    v = 'YEAR5';
+                } else if (value === "10년") {
+                    v = 'YEAR10';
+                } else if (value === "20년") {
+                    v = 'YEAR20';
+                } else if (value === "30년") {
+                    v = 'YEAR30';
+                } else if (value === "준영구") {
+                    v = 'SEMI';
+                } else {
+                    v = 'PERMANENT';
+                }
+                setCInfo({...cInfo, f_kperiod: v})
+                break;
+            case('보존 방법'):
+                if (value === "원본과 보존매체를 함께 보존") {
+                    v = 'ALL';
+                } else if (value === "보존매체만 보존") {
+                    v = 'MEDIA';
+                } else {
+                    v = 'ORIGINAL';
+                }
+                setCInfo({...cInfo, f_kmethod: v})
+                break;
+            case('보존 장소'):
+                if (value === "기록관") {
+                    v = 'ARCHIVIST';
+                } else {
+                    v = 'PROFESSION';
+                }
+                setCInfo({...cInfo, f_kplace: v})
+                break;
+            case('기록물 형태'):
+                setCInfo({...cInfo, f_type: value})
+                break;
+        }
+    }
+
+    const handleCSave = () => {
+        console.log(cInfo);
+        axios.post("http://3.38.19.119:8080/index/label", cInfo)
+            .then((res) => console.log(res));
+    }
 
     const boxSearch = () => {
         axios.get(`http://3.38.19.119:8080/index/search/${1234567}`)
@@ -166,7 +245,7 @@ const IndexingPage = () => {
     };
 
     useEffect(() => {
-
+        setCInfo({...cInfo, f_id: selectionBoxModel[0]})
     }, [selectionBoxModel])
 
     return (
@@ -261,7 +340,9 @@ const IndexingPage = () => {
                                         </div>
                                     }
                                 </Box>
-                                <UnstyledTabsCustomized setCurrentTab={setCurrentTab} />
+                                <div style={styleForm}>
+                                    <UnstyledTabsCustomized handleSave={handleCSave} handleChange={handleChange} setCurrentTab={setCurrentTab} />
+                                </div>
                             </Box>
                         </div>
                     </div>

@@ -166,9 +166,9 @@ const exCol = [
 
 const DocumentExportPage = () => {
     const [docRows, setDocRows] = useState([]);
-    const [searchInfo, setSearchInfo] = useState({elabel: "", slabel: ""});
-    const [searchDateInfo, setSearchDateInfo] = useState({edate: "", sdate: ""});
-    const [searchBoxInfo, setSearchBoxInfo] = useState({ebox: "", sbox: ""});
+    const [searchInfo, setSearchInfo] = useState({});
+    const [searchDateInfo, setSearchDateInfo] = useState({});
+    const [searchBoxInfo, setSearchBoxInfo] = useState({});
     const [registerInfo, setRegisterInfo] = useState({b_num: "", f_db: "", f_scan: ""});
     const [saveInfo, setSaveInfo] = useState({});
 
@@ -178,11 +178,12 @@ const DocumentExportPage = () => {
 
     const addEList = () => {
         const eList = [];
+        const date = String(new Date().getFullYear()) + '-' + String(new Date().getMonth()+1).padStart(2, '0') + '-' + String(new Date().getDate()).padStart(2, '0');
         (selectionModel.map((f_id) => {
             eList.push({
                 b_num: registerInfo.b_num,
                 f_db: registerInfo.f_db,
-                f_exportdate: String(new Date()),
+                f_exportdate: date,
                 f_id: f_id,
                 f_scan: registerInfo.f_scan,
             })
@@ -202,7 +203,8 @@ const DocumentExportPage = () => {
             .catch((err) => console.log(err))
     }
     const onLabelSearch = () => {
-        axios.get('http://3.38.19.119:8080/export/search/label', searchInfo)
+        console.log(searchInfo);
+        axios.get('http://3.38.19.119:8080/export/search/label', {params: searchInfo})
             .then((res) => {
                 console.log(res);
                 setDocRows(res.data);
@@ -210,7 +212,15 @@ const DocumentExportPage = () => {
             .catch(err => console.log(err))
     }
     const onDateSearch = () => {
-        axios.get('http://3.38.19.119:8080/export/search/date', searchDateInfo)
+        if (searchDateInfo.sdate === '' && searchDateInfo.edate === '') {
+            setSearchDateInfo((prevState) => {
+                    delete prevState.edate;
+                    delete prevState.sdate;
+                    return prevState;
+                }
+            )
+        }
+        axios.get('http://3.38.19.119:8080/export/search/date', {params: searchDateInfo})
             .then((res) => {
                 console.log(res);
                 setExportRows(res.data);
@@ -218,7 +228,7 @@ const DocumentExportPage = () => {
             .catch(err => console.log(err))
     }
     const onBoxSearch = () => {
-        axios.get('http://3.38.19.119:8080/export/search/box', searchBoxInfo)
+        axios.get('http://3.38.19.119:8080/export/search/box', {params: searchBoxInfo})
             .then((res) => {
                 console.log(res);
                 setExportRows(res.data);
@@ -231,7 +241,7 @@ const DocumentExportPage = () => {
     }, []);
 
     const handleChange = (e) => {
-        const label = e.target;
+        const label = e.target.id;
         const value = e.target.value;
         console.log(label, value);
         switch (label) {
@@ -328,9 +338,14 @@ const DocumentExportPage = () => {
                             <CustomInput type='select' handleChange={handleRegisterChange} id={'f_scan'} name='스캔여부' width='130px' label='스캔여부' contents={["구축", "비구축"]} />
                         </div>
                         <div style={{marginTop:6, marginRight:50}}>
-                            <CustomButton onClick={() => {
+                            <CustomButton onClick={async () => {
+                                if (selectionModel.length === 0 || registerInfo.b_num === '' || registerInfo.f_db === '' || registerInfo.f_scan === '') {
+                                    alert('X');
+                                    return;
+                                }
                                 addEList();
-                                onRegister();
+                                await onRegister();
+                                onLabelSearch();
                             }} type='normal' margin='5px' color='#ffffff' backgroundColor='#50586C' content='등록'/>
                         </div>
                     </div>
