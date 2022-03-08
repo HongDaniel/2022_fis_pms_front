@@ -4,6 +4,7 @@ import styled from "styled-components";
 function OfficeSearch(props) {
     const {currentTab, handleClose} = props;
     const tmp = [
+        {id: "1234567", name: "서울 강남구", exist: "0"},
         {id: "4720000", name: "전라북도 완주군", exist: "0"},
         {id: "4720001", name: "전라북도 완주군 공보담당관", exist: "1"},
         {id: "4720002", name: "전라북도 완주군 기획실", exist: "1"},

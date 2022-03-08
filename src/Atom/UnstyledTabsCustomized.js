@@ -73,7 +73,9 @@ export default function UnstyledTabsCustomized(props) {
                 <Tab id={'2'}>건항목</Tab>
             </TabsList>
             <TabPanel value={0}>
-                <Citems />
+                <div>
+                    <Citems handleSave={props.handleSave} handleChange={props.handleChange} />
+                </div>
             </TabPanel>
             <TabPanel value={1}>
                 <Ginput />
