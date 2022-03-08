@@ -56,18 +56,54 @@ const columns = [
         headerName: '보존기간',
         width: 130,
         editable: true,
+        valueGetter: (params) => {
+            const info = params.row.f_kperiod;
+            if (info === 'YEAR1') {
+                return '1년';
+            } else if (info === 'YEAR3') {
+                return '3년';
+            } else if (info === 'YEAR5') {
+                return '5년';
+            } else if (info === 'YEAR10') {
+                return '10년';
+            } else if (info === 'YEAR20') {
+                return '20년';
+            } else if (info === 'YEAR30') {
+                return '30년';
+            } else if (info === 'SEMI') {
+                return '준영구';
+            } else {
+                return '영구';
+            }
+        }
     },
     {
         field: 'f_db',
         headerName: '구축여부',
         width: 90,
         editable: true,
+        valueGetter: (params) => {
+            const info = params.row.f_db;
+            if (info === 'YES') {
+                return '구축';
+            } else {
+                return '비구축';
+            }
+        }
     },
     {
         field: 'f_scan',
         headerName: '스캔여부',
         width: 90,
         editable: true,
+        valueGetter: (params) => {
+            const info = params.row.f_scan;
+            if (info === 'YES') {
+                return '구축';
+            } else {
+                return '비구축';
+            }
+        }
     },
     {
         field: 'b_num',
@@ -76,28 +112,44 @@ const columns = [
         editable: true,
     },
     {
-        field: 'f_location.suga',
+        field: 'suga',
         headerName: '서가',
         width: 60,
         editable: true,
+        valueGetter: (params) => {
+            const info = new Object(params.row.f_location);
+            return info.suga;
+        }
     },
     {
         field: 'chung',
         headerName: '층',
         width: 60,
         editable: true,
+        valueGetter: (params) => {
+            const info = new Object(params.row.f_location);
+            return info.chung;
+        }
     },
     {
         field: 'yall',
         headerName: '열',
         width: 60,
         editable: true,
+        valueGetter: (params) => {
+            const info = new Object(params.row.f_location);
+            return info.yall;
+        }
     },
     {
         field: 'bun',
         headerName: '번',
         width: 60,
         editable: true,
+        valueGetter: (params) => {
+            const info = new Object(params.row.f_location);
+            return info.bun;
+        }
     },
     {
         field: 'f_kplace',
@@ -105,6 +157,14 @@ const columns = [
         type: 'number',
         width: 140,
         editable: true,
+        valueGetter: (params) => {
+            const info = params.row.f_scan;
+            if (info === 'ARCHIVIST') {
+                return '기록관';
+            } else {
+                return '전문관리기관';
+            }
+        }
     },
     {
         field: 'f_type',
@@ -112,6 +172,20 @@ const columns = [
         type: 'number',
         width: 120,
         editable: true,
+        valueGetter: (params) => {
+            const info = params.row.f_kperiod;
+            if (info === 'GENERAL') {
+                return '일반문서';
+            } else if (info === 'DRAWING') {
+                return '도면류';
+            } else if (info === 'PHOTO') {
+                return '사진-필름류';
+            } else if (info === 'VIDEO') {
+                return '녹음-동영상류';
+            } else {
+                return '카드류';
+            }
+        },
     },
     {
         field: 'f_typenum',
