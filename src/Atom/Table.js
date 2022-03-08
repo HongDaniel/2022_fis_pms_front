@@ -49,7 +49,7 @@ function Table(props) {
     }
 
     useEffect(() => {
-        // console.log(props.selectionModel);
+        // console.log(selectionModel);
     }, [props.selectionModel]);
 
     return (

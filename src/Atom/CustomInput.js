@@ -21,6 +21,7 @@ const CustomInput = (props) => {
                        variant="outlined"
                        type={"text"}
                        size={props.size}
+                       defaultValue={props.defaultValue}
                        onChange={props.handleChange}
                        onKeyPress={props.onKeyPress}
             />
@@ -37,6 +38,7 @@ const CustomInput = (props) => {
                        variant="outlined"
                        size={"small"}
                        name={props.name}
+                       defaultValue={props.defaultValue}
                        type={"number"}
                        size={"small"}
                        onChange={props.handleChange}
@@ -61,6 +63,7 @@ const CustomInput = (props) => {
                     variant="outlined"
                     name={props.label}
                     value={props.defaultValue}
+                    // defaultValue={props.defaultValue}
                     sx={{width: props.width}}
                     onKeyPress={props.onKeyPress}
                     onChange={props.handleChange}
@@ -83,6 +86,7 @@ const CustomInput = (props) => {
                     name={props.name}
                     sx={{width: props.width}}
                     onKeyPress={props.onKeyPress}
+                    defaultValue={props.defaultValue}
                     onChange={props.handleChange}
                     row
                 >
