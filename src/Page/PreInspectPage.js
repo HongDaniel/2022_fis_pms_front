@@ -343,7 +343,6 @@ const PreInspectPage = () => {
                 "f_name": "87 2-804(박규섭)",
                 "f_id": null,
                 "f_pyear": "2987.0",
-
                 "f_kperiod": "영구",
                 "f_db": null,
                 "f_scan": null,
