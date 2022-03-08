@@ -29,13 +29,13 @@ const columns = [
     {
         field: 'o_name',
         headerName: '생산기관명',
-        width: 230,
+        width: 160,
         editable: true,
     },
     {
         field: 'o_code',
         headerName: '기관코드',
-        width: 110,
+        width: 90,
         editable: true,
     },
     {
@@ -76,9 +76,27 @@ const columns = [
         editable: true,
     },
     {
-        field: 'f_location',
-        headerName: '위치',
-        width: 110,
+        field: 'f_location.suga',
+        headerName: '서가',
+        width: 60,
+        editable: true,
+    },
+    {
+        field: 'chung',
+        headerName: '층',
+        width: 60,
+        editable: true,
+    },
+    {
+        field: 'yall',
+        headerName: '열',
+        width: 60,
+        editable: true,
+    },
+    {
+        field: 'bun',
+        headerName: '번',
+        width: 60,
         editable: true,
     },
     {
@@ -326,7 +344,7 @@ const PreInspectPage = () => {
         modalClose();
     }
     const Add = () =>{
-        setSelectedRow({});
+        setSelectedRow({f_location:{}});
         setFormState('저장');
         modalOpen();
     }
@@ -358,6 +376,7 @@ const PreInspectPage = () => {
                 "f_typenum": ""
             }
             setSelectedRow(tmp);
+            setSaveInfo(tmp);
         }
         else {
             window.alert("수정하고 싶은 철 1개를 선택해주세요");
