@@ -48,9 +48,6 @@ function Table(props) {
         }
     }
 
-    useEffect(() => {
-        // console.log(selectionModel);
-    }, [props.selectionModel]);
 
     return (
         <div style={{height: `${props.height}`, width: `${props.width}`, position: 'absolute'}}>
