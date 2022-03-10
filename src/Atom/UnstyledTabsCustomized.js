@@ -74,7 +74,7 @@ export default function UnstyledTabsCustomized(props) {
             </TabsList>
             <TabPanel value={0}>
                 <div>
-                    <Citems handleSave={props.handleSave} handleChange={props.handleChange} />
+                    <Citems value={props.value} handleSave={props.handleSave} handleChange={props.handleChange} />
                 </div>
             </TabPanel>
             <TabPanel value={1}>

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 
 function OfficeSearch(props) {
     const {currentTab, handleClose} = props;
     const tmp = [
         {id: "1234567", name: "서울 강남구", exist: "0"},
+        {id: "0000001", name: "서울특별시 마포구 상수동 와우산로 94 홍익대학교", exist: "0"},
         {id: "4720000", name: "전라북도 완주군", exist: "0"},
         {id: "4720001", name: "전라북도 완주군 공보담당관", exist: "1"},
         {id: "4720002", name: "전라북도 완주군 기획실", exist: "1"},
@@ -12,7 +13,14 @@ function OfficeSearch(props) {
     ];
 
     const handleDoubleClick = (e) => {
-        console.log(e.target.getAttribute('name'));
+        const rowId = e.target.getAttribute('name');
+        tmp.map((row) => {
+            if (row.id === rowId) {
+                props.setOInfo((prev)=> ({...prev, o_code: row.id, o_name: row.name}));
+                console.log(props.oInfo);
+                handleClose();
+            }
+        })
         handleClose();
     }
 

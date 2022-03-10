@@ -41,7 +41,7 @@ const columns = [
     {
         field: 'f_name',
         headerName: '철제목',
-        description: 'This column has a value getter and is not sortable.',
+        description: '철제목입니다.',
         width: 280,
         flex: 1
     },
@@ -158,10 +158,10 @@ const columns = [
         width: 140,
         editable: true,
         valueGetter: (params) => {
-            const info = params.row.f_scan;
+            const info = params.row.f_kplace;
             if (info === 'ARCHIVIST') {
                 return '기록관';
-            } else {
+            } else if (info === 'PROFESSION'){
                 return '전문관리기관';
             }
         }
@@ -173,7 +173,7 @@ const columns = [
         width: 120,
         editable: true,
         valueGetter: (params) => {
-            const info = params.row.f_kperiod;
+            const info = params.row.f_type;
             if (info === 'GENERAL') {
                 return '일반문서';
             } else if (info === 'DRAWING') {
@@ -182,7 +182,7 @@ const columns = [
                 return '사진-필름류';
             } else if (info === 'VIDEO') {
                 return '녹음-동영상류';
-            } else {
+            } else if (info === 'CARD') {
                 return '카드류';
             }
         },
