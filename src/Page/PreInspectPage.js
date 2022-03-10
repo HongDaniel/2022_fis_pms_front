@@ -453,19 +453,20 @@ const PreInspectPage = () => {
         modalClose();
     }
     const handleDelete=async ()=>{ //철삭제
-        const fid = {f_id:selected};
-        await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file/${fid}`)
-            .then((res)=>{
+        await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, {data:{f_id:[...selected]},withCredentials: true})
+            .then((res) => {
                 console.log(res);
+                for(let sid of selected){
                 setSearchResult(searchResult.filter((el) => {
-                    if (el.f_id !== fid) {
-                        return el;
-                    }
+                        if (el.f_id !== sid) {
+                            return el;
+                        }
                 }));
+                }
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.log(err);
-            })
+            });
     }
 
     return (
