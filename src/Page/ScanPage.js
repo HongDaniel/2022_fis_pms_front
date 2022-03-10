@@ -82,7 +82,7 @@ const ScanPage = () => {
                     <Box width='2200px' height='190px' backgroundColor={Style.color3}>
                         <Content>
                             <div>
-                                <label for={"route"}>경로</label>
+                                <label htmlFor={"route"}>경로</label>
                                 <input type={"text"} style={{width: "320px",height:"30px",fontSize:"15px",letterSpacing:"1.2px"}} value={path} id={"route"}/>
                                 <label htmlFor={"uploadImg"} className="uploadImg">파일선택</label>
                                 <input type="file"

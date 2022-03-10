@@ -59,18 +59,18 @@ const UploadPage = () => {
                     <Box width='2200px' height='320px' backgroundColor={Style.color3}>
                         <Search>
                             <div className={"code"}>
-                                <label for={"code"}>기관코드</label>
+                                <label htmlFor={"code"}>기관코드</label>
                                 <input type={"text"} id={"code"} value={""}/>
                                 <input type={"text"} placeholder={"직접코드 입력"}/>
                             </div>
                             <div className={"detail"}>
                                 <input type="checkbox" id="미검수" name="미검수" className={"checkbox"}
                                        />
-                                <label for="미검수" style={{marginRight:"100px"}}>미검수 포함</label>
+                                <label htmlFor="미검수" style={{marginRight:"100px"}}>미검수 포함</label>
                                 <input type="checkbox" id="업로드" name="업로드" className={"checkbox"}
                                        />
                                 <label htmlFor="업로드" style={{marginRight:"400px"}}>업로드 포함</label>
-                                <label for={"range"}>박스 범위검색</label>
+                                <label htmlFor={"range"}>박스 범위검색</label>
                                 <input type={"number"} name={"start"} id={"range"} className={"range"}/>
                                 <input type={"number"} name={"start"} id={"range"} className={"range"}/>
                                 <CustomButton type={"normal"} name={"검색"} width={"210px"} height={"45px"} fontSize={"24px"}
