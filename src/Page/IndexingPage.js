@@ -39,6 +39,26 @@ const boxColumns = [
         field: 'f_kperiod',
         headerName: '보존기간',
         sortable: true,
+        valueGetter: (params) => {
+            const info = params.row.f_kperiod;
+            if (info === 'YEAR1') {
+                return '1년';
+            } else if (info === 'YEAR3') {
+                return '3년';
+            } else if (info === 'YEAR5') {
+                return '5년';
+            } else if (info === 'YEAR10') {
+                return '10년';
+            } else if (info === 'YEAR20') {
+                return '20년';
+            } else if (info === 'YEAR30') {
+                return '30년';
+            } else if (info === 'SEMI') {
+                return '준영구';
+            } else {
+                return '영구';
+            }
+        },
         width: 80,
     },
     {
@@ -164,7 +184,20 @@ const IndexingPage = () => {
         styleForm.display = '';
     }
 
+    const [oInfo, setOInfo] = useState({o_code: '', o_name: ''});
     const [cInfo, setCInfo] = useState({});
+
+    useEffect(() => {
+        if (selectionBoxModel.length > 0) {
+            boxRows.map((item) => {
+                if (item.f_id === selectionBoxModel[0]) {
+                    console.log(item);
+                    setCInfo((prevState) => ({...prevState, f_name: item.f_name, o_name: item.o_name, f_pyear: item.f_pyear}));
+                    return;
+                }
+            })
+        }
+    }, [selectionBoxModel])
 
     const handleChange = (e) => {
         let label = e.target.id;
@@ -175,6 +208,12 @@ const IndexingPage = () => {
         }
         console.log(label, value)
         switch (label) {
+            case('o_code'):
+                setOInfo({...oInfo, o_code: value})
+                break;
+            case('o_name'):
+                setOInfo({...oInfo, o_name: value})
+                break;
             case('철 제목'):
                 setCInfo({...cInfo, f_name: value})
                 break;
@@ -226,7 +265,18 @@ const IndexingPage = () => {
                 setCInfo({...cInfo, f_kplace: v})
                 break;
             case('기록물 형태'):
-                setCInfo({...cInfo, f_type: value})
+                if (value === "일반문서") {
+                    v = '1';
+                } else if (value === "도면류") {
+                    v = '2';
+                } else if (value === "사진-필름류") {
+                    v = '3';
+                } else if (value === "녹음-동영상류") {
+                    v = '4';
+                } else {
+                    v = '5';
+                }
+                setCInfo({...cInfo, f_type: v})
                 break;
         }
     }
@@ -238,14 +288,14 @@ const IndexingPage = () => {
     }
 
     const boxSearch = () => {
-        axios.get(`http://3.38.19.119:8080/index/search/${1234567}`)
+        axios.get(`http://3.38.19.119:8080/index/search/${oInfo.o_code}`)
             .then((res) => {
                 setBoxRows(res.data);
             })
     };
 
     useEffect(() => {
-        setCInfo({...cInfo, f_id: selectionBoxModel[0]})
+        setCInfo((prevState) => ({...prevState, f_id: selectionBoxModel[0]}))
     }, [selectionBoxModel])
 
     return (
@@ -305,12 +355,12 @@ const IndexingPage = () => {
                             <Box width='1050px' height='140px' backgroundColor={Style.color3}>
                                 <InfoContainer>
                                     <Row columns={"1fr 1fr 1.9fr"}>
-                                        <CustomInput type='number' width='410px' label='* 기관명' size='small' margin='0 10px 0 10px'/>
+                                        <CustomInput disabled={true} handleChange={handleChange} value={oInfo.o_name} id='o_name' type='text' width='410px' label='* 기관명' size='small' margin='0 10px 0 10px'/>
                                         <span style={{fontSize: '17pt'}}>
-                                            (<CustomInput type='number' width='160px' label='* 기관코드' size='small' margin='0 10px 0 10px'/>)
+                                            (<CustomInput disabled={true} handleChange={handleChange} value={oInfo.o_code} id='o_code' type='number' width='160px' label='* 기관코드' size='small' margin='0 10px 0 10px'/>)
                                         </span>
                                         {/*<CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='기관코드 찾기'/>*/}
-                                        <TransitionsModal currentTab={currentTab} content={'기관코드 찾기'}/>
+                                        <TransitionsModal currentTab={currentTab} content={'기관코드 찾기'} oInfo={oInfo} setOInfo={setOInfo}/>
                                     </Row>
                                     <Row columns={"2fr 2fr 1fr 1fr 1fr 1fr"}>
                                         {/*<span style={{fontSize: '17pt'}}>기관 코드 : </span>*/}
@@ -341,7 +391,7 @@ const IndexingPage = () => {
                                     }
                                 </Box>
                                 <div style={styleForm}>
-                                    <UnstyledTabsCustomized handleSave={handleCSave} handleChange={handleChange} setCurrentTab={setCurrentTab} />
+                                    <UnstyledTabsCustomized value={cInfo.f_name} handleSave={handleCSave} handleChange={handleChange} setCurrentTab={setCurrentTab} />
                                 </div>
                             </Box>
                         </div>

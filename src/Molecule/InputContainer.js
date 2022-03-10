@@ -11,6 +11,7 @@ const InputContainer = (props) => {
                          width={props.width}
                          height={props.height}
                          id={props.id}
+                         value={props.value}
                          defaultValue={props.defaultValue===null?"":props.defaultValue}
                          contents={props.contents}
                          size={props.size}

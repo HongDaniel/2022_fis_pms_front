@@ -17,13 +17,15 @@ const CustomInput = (props) => {
         return (
             <TextField id= {props.id}
                        label={props.label}
-                       sx={{width: props.width}}
+                       sx={{width: props.width, m: props.margin}}
                        variant="outlined"
                        type={"text"}
                        size={props.size}
                        defaultValue={props.defaultValue}
+                       value={props.value}
                        onChange={props.handleChange}
                        onKeyPress={props.onKeyPress}
+                       disabled={props.disabled}
             />
         )
     }
@@ -38,9 +40,9 @@ const CustomInput = (props) => {
                        variant="outlined"
                        size={"small"}
                        name={props.name}
+                       value={props.value}
                        defaultValue={props.defaultValue}
                        type={"number"}
-                       size={"small"}
                        onChange={props.handleChange}
                        onKeyPress={props.onKeyPress}
                        onInput = {(e) =>{

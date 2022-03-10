@@ -51,7 +51,7 @@ export default function TransitionsModal(props) {
                 <Fade in={open}>
                     <Box sx={style}>
                         {props.content === '기관코드 찾기' ?
-                            <OfficeSearch handleClose={handleClose} currentTab={props.currentTab} />
+                            <OfficeSearch handleClose={handleClose} currentTab={props.currentTab} oInfo={props.oInfo} setOInfo={props.setOInfo}/>
                             :
                             props.currentTab === '0' ?
                                 <CitemSearch handleClose={handleClose} currentTab={props.currentTab} />

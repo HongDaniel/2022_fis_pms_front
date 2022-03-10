@@ -72,6 +72,26 @@ const col = [
         headerName: '보존기간',
         sortable: true,
         width: 200,
+        valueGetter: (params) => {
+            const info = params.row.f_kperiod;
+            if (info === 'YEAR1') {
+                return '1년';
+            } else if (info === 'YEAR3') {
+                return '3년';
+            } else if (info === 'YEAR5') {
+                return '5년';
+            } else if (info === 'YEAR10') {
+                return '10년';
+            } else if (info === 'YEAR20') {
+                return '20년';
+            } else if (info === 'YEAR30') {
+                return '30년';
+            } else if (info === 'SEMI') {
+                return '준영구';
+            } else {
+                return '영구';
+            }
+        },
         flex: 1,
     },
 ];
@@ -117,19 +137,55 @@ const exCol = [
         field: 'f_kperiod',
         headerName: '보존기간',
         sortable: true,
-        width: 200,
+        valueGetter: (params) => {
+            const info = params.row.f_kperiod;
+            if (info === 'YEAR1') {
+                return '1년';
+            } else if (info === 'YEAR3') {
+                return '3년';
+            } else if (info === 'YEAR5') {
+                return '5년';
+            } else if (info === 'YEAR10') {
+                return '10년';
+            } else if (info === 'YEAR20') {
+                return '20년';
+            } else if (info === 'YEAR30') {
+                return '30년';
+            } else if (info === 'SEMI') {
+                return '준영구';
+            } else {
+                return '영구';
+            }
+        },
+        width: 150,
     },
     {
         field: 'f_db',
         headerName: '구축여부',
         sortable: true,
         width: 100,
+        valueGetter: (params) => {
+            const info = params.row.f_db;
+            if (info === 'YES') {
+                return '구축';
+            } else {
+                return '비구축';
+            }
+        }
     },
     {
         field: 'f_scan',
         headerName: '스캔여부',
         sortable: true,
         width: 100,
+        valueGetter: (params) => {
+            const info = params.row.f_db;
+            if (info === 'YES') {
+                return '구축';
+            } else {
+                return '비구축';
+            }
+        }
     },
     {
         field: 'b_num',
@@ -138,22 +194,78 @@ const exCol = [
         width: 100,
     },
     {
-        field: 'f_location',
-        headerName: '위치',
-        sortable: true,
-        width: 200,
+        field: 'suga',
+        headerName: '서가',
+        width: 60,
+        editable: true,
+        valueGetter: (params) => {
+            const info = new Object(params.row.f_location);
+            return info.suga;
+        }
+    },
+    {
+        field: 'chung',
+        headerName: '층',
+        width: 60,
+        editable: true,
+        valueGetter: (params) => {
+            const info = new Object(params.row.f_location);
+            return info.chung;
+        }
+    },
+    {
+        field: 'yall',
+        headerName: '열',
+        width: 60,
+        editable: true,
+        valueGetter: (params) => {
+            const info = new Object(params.row.f_location);
+            return info.yall;
+        }
+    },
+    {
+        field: 'bun',
+        headerName: '번',
+        width: 60,
+        editable: true,
+        valueGetter: (params) => {
+            const info = new Object(params.row.f_location);
+            return info.bun;
+        }
     },
     {
         field: 'f_kplace',
         headerName: '보존장소',
         sortable: true,
         width: 200,
+        valueGetter: (params) => {
+            const info = params.row.f_kplace;
+            if (info === 'ARCHIVIST') {
+                return '기록관';
+            } else if (info === 'PROFESSION'){
+                return '전문관리기관';
+            }
+        }
     },
     {
         field: 'f_type',
         headerName: '문서유형',
         sortable: true,
         width: 100,
+        valueGetter: (params) => {
+            const info = params.row.f_type;
+            if (info === 'GENERAL') {
+                return '일반문서';
+            } else if (info === 'DRAWING') {
+                return '도면류';
+            } else if (info === 'PHOTO') {
+                return '사진-필름류';
+            } else if (info === 'VIDEO') {
+                return '녹음-동영상류';
+            } else if (info === 'CARD') {
+                return '카드류';
+            }
+        },
     },
     {
         field: 'f_typenum',

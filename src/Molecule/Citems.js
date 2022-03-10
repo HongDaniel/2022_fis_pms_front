@@ -6,12 +6,11 @@ import {styled} from "@mui/system";
 import AutoInfoToggle from "./AutoInfoToggle";
 
 function Citems(props) {
-
     return (
         <Box mt='0' width='1030px' height='810px' backgroundColor={'#ecf0f1'}>
             <InfoContainer>
                 <Row columns={"1fr"}>
-                    <InputContainer handleChange={props.handleChange} id={"철 제목"} width={"600px"} type={"text"} labelColor='red'/>
+                    <InputContainer value={props.value} handleChange={props.handleChange} id={"철 제목"} width={"600px"} type={"text"} labelColor='red'/>
                 </Row>
                 <Row columns={"1fr"}>
                     <InputContainer handleChange={props.handleChange} id={"총 권호수"} width={"600px"} type={"number"}/>
@@ -32,7 +31,7 @@ function Citems(props) {
                     <InputContainer handleChange={props.handleChange} id={"보존 장소"} width={"600px"} type={"select"} label='항목 검색' contents={["자료관", "문서보관실"]}/>
                 </Row>
                 <Row columns={"1fr"}>
-                    <InputContainer handleChange={props.handleChange} id={"기록물 형태"} width={"600px"} type={"text"}/>
+                    <InputContainer handleChange={props.handleChange} id={"기록물 형태"} width={"600px"} type={"select"} label='기록물 형태' contents={["일반문서", "도면류", "사진-필름류", "녹음-동영상류", "카드류"]}/>
                 </Row>
                 <Row columns={"1fr"}>
                     {/*<CustomButton width='300px' height='40px' type='normal' margin='5px' color='#ffffff' backgroundColor='#50586C' content='자동 정보 확인 >>'/>*/}
