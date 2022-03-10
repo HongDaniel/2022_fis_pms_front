@@ -5,14 +5,14 @@ import styled from "styled-components";
 const InputContainer = (props) => {
     return (
         <Container labelWidth={props.labelWidth} labelColor={props.labelColor}>
-            <label style={{fontSize: props.fontSize}} for={props.id} >* {props.id}</label>
+            <label style={{fontSize: props.fontSize}} htmlFor={props.id} >* {props.id}</label>
             <CustomInput type={props.type}
                          label={props.id}
                          width={props.width}
                          height={props.height}
                          id={props.id}
-                         defaultValue={props.defaultValue}
                          value={props.value}
+                         defaultValue={props.defaultValue===null?"":props.defaultValue}
                          contents={props.contents}
                          size={props.size}
                          handleChange={props.handleChange}

@@ -200,7 +200,7 @@ const PreInspectPage = () => {
     const [modal, setModal] = useState(false);
     const [searchInfo, setSearchInfo] = useState({f_name: "", f_pyear: "", f_labelcode: "", o_code: ""}); //검색하는 정보
     const [searchResult, setSearchResult] = useState(()=>JSON.parse(localStorage.getItem("searchResult"))||[]); //검색한 정보
-    const [saveInfo,setSaveInfo] = useState({f_id:null,f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:{chung:"",yall:"",bun:"",suga:""},f_kplace:"",f_type:"",f_typenum:"",})
+    const [saveInfo,setSaveInfo] = useState({f_id:"",f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:{chung:"",yall:"",bun:"",suga:""},f_kplace:"",f_type:"",f_typenum:"",})
     const [selected,setSelected] = useState([]);
     const [selectedRow,setSelectedRow] = useState({});
     const [formState,setFormState] = useState('');
@@ -224,9 +224,16 @@ const PreInspectPage = () => {
     //     console.log(searchInfo);
     // }, [searchInfo]);
 
-    useEffect(()=>{
-        console.log(selectedRow);
-    },[selectedRow])
+    // useEffect(()=>{
+    //     console.log(selectedRow);
+    // },[selectedRow])
+    // useEffect(() => {
+    //     console.log("saveInfo");
+    //     console.log(saveInfo);
+    // }, [saveInfo]);
+    useEffect(() => { //항목이 선택될 때 업데이트
+        console.log(selected);
+        }, [selected]);
 
     const handleSearchInfo = (e) => { //검색내용 트랙킹
         const label = e.target.id;
@@ -246,18 +253,11 @@ const PreInspectPage = () => {
                 break;
         }
     };
-
     const onKeyPress = (e) =>{ //엔터를 눌렸을 때 검색기능
         if(e.key==='Enter'){
             handleSearch();
         }
     }
-
-    useEffect(() => {
-        console.log("saveInfo");
-        console.log(saveInfo);
-    }, [saveInfo]);
-
     const handleChange = (e) => { //모달창의 입력정보
         const label = e.target.id || e.target.name;
         const value = e.target.value;
@@ -385,12 +385,6 @@ const PreInspectPage = () => {
         let formData = new FormData();
         formData.append("excelfile",e.target.files[0]);
         // FormData의 value 확인
-        for (let key of formData.keys()) {
-            console.log(key);
-        }
-        for (let value of formData.values()) {
-            console.log(value);
-        }
         e.target.value='';
         await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
             .then((res) => {
@@ -399,11 +393,15 @@ const PreInspectPage = () => {
                 console.log(err);
             });
     }
-
+    const Add = () =>{
+        setSelectedRow({f_location:{}});
+        setFormState('저장');
+        modalOpen();
+    }
     const handleSave = async () => { //저장버튼을 눌렀을 때
             await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, saveInfo, {withCredentials: true})
                 .then((res) => {
-                    console.log(res);
+                    // console.log(res);
                     handleSearch();
                     modalClose();
                 })
@@ -411,60 +409,51 @@ const PreInspectPage = () => {
                     console.log(err);
                 })
     };
-    const handleModify = async () => {
-
-    };
-    const handleCancel = () =>{
-        modalClose();
-    }
-    const Add = () =>{
-        setSelectedRow({f_location:{}});
-        setFormState('저장');
-        modalOpen();
-    }
-
-    const Modify = () =>{
-        if(selected.length==1){
+    const Modify = () => {
+        if (selected.length == 1) {
             modalOpen();
             setFormState('수정');
-            // setSelectedRow(searchResult.filter(row => parseInt(row.f_id) === selected[0])[0]);
-            const tmp={
-                "o_code": "3690052",
-                "f_labelcode": "202942.0",
-                "o_name": "울산광역시 중구 건설도시국 건축허가과",
-                "f_name": "87 2-804(박규섭)",
-                "f_id": null,
-                "f_pyear": "2987.0",
-                "f_kperiod": "영구",
-                "f_db": null,
-                "f_scan": null,
-                "b_num": "009",
-                "f_location": {
-                    "chung": "",
-                    "suga": "",
-                    "yall": "",
-                    "bun": ""
-                },
-                "f_kplace": null,
-                "f_type": null,
-                "f_typenum": ""
-            }
-            setSelectedRow(tmp);
-            setSaveInfo(tmp);
+            let selectedData=JSON.parse(JSON.stringify(searchResult.filter(row => parseInt(row.f_id) === selected[0])[0]));
+            if(selectedData.f_location===null){
+                    selectedData.f_location = {
+                        suga:"",
+                        chung:'',
+                        bun:'',
+                        yall:''
+                    };
+                }
+            setSaveInfo(selectedData);
         }
         else {
             window.alert("수정하고 싶은 철 1개를 선택해주세요");
         }
 
+    };
+    const handleModify = async () => {
+        if (saveInfo.f_labelcode==="" || saveInfo.o_name==="" || saveInfo.o_code===""|| saveInfo.f_name===""|| saveInfo.f_pyear===""|| saveInfo.f_kperiod===""|| saveInfo.f_db===""|| saveInfo.f_scan===""||  saveInfo.b_num===""
+        ||saveInfo.f_labelcode===null || saveInfo.o_name===null || saveInfo.o_code===null|| saveInfo.f_name===null|| saveInfo.f_pyear===null|| saveInfo.f_kperiod===null|| saveInfo.f_db===null|| saveInfo.f_scan===null||  saveInfo.b_num===null
+        ){
+            window.alert("필수 입력 정보를 모두 입력해주세요!");
+        }
+        else {
+            await axios.patch(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, saveInfo, {withCredentials: true})
+                .then((res)=>{
+                    console.log(res);
+                    handleSearch();
+                    setSaveInfo({ f_location: { suga: "", chung: '', bun: '',  yall: '' }});
+                    modalClose();
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+        }
+    };
+    const handleCancel = () =>{
+        setSaveInfo({f_location:{}});
+        modalClose();
     }
-    // useEffect(()=>{
-    //     console.log(selectedRow);
-    // },[selectedRow])
-
-
-
     const handleDelete=async ()=>{ //철삭제
-        const fid = selected[0];
+        const fid = {f_id:selected};
         await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file/${fid}`)
             .then((res)=>{
                 console.log(res);
@@ -478,10 +467,6 @@ const PreInspectPage = () => {
                 console.log(err);
             })
     }
-
-    // useEffect(() => { //항목이 선택될 때 업데이트
-    //     console.log(selected)
-    // }, [selected]);
 
     return (
         <Container>
@@ -540,7 +525,7 @@ const PreInspectPage = () => {
             </MainBox>
             {/*모달창*/}
             {modal&&<PreinfoForm handleSave={handleSave} handleCancel={handleCancel} handleModify={handleModify}
-                                 handleChange={handleChange} selectedRow={selectedRow} formState={formState}/>}
+                                 handleChange={handleChange} selectedRow={saveInfo} formState={formState}/>}
         </Container>
     );
 };
