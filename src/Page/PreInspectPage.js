@@ -231,9 +231,9 @@ const PreInspectPage = () => {
     //     console.log("saveInfo");
     //     console.log(saveInfo);
     // }, [saveInfo]);
-    useEffect(() => { //항목이 선택될 때 업데이트
-        console.log(selected);
-        }, [selected]);
+    // useEffect(() => { //항목이 선택될 때 업데이트
+    //     console.log(selected);
+    //     }, [selected]);
 
     const handleSearchInfo = (e) => { //검색내용 트랙킹
         const label = e.target.id;
