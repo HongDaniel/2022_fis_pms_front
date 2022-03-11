@@ -122,6 +122,7 @@ const ScanPage = () => {
                         <Box width='700px' height='940px' backgroundColor={Style.color3}>
                             <h3>이미지 리스트</h3>
                             <ImageContainer onClick={handleClick}>
+                                <img src={'http://3.38.19.119:8080/images/5384/1'}/>
                                 {imgSrc.map((src, idx) => {
                                     return (
                                         <img src={src} alt={"img"} key={idx}/>
