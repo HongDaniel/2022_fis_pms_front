@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import InputContainer from "./InputContainer";
 import CustomButton from "../Atom/CustomButton";
 import Table from "../Atom/Table";
@@ -8,9 +8,14 @@ import {styled} from "@mui/system";
 import CustomInput from "../Atom/CustomInput";
 
 function Ginput(props) {
+    const [caseNum, setCaseNum] = useState(null);
+    const handleChange = (e) => {
+        setCaseNum(parseInt(e.target.value));
+    }
+
     const Repeat = () => {
         const result = [];
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < caseNum; i++) {
             result.push(<ListContainer columns={'1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
                 <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
                 <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
@@ -25,15 +30,16 @@ function Ginput(props) {
             <InfoContainer>
                 <Row columns={"2fr 1.5fr 0.5fr"}>
                     <InputContainer id={"권호수 선택"} width={"200px"} type={"select"} label='권호수 선택' contents={["001", "002", "003"]}/>
-                    <InputContainer id={"건수"} width={"200px"} labelWidth={'50px'} type={"text"} />
-                    <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='쪽수 입력'/>
+                    <InputContainer value={caseNum} handleChange={handleChange} id={"건수"} width={"200px"} labelWidth={'50px'} type={"number"} />
                 </Row>
                 <ListHeader columns={'1fr 1fr 1fr'} fontSize={'20pt'} weight={'700'} mb={'20px'}>
                     <div>첫 페이지</div>
                     <div>끝 페이지</div>
                     <div>페이지</div>
                 </ListHeader>
-                {Repeat()}
+                <div style={{width: '700px', height: '480px', overflowY: 'auto'}}>
+                    {Repeat()}
+                </div>
             </InfoContainer>
             <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
                 <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
