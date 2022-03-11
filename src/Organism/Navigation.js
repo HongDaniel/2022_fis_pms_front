@@ -7,6 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import FileInput from "../Atom/FileInput";
 import {Style} from "../Style";
 import axios from "axios";
+import * as XLSX from "xlsx";
 
 /*
 날짜: 2022/02/14 2:11 PM
@@ -48,13 +49,39 @@ const Navigation = () => {
             setOpen(true);
         }
     };
-    const handleUpload = (e) => {
-        const formData = new FormData();
-        const file = e.target.files[0];
-        formData.append("file", file);
-        console.log(formData);
-        axios.post("http://3.38.19.119:8080/manage/worker", formData, { headers: { "Content-Type" : "multipart/form-data" } })
-            .then(res => console.log(res));
+    const handleUpload = (event) => {
+        // const formData = new FormData();
+        // const file = e.target.files[0];
+        // formData.append("file", file);
+        // console.log(formData);
+        // axios.post("http://3.38.19.119:8080/manage/worker", formData, { headers: { "Content-Type" : "multipart/form-data" } })
+        //     .then(res => console.log(res));
+        let input = event.target;
+        let reader = new FileReader();
+        reader.onload = function () {
+            let data = reader.result;
+            let workBook = XLSX.read(data, { type: 'binary' });
+            workBook.SheetNames.forEach(function (sheetName) {
+                console.log('SheetName: ' + sheetName);
+                let rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
+                let res = [];
+                rows.map((row) => {
+                    res.push({
+                        id: row.기관코드,
+                        name: row.전체기관명,
+                        exist: row.폐지구분,
+                    })
+                })
+                res.push({
+                    id: '0000001',
+                    name: '서울특별시 마포구 상수동 와우산로 94 홍익대학교',
+                    exist: '1',
+                })
+                localStorage.setItem('organ', JSON.stringify(res));
+            })
+        };
+        reader.readAsBinaryString(input.files[0]);
+
     }
     return (
         <Container>
