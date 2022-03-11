@@ -388,6 +388,7 @@ const PreInspectPage = () => {
         e.target.value='';
         await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
             .then((res) => {
+                handleSearch();
                 console.log(res.data);
             }).catch((err)=>{
                 console.log(err);
@@ -453,22 +454,37 @@ const PreInspectPage = () => {
         modalClose();
     }
     const handleDelete=async ()=>{ //철삭제
-        await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, {data:{f_id:[...selected]},withCredentials: true})
-            .then((res) => {
-                console.log(res);
-                for(let sid of selected){
-                setSearchResult(searchResult.filter((el) => {
-                        if (el.f_id !== sid) {
-                            return el;
-                        }
-                }));
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+        if(selected.length>=1){
+            await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, {data:{f_id:[...selected]},withCredentials: true})
+                .then((res) => {
+                    console.log(res);
+                    handleSearch();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        else {
+            window.alert("삭제할 항목을 1개 이상 선택해주세요.")
+        }
 
+    }
+    const handleDownload = async () => { //엑셀로 저장하기
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`,{withCredentials: true, responseType: 'blob'})
+            .then((res)=>{
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', '대상목록.xlsx');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            })
+            .catch((err)=>{
+                console.log(err);
+            }
+            )
+    };
     return (
         <Container>
             <Navigation/>
@@ -519,7 +535,7 @@ const PreInspectPage = () => {
                                    style={{display:"none"}}
                             />
                             <CustomButton type={"normal"} name={"검색"} width={"180px"} height={"55px"} fontSize={"22px"}
-                                          borderRadius={"25px"} content={"엑셀로 저장"} backgroundColor={Style.color2}/>
+                                          borderRadius={"25px"} content={"엑셀로 저장"} backgroundColor={Style.color2} onClick={handleDownload}/>
                         </BtnContainer2>
                     </Box>
                 </BoxContainer>
@@ -615,8 +631,8 @@ const BtnContainer2 = styled.div`
 `;
 const BtnContainer3 = styled.div`
 position: absolute;
-  right: 650px;
-  bottom: 60px;
+  right: 620px;
+  bottom: 45px;
   &>button {
     margin-right: 15px;
   }
