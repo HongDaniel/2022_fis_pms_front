@@ -433,7 +433,7 @@ const DocumentExportPage = () => {
                         <div style={{marginTop:10}}>
                             <CustomButton onClick={onLabelSearch} type='normal' color='#ffffff' backgroundColor={Style.color2} content='레이블 검색'/>
                         </div>
-                        <div style={{marginLeft:1350, marginTop:10}}>
+                        <div style={{marginLeft:1150, marginTop:10}}>
                             <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='박스 출력'/>
                             <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='철 출력'/>
                             <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='모두 출력'/>
@@ -510,7 +510,7 @@ const DocumentExportPage = () => {
                                 <input multiple={'multiple'} onChange={handleScan} type="file" id="input-file" style={{display: "none"}}/>
                             </div>
                             <div>
-                                <CustomButton type='normal' margin='0 5px 0 10px' width='100px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='엑셀로 저장'/>
+                                <CustomButton type='normal' margin='0 5px 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='엑셀로 저장'/>
                             </div>
                         </div>
                     </div>
