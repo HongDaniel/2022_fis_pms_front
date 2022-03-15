@@ -16,7 +16,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 1200,
+    width: 2400,
     height: 500,
     bgcolor: 'background.paper',
     border: '2px solid #000',
@@ -33,8 +33,8 @@ export default function TransitionsModal(props) {
     return (
         <div>
             <CustomButton onClick={()=>{
-                axios.get("http://3.38.19.119:8080/index/label")
-                    .then((res) => console.log(res.data));
+                // axios.get("http://3.38.19.119:8080/index/label")
+                //     .then((res) => console.log(res.data));
                 handleOpen();
             }} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content={props.content}/>
             <Modal
@@ -53,10 +53,10 @@ export default function TransitionsModal(props) {
                         {props.content === '기관코드 찾기' ?
                             <OfficeSearch handleClose={handleClose} currentTab={props.currentTab} oInfo={props.oInfo} setOInfo={props.setOInfo}/>
                             :
-                            props.currentTab === '0' ?
-                                <CitemSearch handleClose={handleClose} currentTab={props.currentTab} />
+                            props.currentTab === 0 ?
+                                <CitemSearch keyword={props.keyword} handleClose={handleClose} currentTab={props.currentTab} />
                                 :
-                                <GitemSearch handleClose={handleClose} currentTab={props.currentTab} />
+                                <GitemSearch keyword={props.keyword} handleClose={handleClose} currentTab={props.currentTab} />
                         }
                     </Box>
                 </Fade>

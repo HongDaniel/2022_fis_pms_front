@@ -22,13 +22,13 @@ function Citems(props) {
                     <InputContainer handleChange={props.handleChange} id={"담당자"} width={"600px"} type={"text"}/>
                 </Row>
                 <Row columns={"1fr"}>
-                    <InputContainer handleChange={props.handleChange} id={"보존 기간"} width={"600px"} type={"select"} label='항목 검색' contents={["7일", "30일", "1년"]}/>
+                    <InputContainer handleChange={props.handleChange} id={"보존 기간"} width={"600px"} type={"select"} label='항목 검색' contents={["1년", "3년", "5년", "10년", "20년", "30년", "준영구", "영구"]}/>
                 </Row>
                 <Row columns={"1fr"}>
                     <InputContainer handleChange={props.handleChange} id={"보존 방법"} width={"600px"} type={"select"} label='항목 검색' contents={["원본과 보존매체를 함께 보존", "원본만 보존", "보존매체만 보존"]}/>
                 </Row>
                 <Row columns={"1fr"}>
-                    <InputContainer handleChange={props.handleChange} id={"보존 장소"} width={"600px"} type={"select"} label='항목 검색' contents={["자료관", "문서보관실"]}/>
+                    <InputContainer handleChange={props.handleChange} id={"보존 장소"} width={"600px"} type={"select"} label='항목 검색' contents={["기록관", "전문관리기관"]}/>
                 </Row>
                 <Row columns={"1fr"}>
                     <InputContainer handleChange={props.handleChange} id={"기록물 형태"} width={"600px"} type={"select"} label='기록물 형태' contents={["일반문서", "도면류", "사진-필름류", "녹음-동영상류", "카드류"]}/>
@@ -39,7 +39,10 @@ function Citems(props) {
                 </Row>
             </InfoContainer>
             <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
-                <CustomButton onClick={props.handleSave} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
+                <CustomButton onClick={() => {
+                    props.handleSave();
+                    props.setCurrentTab(()=>1);
+                }} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
                 <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
             </div>
         </Box>

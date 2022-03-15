@@ -69,6 +69,7 @@ const CustomInput = (props) => {
                     sx={{width: props.width}}
                     onKeyPress={props.onKeyPress}
                     onChange={props.handleChange}
+                    disabled={props.disabled}
                 >
                     {props.contents.map((content,idx) => {
                         // console.log(props.id);

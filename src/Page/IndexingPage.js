@@ -169,7 +169,7 @@ const gColumns = [
 ];
 
 const IndexingPage = () => {
-    const [currentTab, setCurrentTab] = useState(()=>'0');
+    const [currentTab, setCurrentTab] = useState(()=>0);
     const [openImage, setOpenImage] = useState(() => false);
     const [boxRows, setBoxRows] = useState([]);
     const [cRows, setCRows] = useState([]);
@@ -177,6 +177,25 @@ const IndexingPage = () => {
     const [selectionBoxModel, setSelectionBoxModel] = useState([]);
     const [selectionCModel, setSelectionCModel] = useState([]);
     const [selectionGModel, setSelectionGModel] = useState([]);
+    const [selectedRow, setSelectedRow] = useState();
+    const [boxLoading, setBoxLoading] = useState(false);
+    const [volumeAmount, setVolumeAmount] = useState('');
+
+    useEffect(() => {
+        if (selectionCModel.length > 0) {
+            cRows.map((item) => {
+                if (item.f_id === selectionCModel[0]) {
+                    setSelectedRow(item);
+                    setVolumeAmount(item.f_volumeamount);
+                    return;
+                }
+            })
+        } else {
+            setVolumeAmount('');
+        }
+        caseSearch();
+    }, [selectionCModel])
+
     const styleForm = {}
     if (selectionBoxModel.length === 0) {
         styleForm.display = 'none';
@@ -186,20 +205,24 @@ const IndexingPage = () => {
 
     const [oInfo, setOInfo] = useState({o_code: '', o_name: ''});
     const [cInfo, setCInfo] = useState({});
+    const [gInfo, setGInfo] = useState({});
 
     useEffect(() => {
         if (selectionBoxModel.length > 0) {
             boxRows.map((item) => {
                 if (item.f_id === selectionBoxModel[0]) {
+                    setSelectedRow(item);
                     console.log(item);
                     setCInfo((prevState) => ({...prevState, f_name: item.f_name, o_name: item.o_name, f_pyear: item.f_pyear}));
                     return;
                 }
             })
+        } else {
+            setCRows([]);
         }
     }, [selectionBoxModel])
 
-    const handleChange = (e) => {
+    const handleFormChange = (e) => {
         let label = e.target.id;
         let v;
         const value = e.target.value;
@@ -241,7 +264,7 @@ const IndexingPage = () => {
                     v = 'YEAR30';
                 } else if (value === "준영구") {
                     v = 'SEMI';
-                } else {
+                } else if (value === "영구") {
                     v = 'PERMANENT';
                 }
                 setCInfo({...cInfo, f_kperiod: v})
@@ -259,7 +282,7 @@ const IndexingPage = () => {
             case('보존 장소'):
                 if (value === "기록관") {
                     v = 'ARCHIVIST';
-                } else {
+                } else if (value === '전문관리기관') {
                     v = 'PROFESSION';
                 }
                 setCInfo({...cInfo, f_kplace: v})
@@ -273,7 +296,7 @@ const IndexingPage = () => {
                     v = '3';
                 } else if (value === "녹음-동영상류") {
                     v = '4';
-                } else {
+                } else if (value === '카드류') {
                     v = '5';
                 }
                 setCInfo({...cInfo, f_type: v})
@@ -281,17 +304,113 @@ const IndexingPage = () => {
         }
     }
 
+    const handleCaseChange = (e) => {
+        let label = e.target.id;
+        let v;
+        const value = e.target.value;
+        if (label === undefined) {
+            label = e.target.name;
+        }
+        console.log(label, value)
+        switch (label) {
+            case('첫 페이지'):
+                setGInfo({...gInfo, c_spage: value})
+                break;
+            case('끝 페이지'):
+                setGInfo({...gInfo, c_epage: value})
+                break;
+            case('쪽수'):
+                setGInfo({...gInfo, c_page: value})
+                break;
+            case('시행일자'):
+                setGInfo({...gInfo, c_dodate: value})
+                break;
+            case('생산(접수)일자'):
+                setGInfo({...gInfo, c_pdate: value})
+                break;
+            case('생산기관명'):
+                setGInfo({...gInfo, c_departmentname: value})
+                break;
+            case('문서 번호'):
+                setGInfo({...gInfo, c_oldnum: value})
+                break;
+            case('보존 기간'):
+                setGInfo({...gInfo, c_kperiod: v})
+                break;
+            case('건 제목'):
+                setGInfo({...gInfo, c_title: value})
+                break;
+            case('기안자'):
+                setGInfo({...gInfo, c_drafter: value})
+                break;
+            case('결재권자'):
+                setGInfo({...gInfo, c_approver: value})
+                break;
+            case('수(발)신자'):
+                setGInfo({...gInfo, c_receiver: value})
+                break;
+            case('전자기록물 여부'):
+                setGInfo({...gInfo, c_edoc: value})
+                break;
+            case('공개여부'):
+                setGInfo({...gInfo, c_openable: v})
+                break;
+            case('공개제한부분표시'):
+                setGInfo({...gInfo, c_hidden: value})
+                break;
+        }
+    }
+
+    const [keyword, setKeyword] = useState({item: '', key: ''});
+
+    const handleKeyChange = (e) => {
+        if (e.target.id === 'key') {
+            setKeyword({...keyword, key: e.target.value})
+        } else if (e.target.name === '항목 검색') {
+            setKeyword({...keyword, item: e.target.value})
+        }
+        console.log(keyword)
+    }
+
     const handleCSave = () => {
-        console.log(cInfo);
         axios.post("http://3.38.19.119:8080/index/label", cInfo)
-            .then((res) => console.log(res));
+            .then((res) => {
+                return res.data.v_id
+            })
+            .then((res) => {
+                const result = [];
+                for (let i = 0; i < res.length; i++) {
+                    result.push({
+                        ...selectedRow,
+                        f_id: res[i],
+                        f_volumeamount: i+1,
+                    })
+                }
+                console.log(result);
+                setCRows((prev) => result);
+            });
+    }
+
+    const handleGSave = () => {
+        console.log(gInfo);
     }
 
     const boxSearch = () => {
+        setBoxLoading(true);
         axios.get(`http://3.38.19.119:8080/index/search/${oInfo.o_code}`)
             .then((res) => {
                 setBoxRows(res.data);
             })
+        setBoxLoading(false);
+    };
+
+    const caseSearch = () => {
+        setBoxLoading(true);
+        axios.get(`http://3.38.19.119:8080/index/case`)
+            .then((res) => {
+                setGRows(res.data);
+            })
+        setBoxLoading(false);
     };
 
     useEffect(() => {
@@ -329,7 +448,7 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>대상 목록</BoxTitle>
-                                    <Table isRowSelectable={true} selectionModel={selectionBoxModel} setSelectionModel={setSelectionBoxModel}
+                                    <Table loading={boxLoading} isRowSelectable={true} selectionModel={selectionBoxModel} setSelectionModel={setSelectionBoxModel}
                                            width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={boxRows}
                                            columns={boxColumns}/>
                                 </Box>
@@ -337,14 +456,15 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>철 목록</BoxTitle>
-                                    <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={rows}
+                                    <Table isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
+                                           width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={cRows}
                                            columns={cColumns}/>
                                 </Box>
                             </div>
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>건 목록</BoxTitle>
-                                    <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={rows}
+                                    <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={gRows}
                                            columns={gColumns}/>
                                 </Box>
                             </div>
@@ -355,9 +475,9 @@ const IndexingPage = () => {
                             <Box width='1050px' height='140px' backgroundColor={Style.color3}>
                                 <InfoContainer>
                                     <Row columns={"1fr 1fr 1.9fr"}>
-                                        <CustomInput disabled={true} handleChange={handleChange} value={oInfo.o_name} id='o_name' type='text' width='410px' label='* 기관명' size='small' margin='0 10px 0 10px'/>
+                                        <CustomInput disabled={true} handleChange={handleFormChange} value={oInfo.o_name} id='o_name' type='text' width='410px' label='* 기관명' size='small' margin='0 10px 0 10px'/>
                                         <span style={{fontSize: '17pt'}}>
-                                            (<CustomInput disabled={true} handleChange={handleChange} value={oInfo.o_code} id='o_code' type='number' width='160px' label='* 기관코드' size='small' margin='0 10px 0 10px'/>)
+                                            (<CustomInput disabled={true} handleChange={handleFormChange} value={oInfo.o_code} id='o_code' type='number' width='160px' label='* 기관코드' size='small' margin='0 10px 0 10px'/>)
                                         </span>
                                         {/*<CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='기관코드 찾기'/>*/}
                                         <TransitionsModal currentTab={currentTab} content={'기관코드 찾기'} oInfo={oInfo} setOInfo={setOInfo}/>
@@ -368,7 +488,6 @@ const IndexingPage = () => {
                                         <CustomInput type='number' label='* 레이블' size='small' margin='0 10px 0 10px'/>
                                         <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='등록완료'/>
                                         <CustomButton onClick={boxSearch} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='검색'/>
-                                        {/*<TransitionsModal currentTab={currentTab} content={'검색'}/>*/}
                                         <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='출력'/>
                                         <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='검수'/>
                                     </Row>
@@ -378,20 +497,20 @@ const IndexingPage = () => {
                         <div style={{margin: '20px 0 0 15px'}}>
                             <Box width='1050px' height='990px' backgroundColor='white'>
                                 <Box width='1030px' height='100px' backgroundColor= {Style.color3}>
-                                    {currentTab !== '1' &&
+                                    {currentTab !== 1 &&
                                         <div style={{position: 'absolute', margin: '30px 0 0 250px'}}>
                                             <Row columns={'1fr 2fr 1fr'}>
-                                                <CustomInput type='select' name='항목 검색' width='130px' label='항목 검색'
-                                                             contents={currentTab === '0' ? ["철 제목", "생산년도", "종료년도"] : ["문서 제목", "건 제목", "수(발)신자"]}/>
-                                                <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
+                                                <CustomInput defaultValue={keyword.item} handleChange={handleKeyChange} type='select' name='항목 검색' width='130px' label='항목 검색'
+                                                             contents={currentTab === 0 ? ["철 제목", "생산년도", "종료년도"] : ["문서 번호", "건 제목", "수(발)신자"]}/>
+                                                <CustomInput value={keyword.key} handleChange={handleKeyChange} id='key' type='text' label='' size='small' margin='0 10px 0 10px'/>
                                                 {/*<CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='검색'/>*/}
-                                                <TransitionsModal currentTab={currentTab} content={'검색'}/>
+                                                <TransitionsModal keyword={keyword} currentTab={currentTab} content={'검색'}/>
                                             </Row>
                                         </div>
                                     }
                                 </Box>
                                 <div style={styleForm}>
-                                    <UnstyledTabsCustomized value={cInfo.f_name} handleSave={handleCSave} handleChange={handleChange} setCurrentTab={setCurrentTab} />
+                                    <UnstyledTabsCustomized volumeAmount={volumeAmount} value={cInfo.f_name} handleSave={handleCSave} handleGSave={handleGSave} handleCaseChange={handleCaseChange} handleChange={handleFormChange} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                                 </div>
                             </Box>
                         </div>

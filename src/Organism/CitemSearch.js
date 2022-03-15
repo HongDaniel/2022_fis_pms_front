@@ -1,15 +1,28 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
+import axios from "axios";
 
 function CitemSearch(props) {
-    const {currentTab, handleClose} = props;
+    const {currentTab, handleClose, keyword} = props;
+    const [tmp, setTmp] = useState([]);
+    const params = {};
+    const x = Object.entries(keyword)
+    if (x[0][1] === '철 제목') {
+        params['f_name'] = x[1][1];
+    } else if (x[0][1] === '생산년도') {
+        params['syear'] = x[1][1];
+    } else if (x[0][1] === '종료년도') {
+        params['eyear'] = x[1][1];
+    }
+    console.log(params)
 
-    const tmp = [
-        {id: "4720000", num:"001", name: "문화홍보실 인처관리1", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
-        {id: "4720001", num:"002", name: "문화홍보실 인처관리2", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
-        {id: "4720002", num:"003", name: "문화홍보실 인처관리3", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
-        {id: "4720003", num:"004", name: "문화홍보실 인처관리4", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
-    ];
+    useEffect(() => {
+        onSearch();
+    }, [])
+    const onSearch = () => {
+        axios.get('http://3.38.19.119:8080/index/label', {params: params})
+            .then((res) => setTmp(res.data))
+    }
 
     const handleDoubleClick = (e) => {
         console.log(e.target.getAttribute('name'));
@@ -19,7 +32,8 @@ function CitemSearch(props) {
     return (
         <div>
             <h1>철 항목 검색결과</h1>
-            <ListHeader columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'20pt'} weight={'700'} mb={'20px'}>
+            <ListHeader columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'20pt'} weight={'700'} mb={'20px'}>
+                <div>철 번호</div>
                 <div>레이블</div>
                 <div>권호수</div>
                 <div>철 제목</div>
@@ -35,9 +49,9 @@ function CitemSearch(props) {
             </ListHeader>
             {tmp.map((item) => {
                 return (
-                    <ListContainer key={item.id} name={item.id} onDoubleClick={handleDoubleClick} columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
-                        {Object.values(item).map((x) => {
-                            return (<div name={item.id}>{x}</div>)
+                    <ListContainer key={item.f_id} name={item.f_id} onDoubleClick={handleDoubleClick} columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
+                        {Object.entries(item).map((x) => {
+                            return (<div key={x[0]} name={x[0]}>{x[1]}</div>)
                         }
                         )}
                     </ListContainer>

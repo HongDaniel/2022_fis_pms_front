@@ -100,7 +100,7 @@ const columns = [
             const info = params.row.f_scan;
             if (info === 'YES') {
                 return '구축';
-            } else {
+            } else if (info === 'NO') {
                 return '비구축';
             }
         }

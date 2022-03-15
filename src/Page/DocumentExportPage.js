@@ -458,6 +458,7 @@ const DocumentExportPage = () => {
                                 addEList();
                                 await onRegister();
                                 onLabelSearch();
+                                onDateSearch();
                             }} type='normal' margin='5px' color='#ffffff' backgroundColor='#50586C' content='등록'/>
                         </div>
                     </div>

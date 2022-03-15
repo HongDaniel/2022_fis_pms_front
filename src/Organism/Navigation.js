@@ -50,12 +50,12 @@ const Navigation = () => {
         }
     };
     const handleUpload = (event) => {
-        // const formData = new FormData();
-        // const file = e.target.files[0];
-        // formData.append("file", file);
-        // console.log(formData);
-        // axios.post("http://3.38.19.119:8080/manage/worker", formData, { headers: { "Content-Type" : "multipart/form-data" } })
-        //     .then(res => console.log(res));
+        const formData = new FormData();
+        const file = event.target.files[0];
+        formData.append("excelFile", file);
+        console.log(file);
+        axios.post("http://3.38.19.119:8080/office/excel", formData, { headers: { "Content-Type" : "multipart/form-data" } })
+            .then(res => console.log(res));
         let input = event.target;
         let reader = new FileReader();
         reader.onload = function () {
@@ -67,15 +67,15 @@ const Navigation = () => {
                 let res = [];
                 rows.map((row) => {
                     res.push({
-                        id: row.기관코드,
-                        name: row.전체기관명,
-                        exist: row.폐지구분,
+                        o_code: String(row.기관코드),
+                        o_name: row.전체기관명,
+                        o_del: String(row.폐지구분),
                     })
                 })
                 res.push({
-                    id: '0000001',
-                    name: '서울특별시 마포구 상수동 와우산로 94 홍익대학교',
-                    exist: '1',
+                    o_code: '0000001',
+                    o_name: '서울특별시 마포구 상수동 와우산로 94 홍익대학교',
+                    o_del: '1',
                 })
                 localStorage.setItem('organ', JSON.stringify(res));
             })
