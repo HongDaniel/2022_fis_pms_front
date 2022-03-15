@@ -1,14 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
+import axios from "axios";
 
 function GitemSearch(props) {
-    const {currentTab, handleClose} = props;
-    const tmp = [
-        {id: "4720000", num:"001", name: "문화홍보실 인처관리1", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
-        {id: "4720001", num:"002", name: "문화홍보실 인처관리2", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
-        {id: "4720002", num:"003", name: "문화홍보실 인처관리3", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
-        {id: "4720003", num:"004", name: "문화홍보실 인처관리4", make: '2000', end: '20', reserve: '20', acode: '4360000', makename: 'ggg', look: '1', method: '1', place: '1', manager: '미확인'},
-    ];
+    const {currentTab, handleClose, keyword} = props;
+    const [tmp, setTmp] = useState([]);
+    const params = {};
+    const x = Object.entries(keyword)
+    if (x[0][1] === '문서 번호') {
+        params['docnum'] = x[1][1];
+    } else if (x[0][1] === '건 제목') {
+        params['c_name'] = x[1][1];
+    } else if (x[0][1] === '수(발)신자') {
+        params['c_receiver'] = x[1][1];
+    }
+    console.log(params)
+
+    useEffect(() => {
+        onSearch();
+    }, [])
+    const onSearch = () => {
+        axios.get('http://3.38.19.119:8080/index/case', {params: params})
+            .then((res) => setTmp(res.data))
+    }
 
     const handleDoubleClick = (e) => {
         console.log(e.target.getAttribute('name'));
@@ -18,27 +32,37 @@ function GitemSearch(props) {
     return (
         <div>
             <h1>건 항목 검색결과</h1>
-            <ListHeader columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'20pt'} weight={'700'} mb={'20px'}>
-                <div>레이블</div>
-                <div>권호수</div>
-                <div>철 제목</div>
-                <div>생산년도</div>
-                <div>종료년도</div>
+            <ListHeader columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'20pt'} weight={'700'} mb={'20px'}>
+                <div>등록구분</div>
+                <div>부서명</div>
+                <div>시행일자</div>
+                <div>끝 페이지</div>
                 <div>보존기간</div>
+                <div>문서번호</div>
+                <div>쪽수</div>
+                <div>생산등록일자</div>
+                <div>첫 페이지</div>
+                <div>건 제목</div>
+                <div>레이블</div>
+                <div>기록물 형태</div>
+                <div>권호수</div>
                 <div>기관코드</div>
-                <div>생산기관명</div>
-                <div>기록물형태</div>
-                <div>보존방법</div>
-                <div>보존장소</div>
-                <div>업무담당자</div>
             </ListHeader>
-            {tmp.map((item) => {
-                return (
-                    <ListContainer key={item.id} name={item.id} onDoubleClick={handleDoubleClick} columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
-                        {Object.values(item).map((x) => {return (<div name={item.id}>{x}</div>)})}
-                    </ListContainer>
-                )
-            })}
+            {tmp.length === 0
+                ?
+                <h1 style={{textAlign: 'center'}}>검색 결과가 없습니다.</h1>
+                :
+                tmp.map((item) => {
+                    return (
+                        <ListContainer key={item.c_class} name={item.c_class} onDoubleClick={handleDoubleClick} columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
+                            {Object.entries(item).map((x) => {
+                                    return (<div key={x[0]} name={x[0]}>{x[1]}</div>)
+                                }
+                            )}
+                        </ListContainer>
+                    )
+                })
+            }
         </div>
     );
 }

@@ -18,6 +18,7 @@ const InputContainer = (props) => {
                          handleChange={props.handleChange}
                          onKeyPress={props.onKeyPress}
                          maxLength={props.maxLength}
+                         disabled={props.disabled}
             />
         </Container>
     );

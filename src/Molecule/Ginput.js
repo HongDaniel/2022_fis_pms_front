@@ -29,7 +29,7 @@ function Ginput(props) {
         <Box mt='0' width='1030px' height='810px' backgroundColor={'#ecf0f1'}>
             <InfoContainer>
                 <Row columns={"2fr 1.5fr 0.5fr"}>
-                    <InputContainer id={"권호수 선택"} width={"200px"} type={"select"} label='권호수 선택' contents={["001", "002", "003"]}/>
+                    <InputContainer value={props.volumeAmount} disabled={true} id={"권호수 선택"} width={"200px"} type={"text"} size={'large'} label='권호수 선택' contents={["001", "002", "003"]}/>
                     <InputContainer value={caseNum} handleChange={handleChange} id={"건수"} width={"200px"} labelWidth={'50px'} type={"number"} />
                 </Row>
                 <ListHeader columns={'1fr 1fr 1fr'} fontSize={'20pt'} weight={'700'} mb={'20px'}>

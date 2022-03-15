@@ -1,8 +1,14 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
+import axios from "axios";
 
 function OfficeSearch(props) {
     const {currentTab, handleClose} = props;
+
+    const searchOcode = () => {
+        axios.get(`http://3.38.19.119:8080/search/office/${'dd'}`).then();
+    }
+
     const tmp = JSON.parse(localStorage.getItem('organ'));
     //     [
     //     {id: "1234567", name: "서울 강남구", exist: "0"},
@@ -15,10 +21,11 @@ function OfficeSearch(props) {
 
     const handleDoubleClick = (e) => {
         const rowId = e.target.getAttribute('name');
+        console.log(rowId);
         tmp.map((row) => {
-            if (row.id === rowId) {
-                props.setOInfo((prev)=> ({...prev, o_code: row.id, o_name: row.name}));
-                console.log(props.oInfo);
+            console.log(row);
+            if (row.o_code === rowId) {
+                props.setOInfo((prev)=> ({...prev, o_code: row.o_code, o_name: row.o_name}));
                 handleClose();
             }
         })
@@ -34,10 +41,10 @@ function OfficeSearch(props) {
             </ListHeader>
             {tmp.map((item) => {
                 return (
-                    <ListContainer key={item.id} name={item.id} onDoubleClick={handleDoubleClick} columns={'1fr 2fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
-                        <div name={item.id}>{item.id}</div>
-                        <div name={item.id}>{item.name}</div>
-                        <div name={item.id}>{item.exist}</div>
+                    <ListContainer key={item.o_code} name={item.o_code} onDoubleClick={handleDoubleClick} columns={'1fr 2fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
+                        <div name={item.o_code}>{item.o_code}</div>
+                        <div name={item.o_code}>{item.o_name}</div>
+                        <div name={item.o_code}>{item.o_del}</div>
                     </ListContainer>
                 )
             })}

@@ -64,24 +64,25 @@ const TabsList = styled(TabsListUnstyled)`
 `;
 
 export default function UnstyledTabsCustomized(props) {
-    const {setCurrentTab} = props;
+    const {currentTab, setCurrentTab} = props;
+    console.log(currentTab);
     return (
-        <TabsUnstyled onChange={(event) => setCurrentTab(event.target.id)} defaultValue={0}>
+        <TabsUnstyled onChange={(event) => setCurrentTab(parseInt(event.target.id))} value={currentTab}>
             <TabsList>
-                <Tab id={'0'}>철항목</Tab>
-                <Tab id={'1'}>건수입력</Tab>
-                <Tab id={'2'}>건항목</Tab>
+                <Tab id={0}>철항목</Tab>
+                <Tab id={1}>건수입력</Tab>
+                <Tab id={2}>건항목</Tab>
             </TabsList>
             <TabPanel value={0}>
                 <div>
-                    <Citems value={props.value} handleSave={props.handleSave} handleChange={props.handleChange} />
+                    <Citems value={props.value} handleSave={props.handleSave} handleChange={props.handleChange} setCurrentTab={setCurrentTab} />
                 </div>
             </TabPanel>
             <TabPanel value={1}>
-                <Ginput />
+                <Ginput volumeAmount={props.volumeAmount} />
             </TabPanel>
             <TabPanel value={2}>
-                <Gitems />
+                <Gitems handleGSave={props.handleGSave} handleCaseChange={props.handleCaseChange} />
             </TabPanel>
         </TabsUnstyled>
     );
