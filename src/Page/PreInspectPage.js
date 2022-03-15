@@ -12,6 +12,8 @@ import {Style} from "../Style";
 import axios from "axios";
 import NetworkConfig from "../configures/NetworkConfig";
 import PreinfoForm from "../Molecule/PreinfoForm";
+import {isOcodeRegistered} from "../store/Ocode";
+import {useRecoilState} from "recoil";
 
 const columns = [
     {
@@ -204,7 +206,7 @@ const PreInspectPage = () => {
     const [selected,setSelected] = useState([]);
     const [selectedRow,setSelectedRow] = useState({});
     const [formState,setFormState] = useState('');
-    const [isOcode,setIsOcode]=useState(false);
+    const [isOcode,setIsOcode]=useRecoilState(isOcodeRegistered);
     const modalOpen = () => { setModal(true); } // 모달창 열기
     const modalClose = () => { setModal(false); } // 모달창 닫기
 
@@ -384,18 +386,24 @@ const PreInspectPage = () => {
                 break;
         }
     };
-    const handleUpload = async (e) =>{ //목록 불러오기
-            let formData = new FormData();
-            formData.append("excelfile",e.target.files[0]);
-            // FormData의 value 확인
-            e.target.value='';
-            await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
-                .then((res) => {
-                    handleSearch();
-                    console.log(res.data);
-                }).catch((err)=>{
-                    console.log(err);
-                });
+    const handleUpload = async (e) =>{ //목록 불러오기러
+            if(isOcode){
+                let formData = new FormData();
+                formData.append("excelfile",e.target.files[0]);
+                // FormData의 value 확인
+                e.target.value='';
+                await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
+                    .then((res) => {
+                        handleSearch();
+                        console.log(res.data);
+                    }).catch((err)=>{
+                        console.log(err);
+                    });
+            }
+            else{
+                window.alert('기관코드를 먼저 등록해주세요.')
+            }
+
     }
     const Add = () =>{
         setSelectedRow({f_location:{}});
@@ -488,6 +496,20 @@ const PreInspectPage = () => {
             }
             )
     };
+    const handleOcodeRegister = async (e) =>{
+        let formData = new FormData()
+        formData.append("excelFile",e.target.files[0]);
+        // FormData의 value 확인
+        e.target.value='';
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/office/excel`, formData, {withCredentials: true})
+            .then((res) => {
+                setIsOcode(true);
+                console.log(res);
+            }).catch((err)=>{
+                console.log(err);
+            });
+    }
+
     return (
         <Container>
             <Navigation/>
@@ -536,13 +558,16 @@ const PreInspectPage = () => {
                                           backgroundColor={Style.color2}/>
                         </BtnContainer3>
                         <BtnContainer2>
-                            <CustomButton type={"normal"} name={"검색"} width={"180px"} height={"55px"} fontSize={"22px"}
-                                          borderRadius={"25px"} content={"기관코드등록"} backgroundColor={Style.color2}
-                            />
+                            <label htmlFor={"uploadOcode"} className="uploadExcel">기관코드등록</label>
+                            <input type="file"
+                                   id="uploadOcode"
+                                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                                   onChange={handleOcodeRegister}
+                                   style={{display: "none"}}/>
                             <label htmlFor={"uploadExcel"} className="uploadExcel">목록 불러오기</label>
                             <input type="file"
                                    id="uploadExcel"
-                                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                                    onChange={handleUpload}
                                    style={{display: "none"}}/>
 

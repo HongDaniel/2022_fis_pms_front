@@ -92,7 +92,7 @@ const Navigation = () => {
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
                               fontSize={"23px"} content={"문서반출"} value={"문서반출"} onClick={handleClick}/>
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
-                              fontSize={"23px"} content={"스캔 및 보정"} value={"스캔"} onClick={handleClick}/>
+                              fontSize={"23px"} content={"이미지보정"} value={"스캔"} onClick={handleClick}/>
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
                               fontSize={"23px"} content={"색인"} value={"색인"} onClick={handleClick}/>
                 <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
