@@ -48,10 +48,12 @@ const ScanPage = () => {
         const croppedData = cropperJS.current.cropper.getCroppedCanvas().toDataURL();
         setCroppedImgSrc(croppedData);
     }
+    //좌로 90도 회전
     const RotateLeft = () => {
         cropperJS.current.cropper.rotate(-90);
         handleCropChange();
     }
+    //우로 90도 회전
     const RotateRight = () => {
         cropperJS.current.cropper.rotate(90);
         handleCropChange();
@@ -68,11 +70,31 @@ const ScanPage = () => {
         }
     }
 
-    const getPicture = async () =>{
-        const imgData=new FormData();
+    const getPicture = async () => {
+        let imgData=new FormData();
         imgData.append('img','')
         await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/0`,imgData,{withCredentials:true})
     }
+
+    const getImages = async () =>{
+        console.log("이미지 가져오기");
+        let imgData=new FormData();
+        imgData.append('img','')
+        // await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/0`,imgData,{withCredentials:true})
+        //     .then((res)=>{
+        //         console.log(res);})
+    }
+
+    const handleSave = async () =>{
+        console.log("보정검수완료");
+        // await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/state`)
+        //     .then((res)=>{
+        //         console.log(res);})
+        //     .catch((err)=>{
+        //         console.log(err);
+        //     })
+    }
+
     return (
         <Container>
             <Navigation/>
@@ -84,6 +106,7 @@ const ScanPage = () => {
                             <div>
                                 <label htmlFor={"route"}>경로</label>
                                 <input type={"text"} style={{width: "320px",height:"30px",fontSize:"15px",letterSpacing:"1.2px"}} value={path} id={"route"}/>
+                                {/*
                                 <label htmlFor={"uploadImg"} className="uploadImg">파일선택</label>
                                 <input type="file"
                                        id="uploadImg"
@@ -92,6 +115,9 @@ const ScanPage = () => {
                                        onChange={uploadImg}
                                        onClick={getPicture}
                                        style={{display:"none"}}
+                                />*/}
+                                <CustomButton type={"normal"} name={"완료"} width={"170px"} height={"45px"} fontSize={"20px"}
+                                              borderRadius={"15px"} content={"이미지 가져오기"} onClick={getImages} backgroundColor={Style.color2}
                                 />
                             </div>
                             <div>
@@ -113,7 +139,7 @@ const ScanPage = () => {
                                 </select>
                             </div>
                             <CustomButton type={"normal"} name={"완료"} width={"310px"} height={"85px"} fontSize={"32px"}
-                                          borderRadius={"25px"} content={"보정 검수 완료"} backgroundColor={Style.color2}
+                                          borderRadius={"25px"} content={"보정 검수 완료"} onClick={handleSave}backgroundColor={Style.color2}
                             />
 
                         </Content>
@@ -122,7 +148,6 @@ const ScanPage = () => {
                         <Box width='700px' height='940px' backgroundColor={Style.color3}>
                             <h3>이미지 리스트</h3>
                             <ImageContainer onClick={handleClick}>
-                                <img src={'http://3.38.19.119:8080/images/5384/1'}/>
                                 {imgSrc.map((src, idx) => {
                                     return (
                                         <img src={src} alt={"img"} key={idx}/>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 import Container from "../Atom/Container";
 import Navigation from "../Organism/Navigation";
@@ -11,45 +11,191 @@ import Table from "../Atom/Table";
 import {Style} from "../Style";
 
 const UploadPage = () => {
+    const [searchResult, setSearchResult] = useState(()=>JSON.parse(localStorage.getItem("searchResult"))||[]); //검색한 정보
+    const [selected,setSelected] = useState([]);
     const columns = [
-        {field: 'f_id', headerName: 'ID', width: 90},
         {
-            field: 'firstName',
-            headerName: 'First name',
-            width: 150,
-            editable: true,
-        },
-        {
-            field: 'lastName',
-            headerName: 'Last name',
-            width: 100,
-            editable: true,
-        },
-        {
-            field: 'age',
-            headerName: 'Age',
+            field: 'f_id',
+            headerName: 'No.',
             type: 'number',
-            width: 110,
+            width: 70
+        },
+        {
+            field: 'f_labelcode',
+            headerName: '레이블',
+            width: 90,
             editable: true,
         },
         {
-            field: 'fullName',
-            headerName: 'Full name',
-            description: 'This column has a value getter and is not sortable.',
-            sortable: false,
+            field: 'o_name',
+            headerName: '생산기관명',
             width: 160,
-            flex: 1,
-            valueGetter: (params) =>
-                `${params.getValue(params.id, 'firstName') || ''} ${
-                    params.getValue(params.id, 'lastName') || ''
-                }`,
+            editable: true,
+        },
+        {
+            field: 'o_code',
+            headerName: '기관코드',
+            width: 90,
+            editable: true,
+        },
+        {
+            field: 'f_name',
+            headerName: '철제목',
+            description: '철제목입니다.',
+            width: 280,
+            flex: 1
+        },
+        {
+            field: 'f_pyear',
+            headerName: '생산년도',
+            width: 90,
+            editable: true,
+        },
+        {
+            field: 'f_kperiod',
+            headerName: '보존기간',
+            width: 130,
+            editable: true,
+            valueGetter: (params) => {
+                const info = params.row.f_kperiod;
+                if (info === 'YEAR1') {
+                    return '1년';
+                } else if (info === 'YEAR3') {
+                    return '3년';
+                } else if (info === 'YEAR5') {
+                    return '5년';
+                } else if (info === 'YEAR10') {
+                    return '10년';
+                } else if (info === 'YEAR20') {
+                    return '20년';
+                } else if (info === 'YEAR30') {
+                    return '30년';
+                } else if (info === 'SEMI') {
+                    return '준영구';
+                } else {
+                    return '영구';
+                }
+            }
+        },
+        {
+            field: 'f_db',
+            headerName: '구축여부',
+            width: 90,
+            editable: true,
+            valueGetter: (params) => {
+                const info = params.row.f_db;
+                if (info === 'YES') {
+                    return '구축';
+                } else {
+                    return '비구축';
+                }
+            }
+        },
+        {
+            field: 'f_scan',
+            headerName: '스캔여부',
+            width: 90,
+            editable: true,
+            valueGetter: (params) => {
+                const info = params.row.f_scan;
+                if (info === 'YES') {
+                    return '구축';
+                } else {
+                    return '비구축';
+                }
+            }
+        },
+        {
+            field: 'b_num',
+            headerName: '박스번호',
+            width: 90,
+            editable: true,
+        },
+        {
+            field: 'suga',
+            headerName: '서가',
+            width: 60,
+            editable: true,
+            valueGetter: (params) => {
+                const info = new Object(params.row.f_location);
+                return info.suga;
+            }
+        },
+        {
+            field: 'chung',
+            headerName: '층',
+            width: 60,
+            editable: true,
+            valueGetter: (params) => {
+                const info = new Object(params.row.f_location);
+                return info.chung;
+            }
+        },
+        {
+            field: 'yall',
+            headerName: '열',
+            width: 60,
+            editable: true,
+            valueGetter: (params) => {
+                const info = new Object(params.row.f_location);
+                return info.yall;
+            }
+        },
+        {
+            field: 'bun',
+            headerName: '번',
+            width: 60,
+            editable: true,
+            valueGetter: (params) => {
+                const info = new Object(params.row.f_location);
+                return info.bun;
+            }
+        },
+        {
+            field: 'f_kplace',
+            headerName: '보존장소',
+            type: 'number',
+            width: 140,
+            editable: true,
+            valueGetter: (params) => {
+                const info = params.row.f_kplace;
+                if (info === 'ARCHIVIST') {
+                    return '기록관';
+                } else if (info === 'PROFESSION'){
+                    return '전문관리기관';
+                }
+            }
+        },
+        {
+            field: 'f_type',
+            headerName: '문서유형',
+            type: 'number',
+            width: 120,
+            editable: true,
+            valueGetter: (params) => {
+                const info = params.row.f_type;
+                if (info === 'GENERAL') {
+                    return '일반문서';
+                } else if (info === 'DRAWING') {
+                    return '도면류';
+                } else if (info === 'PHOTO') {
+                    return '사진-필름류';
+                } else if (info === 'VIDEO') {
+                    return '녹음-동영상류';
+                } else if (info === 'CARD') {
+                    return '카드류';
+                }
+            },
+        },
+        {
+            field: 'f_typenum',
+            headerName: '분류번호',
+            type: 'number',
+            width: 90,
+            editable: true,
         },
     ];
 
-    const rows = [
-        {f_id: 1, lastName: 'Snow', firstName: 'Jon', age: 35},
-        {f_id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42},
-    ];
     return (
         <Container>
             <Navigation/>
@@ -82,7 +228,12 @@ const UploadPage = () => {
                         <Content>
                         <CustomButton type={"normal"} name={"검색"} width={"150px"} height={"45px"} fontSize={"24px"}
                                           borderRadius={"5px"} content={"파일 생성"} backgroundColor={Style.color2}/>
-                        <Table rows={rows} columns={columns} headerBG={Style.color2} cellBG={Style.color1} width={"95%"} height={"70%"}/>
+
+                            <Table rows={searchResult} columns={columns} selectionModel={selected}
+                                   setSelectionModel={setSelected} headerBG={Style.color2} cellBG={Style.color1}
+                                   width={"89%"} height={"85%"}/>
+
+
                         </Content>
                         </Box>
                 </BoxContainer>
