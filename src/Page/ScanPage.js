@@ -80,9 +80,12 @@ const ScanPage = () => {
         console.log("이미지 가져오기");
         let imgData=new FormData();
         imgData.append('img','')
-        // await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/0`,imgData,{withCredentials:true})
-        //     .then((res)=>{
-        //         console.log(res);})
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/origin/7690/1`,{withCredentials:true})
+            .then((res)=>{
+                console.log(res);})
+            .catch((err)=>{
+                console.log(err);
+            })
     }
 
     const handleSave = async () =>{
