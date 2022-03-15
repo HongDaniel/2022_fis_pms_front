@@ -14,16 +14,24 @@ import {display} from "@mui/system";
 import {Style} from "../Style";
 import axios from "axios";
 import NetworkConfig from "../configures/NetworkConfig";
+import {ImageMaxNum} from "../store/ImageMaxNum";
+import {useRecoilValue} from "recoil";
+import {Autocomplete} from "@mui/lab";
+import {fid_maxnum} from "../store/dummy/fid_maxnum";
+import {TextField} from "@mui/material";
 
 
 const ScanPage = () => {
     const [imgSrc, setImgSrc] = useState([]);
-    const [selectedImg, setSelectedImg] = useState('');
+    const [selectedImg, setSelectedImg] = useState({});
     const [croppedImgSrc, setCroppedImgSrc] = useState(null);
+    const [croppedImgList, setCroppedImgList] = useState([]);
     const [isPreview, setIsPreview] = useState(false);
     const [previewText,setPreviewText]= useState("미리보기");
     const [path,setPath] = useState('');
+    const [fidMaxnum,setFidMaxnum] = useState({fid:0,maxNum:0});
     const cropperJS = useRef();
+    const imgMaxNum = useRecoilValue(ImageMaxNum);
 
     const uploadImg = (e) => {
         const images = e.target.files;
@@ -41,13 +49,29 @@ const ScanPage = () => {
     }
 
     const handleClick = (e) => {
-        setSelectedImg(e.target.src);
-    }
+        const source = e.target.src;
+        const i = parseInt(source.split('/').slice(-1)[0]); // 몇 번째 사진인지 구한다
+        console.log(i)
+        setSelectedImg({src:source,idx:i});
+    };
+
+    //이미지를 변경했을 경우
     const handleCropChange = () => {
         console.log("cropped!")
         const croppedData = cropperJS.current.cropper.getCroppedCanvas().toDataURL();
-        setCroppedImgSrc(croppedData);
+        setCroppedImgSrc({img:croppedData,idx:selectedImg.idx});
     }
+    // 이미지를 다 변경한 후
+    const handleCropDone=()=>{
+        if(croppedImgSrc) {
+            setCroppedImgList([...croppedImgList,croppedImgSrc]);
+            setCroppedImgSrc(null);
+        }
+    }
+    useEffect(()=>{
+        console.log(croppedImgList);
+    },[croppedImgList])
+
     //좌로 90도 회전
     const RotateLeft = () => {
         cropperJS.current.cropper.rotate(-90);
@@ -78,6 +102,7 @@ const ScanPage = () => {
 
     const getImages = async () =>{
         console.log("이미지 가져오기");
+        console.log(imgMaxNum);
         let imgData=new FormData();
         imgData.append('img','')
         await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/origin/7690/1`,{withCredentials:true})
@@ -98,6 +123,15 @@ const ScanPage = () => {
         //     })
     }
 
+    useEffect(() => {
+        console.log(fidMaxnum);
+        let srcs=[]
+        for(let i=1; i<=fidMaxnum.maxNum;i++){
+            srcs.push(`http://${NetworkConfig.networkAddress}:8080/images/origin/${fidMaxnum.fid}/${i}`)
+        }
+        setImgSrc(srcs);
+    }, [fidMaxnum]);
+
     return (
         <Container>
             <Navigation/>
@@ -107,8 +141,19 @@ const ScanPage = () => {
                     <Box width='2200px' height='190px' backgroundColor={Style.color3}>
                         <Content>
                             <div>
-                                <label htmlFor={"route"}>경로</label>
-                                <input type={"text"} style={{width: "320px",height:"30px",fontSize:"15px",letterSpacing:"1.2px"}} value={path} id={"route"}/>
+                                <label htmlFor={"combo-box-demo"}>경로</label>
+                                <Autocomplete
+                                    disablePortal
+                                    id="combo-box-demo"
+                                    options={fid_maxnum}
+                                    style={{backgroundColor: "#fff", textAlign: "center", alignContent: "center"}}
+                                    sx={{width: 300}}
+                                    renderInput={(params) => < TextField {...params} label="fid"/>}
+                                    onChange={(event, value) => {
+                                        setFidMaxnum({fid:value.label, maxNum:value.maxnum});
+                                    }}
+                                />
+
                                 {/*
                                 <label htmlFor={"uploadImg"} className="uploadImg">파일선택</label>
                                 <input type="file"
@@ -119,8 +164,10 @@ const ScanPage = () => {
                                        onClick={getPicture}
                                        style={{display:"none"}}
                                 />*/}
-                                <CustomButton type={"normal"} name={"완료"} width={"170px"} height={"45px"} fontSize={"20px"}
-                                              borderRadius={"15px"} content={"이미지 가져오기"} onClick={getImages} backgroundColor={Style.color2}
+                                <CustomButton type={"normal"} name={"완료"} width={"170px"} height={"45px"}
+                                              fontSize={"20px"}
+                                              borderRadius={"15px"} content={"이미지 가져오기"} margin={"0 25px"}
+                                              onClick={getImages} backgroundColor={Style.color2}
                                 />
                             </div>
                             <div>
@@ -142,7 +189,8 @@ const ScanPage = () => {
                                 </select>
                             </div>
                             <CustomButton type={"normal"} name={"완료"} width={"310px"} height={"85px"} fontSize={"32px"}
-                                          borderRadius={"25px"} content={"보정 검수 완료"} onClick={handleSave}backgroundColor={Style.color2}
+                                          borderRadius={"25px"} content={"보정 검수 완료"} onClick={handleSave}
+                                          backgroundColor={Style.color2}
                             />
 
                         </Content>
@@ -153,7 +201,7 @@ const ScanPage = () => {
                             <ImageContainer onClick={handleClick}>
                                 {imgSrc.map((src, idx) => {
                                     return (
-                                        <img src={src} alt={"img"} key={idx}/>
+                                        <img src={src} alt={"img"} key={idx+1}/>
                                     )
                                 })}
                             </ImageContainer>
@@ -162,7 +210,7 @@ const ScanPage = () => {
                             {selectedImg ?
                                 <div>
                                     {isPreview ?
-                                        <img src={croppedImgSrc} className={"preview"}/> :
+                                        <img src={croppedImgSrc.img} className={"preview"}/> :
                                         <Cropper
                                             ref={cropperJS}
                                             style={{
@@ -171,7 +219,7 @@ const ScanPage = () => {
                                                 marginTop: "20px",
                                                 marginLeft: "50px"
                                             }}
-                                            src={selectedImg}
+                                            src={selectedImg.src}
                                             initialAspectRatio={1}
                                             viewMode={2}
                                             autoCropArea={0.8}
@@ -180,28 +228,36 @@ const ScanPage = () => {
                                             background={false}
                                             cropend={handleCropChange}
                                         />}
-                                    {isPreview?
+                                    {isPreview ?
                                         <BtnContainer>
-                                        <CustomButton type={"normal"} name={"미리보기"} width={"150px"} height={"50px"}
-                                                              fontSize={"24px"}
-                                                              borderRadius={"5px"} content={`${previewText}`} id={"preview"}
-                                                              onClick={togglePreview} backgroundColor={Style.color2}/>
+                                            <CustomButton type={"normal"} name={"미리보기"} width={"150px"} height={"50px"}
+                                                          fontSize={"24px"}
+                                                          borderRadius={"5px"} content={`${previewText}`} id={"preview"}
+                                                          onClick={togglePreview} backgroundColor={Style.color2}/>
                                         </BtnContainer>
-                                            :
+                                        :
                                         <>
-                                    <div className={"rotate"}>
-                                        <img src={rotate_left} onClick={RotateLeft}/>
-                                        <img src={rotate_right} onClick={RotateRight}/>
-                                    </div>
-                                    <BtnContainer>
-                                        <CustomButton type={"normal"} name={"완료"} width={"150px"} height={"50px"}
-                                                      fontSize={"24px"}
-                                                      borderRadius={"5px"} content={"수정완료"} id={"cropDone"} backgroundColor={Style.color2}/>
-                                        <CustomButton type={"normal"} name={"미리보기"} width={"150px"} height={"50px"}
-                                                      fontSize={"24px"}
-                                                      borderRadius={"5px"} content={`${previewText}`} id={"preview"}
-                                                      onClick={togglePreview} backgroundColor={Style.color2}/>
-                                    </BtnContainer>
+                                            <div className={"rotate"}>
+                                                <img src={rotate_left} onClick={RotateLeft}/>
+                                                <img src={rotate_right} onClick={RotateRight}/>
+                                            </div>
+                                            <BtnContainer>
+                                                <CustomButton type={"normal"} name={"완료"} width={"150px"}
+                                                              height={"50px"}
+                                                              fontSize={"24px"}
+                                                              borderRadius={"5px"} content={"수정완료"} id={"cropDone"}
+                                                              backgroundColor={Style.color2}
+                                                              onClick={handleCropDone}
+
+
+                                                />
+                                                <CustomButton type={"normal"} name={"미리보기"} width={"150px"}
+                                                              height={"50px"}
+                                                              fontSize={"24px"}
+                                                              borderRadius={"5px"} content={`${previewText}`}
+                                                              id={"preview"}
+                                                              onClick={togglePreview} backgroundColor={Style.color2}/>
+                                            </BtnContainer>
                                         </>
                                     }
                                 </div>
