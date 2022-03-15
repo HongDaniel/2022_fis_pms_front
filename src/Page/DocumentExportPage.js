@@ -10,6 +10,8 @@ import CustomInput from "../Atom/CustomInput";
 import Container from "../Atom/Container";
 import {Style} from "../Style";
 import axios from "axios";
+import {useRecoilState} from "recoil";
+import {ImageMaxNum} from "../store/ImageMaxNum";
 
 export const columns = [
     { field: 'f_id', headerName: 'ID', width: 90 },
@@ -401,6 +403,7 @@ const DocumentExportPage = () => {
         }
     };
 
+    const [imageNum, setImageNum] = useRecoilState(ImageMaxNum);
     const handleScan = (e) => {
         const formData = new FormData();
         const files = e.target.files;
@@ -410,7 +413,7 @@ const DocumentExportPage = () => {
             console.log(files[i])
         }
         axios.post("http://3.38.19.119:8080/images/origin", formData, { headers: { "Content-Type" : "multipart/form-data" } })
-            .then(res => console.log(res))
+            .then(res => setImageNum(res.data))
             .catch(err => console.log(err));
     };
 
