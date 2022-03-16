@@ -10,67 +10,58 @@ import {Cropper} from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import rotate_left from "../Media/rotate_left.png"
 import rotate_right from "../Media/rotate_right.png"
-import {display} from "@mui/system";
 import {Style} from "../Style";
 import axios from "axios";
 import NetworkConfig from "../configures/NetworkConfig";
-import {ImageMaxNum} from "../store/ImageMaxNum";
-import {useRecoilValue} from "recoil";
-import {Autocomplete} from "@mui/lab";
-import {fid_maxnum} from "../store/dummy/fid_maxnum";
+import { Autocomplete } from '@mui/material';
 import {TextField} from "@mui/material";
+import {fid_maxnum} from "../store/dummy/fid_maxnum";
 
 
 const ScanPage = () => {
-    const [imgSrc, setImgSrc] = useState([]);
     const [selectedImg, setSelectedImg] = useState({});
     const [croppedImgSrc, setCroppedImgSrc] = useState(null);
     const [croppedImgList, setCroppedImgList] = useState([]);
     const [isPreview, setIsPreview] = useState(false);
     const [previewText,setPreviewText]= useState("미리보기");
-    const [path,setPath] = useState('');
     const [fidMaxnum,setFidMaxnum] = useState({fid:0,maxNum:0});
+    const [selectedIdx,setSelectedIdx]= useState();
     const cropperJS = useRef();
-    const imgMaxNum = useRecoilValue(ImageMaxNum);
 
-    const uploadImg = (e) => {
-        const images = e.target.files;
-        setPath(e.target.value);
-        let urls = []
-        for (let i = 0; i < images.length; i++) {
-            let reader = new FileReader();
-            reader.readAsDataURL(images[i]);
-            reader.onload = () => {
-                const data = (reader.result.toString());
-                urls.push(data);
-                setImgSrc([...urls]);
-            }
-        }
-    }
-
+    // 이미지 리스트에서 사진을 선택했을 경우
     const handleClick = (e) => {
         const source = e.target.src;
-        const i = parseInt(source.split('/').slice(-1)[0]); // 몇 번째 사진인지 구한다
-        console.log(i)
-        setSelectedImg({src:source,idx:i});
+        const i = parseInt(e.target.id);
+        // console.log('id: '+i);
+        setSelectedIdx(i);
+        if(source) {
+             // 몇 번째 사진인지 구한다
+            setSelectedImg({src:source,idx:i});
+            setCroppedImgSrc({img:source,idx:i}); // crop 이미지 초기값 설정
+        }
     };
 
     //이미지를 변경했을 경우
     const handleCropChange = () => {
-        console.log("cropped!")
         const croppedData = cropperJS.current.cropper.getCroppedCanvas().toDataURL();
-        setCroppedImgSrc({img:croppedData,idx:selectedImg.idx});
+        setCroppedImgSrc({img:croppedData, idx: null} );
     }
-    // 이미지를 다 변경한 후
-    const handleCropDone=()=>{
-        if(croppedImgSrc) {
-            setCroppedImgList([...croppedImgList,croppedImgSrc]);
-            setCroppedImgSrc(null);
-        }
-    }
-    useEffect(()=>{
-        console.log(croppedImgList);
-    },[croppedImgList])
+
+    useEffect(() => {
+        // console.log(croppedImgSrc)
+    }, [croppedImgSrc]);
+
+
+    // 수정완료 버튼을 눌렀을 경우
+    const handleCropDone = () => {
+            let tmp = croppedImgList.filter(el => el.idx !== selectedIdx);
+            tmp.push({img:croppedImgSrc.img, idx: selectedIdx});
+            setCroppedImgList(tmp);
+    };
+
+    // useEffect(()=>{
+    //     console.log(croppedImgList);
+    // },[croppedImgList])
 
     //좌로 90도 회전
     const RotateLeft = () => {
@@ -82,7 +73,7 @@ const ScanPage = () => {
         cropperJS.current.cropper.rotate(90);
         handleCropChange();
     }
-
+    // 미리보기 수정하기 버튼 변경하기
     const togglePreview = () => {
         console.log("toggled");
         setIsPreview((!isPreview));
@@ -94,28 +85,14 @@ const ScanPage = () => {
         }
     }
 
-    const getPicture = async () => {
-        let imgData=new FormData();
-        imgData.append('img','')
-        await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/0`,imgData,{withCredentials:true})
-    }
-
-    const getImages = async () =>{
-        console.log("이미지 가져오기");
-        console.log(imgMaxNum);
-        let imgData=new FormData();
-        imgData.append('img','')
-        await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/origin/7690/1`,{withCredentials:true})
-            .then((res)=>{
-                console.log(res);})
-            .catch((err)=>{
-                console.log(err);
-            })
-    }
-
-    const handleSave = async () =>{
-        console.log("보정검수완료");
-        // await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/state`)
+    const handleSave = async () =>{ // 보정검수완료를 했을 경우
+        console.log("검수완료");
+        console.log(croppedImgList);
+        // let formData = new FormData();
+        // for(let i=1;i<=fidMaxnum.maxNum;i++) {
+        //     formData.append(croppedImgList.)
+        // }
+        // await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/modify?fileId=${fidMaxnum.fid}`)
         //     .then((res)=>{
         //         console.log(res);})
         //     .catch((err)=>{
@@ -123,13 +100,28 @@ const ScanPage = () => {
         //     })
     }
 
-    useEffect(() => {
-        console.log(fidMaxnum);
+    // image to Base64 string
+    const toDataURL = (url) => fetch(url)
+        .then(response => response.blob())
+        .then(blob => new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result)
+            reader.onerror = reject
+            reader.readAsDataURL(blob)
+        }));
+
+    // 철번호를 선택할 때마다 이미지 리스트의 src를 변경
+    useEffect(async () => {
         let srcs=[]
         for(let i=1; i<=fidMaxnum.maxNum;i++){
-            srcs.push(`http://${NetworkConfig.networkAddress}:8080/images/origin/${fidMaxnum.fid}/${i}`)
+            await toDataURL(`http://${NetworkConfig.networkAddress}:8080/images/origin/${fidMaxnum.fid}/${i}`)
+                .then(dataUrl => {
+                    if(dataUrl) {
+                    srcs.push(dataUrl);
+                    setCroppedImgList((old)=>[...old,{img:dataUrl,idx:i}]); // 처음 받아올 때 croppedImgList에 dataurl추가
+                    }
+                });
         }
-        setImgSrc(srcs);
     }, [fidMaxnum]);
 
     return (
@@ -141,16 +133,18 @@ const ScanPage = () => {
                     <Box width='2200px' height='190px' backgroundColor={Style.color3}>
                         <Content>
                             <div>
-                                <label htmlFor={"combo-box-demo"}>경로</label>
+                                <label htmlFor={"combo-box-demo"}>철번호</label>
                                 <Autocomplete
                                     disablePortal
                                     id="combo-box-demo"
                                     options={fid_maxnum}
-                                    style={{backgroundColor: "#fff", textAlign: "center", alignContent: "center"}}
+                                    style={{backgroundColor: "#fff", marginLeft:"10px"}}
                                     sx={{width: 300}}
-                                    renderInput={(params) => < TextField {...params} label="fid"/>}
+                                    placeholder={"철번호"}
+                                    renderInput={(params) => < TextField {...params} label="철번호"/>}
                                     onChange={(event, value) => {
-                                        setFidMaxnum({fid:value.label, maxNum:value.maxnum});
+                                        setCroppedImgList([]);
+                                        value&&setFidMaxnum({fid:value.label, maxNum:value.maxnum});
                                     }}
                                 />
 
@@ -164,15 +158,10 @@ const ScanPage = () => {
                                        onClick={getPicture}
                                        style={{display:"none"}}
                                 />*/}
-                                <CustomButton type={"normal"} name={"완료"} width={"170px"} height={"45px"}
-                                              fontSize={"20px"}
-                                              borderRadius={"15px"} content={"이미지 가져오기"} margin={"0 25px"}
-                                              onClick={getImages} backgroundColor={Style.color2}
-                                />
                             </div>
                             <div>
                                 <label htmlFor={"box"}>박스</label>
-                                <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center"}}>
+                                <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center", border:"1px solid #b5b5b5",borderRadius:"5px",fontSize:"20px"}}>
                                     <option value={"1"}>1</option>
                                     <option value={"2"}>2</option>
                                     <option value={"3"}>3</option>
@@ -180,7 +169,7 @@ const ScanPage = () => {
                                     <option value={"5"}>5</option>
                                 </select>
                                 <label htmlFor={"box"}>레이블</label>
-                                <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center"}}>
+                                <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center", border:"1px solid #b5b5b5",borderRadius:"5px",fontSize:"20px"}}>
                                     <option value={"1"}>1</option>
                                     <option value={"2"}>2</option>
                                     <option value={"3"}>3</option>
@@ -199,9 +188,9 @@ const ScanPage = () => {
                         <Box width='700px' height='940px' backgroundColor={Style.color3}>
                             <h3>이미지 리스트</h3>
                             <ImageContainer onClick={handleClick}>
-                                {imgSrc.map((src, idx) => {
+                                {croppedImgList.map((el, idx) => {
                                     return (
-                                        <img src={src} alt={"img"} key={idx+1}/>
+                                        <img src={el.img} alt={"img"} id={el.idx} key={el.idx}/>
                                     )
                                 })}
                             </ImageContainer>
@@ -230,6 +219,13 @@ const ScanPage = () => {
                                         />}
                                     {isPreview ?
                                         <BtnContainer>
+                                            <CustomButton type={"normal"} name={"완료"} width={"150px"}
+                                                          height={"50px"}
+                                                          fontSize={"24px"}
+                                                          borderRadius={"5px"} content={"수정완료"} id={"cropDone"}
+                                                          backgroundColor={Style.color2}
+                                                          onClick={handleCropDone}
+                                            />
                                             <CustomButton type={"normal"} name={"미리보기"} width={"150px"} height={"50px"}
                                                           fontSize={"24px"}
                                                           borderRadius={"5px"} content={`${previewText}`} id={"preview"}
@@ -248,8 +244,6 @@ const ScanPage = () => {
                                                               borderRadius={"5px"} content={"수정완료"} id={"cropDone"}
                                                               backgroundColor={Style.color2}
                                                               onClick={handleCropDone}
-
-
                                                 />
                                                 <CustomButton type={"normal"} name={"미리보기"} width={"150px"}
                                                               height={"50px"}
@@ -262,7 +256,6 @@ const ScanPage = () => {
                                     }
                                 </div>
                                 : null}
-
                         </Box>
                     </Bottom>
                 </BoxContainer>
