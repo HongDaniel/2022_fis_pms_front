@@ -26,7 +26,7 @@ function Gitems(props) {
                 </Row>
                 <Row columns={"1fr 1fr"}>
                     <InputContainer handleChange={props.handleCaseChange} size={'small'} id={"문서 번호"} width={"200px"} type={"text"} label='항목 검색' />
-                    <InputContainer handleChange={props.handleCaseChange} size={'small'} id={"보존 기간"} width={"210px"} type={"text"} label='항목 검색' labelWidth={'90px'} />
+                    <InputContainer handleChange={props.handleCaseChange} size={'small'} id={"보존 기간"} width={"210px"} type={"select"} label='항목 검색' labelWidth={'90px'} contents={["1년", "3년", "5년", "10년", "20년", "30년", "준영구", "영구"]}/>
                 </Row>
                 <Row columns={"1fr"}>
                     <InputContainer handleChange={props.handleCaseChange} size={'small'} id={"건 제목"} width={"600px"} type={"text"} label='항목 검색' />
@@ -39,13 +39,15 @@ function Gitems(props) {
                     <InputContainer handleChange={props.handleCaseChange} size={'small'} id={"수(발)신자"} width={"600px"} type={"text"}/>
                 </Row>
                 <Row columns={"1fr"}>
-                    <InputContainer handleChange={props.handleCaseChange} size={'small'} className={'record'} fontSize='13pt' id={"전자기록물 여부"} width={"600px"} type={"text"}/>
+                    <InputContainer handleChange={props.handleCaseChange} size={'small'} className={'record'} fontSize='13pt' id={"전자기록물 여부"} width={"600px"} type={"select"} contents={['전자기록물', '비전자기록물']}/>
                 </Row>
                 <Row columns={"1fr 4fr"}>
                     <span style={{fontSize: '14pt'}}>* 공개 여부</span>
                     <PublicContainer>
                         <CustomInput handleChange={props.handleCaseChange} type='radio' name='공개 여부' width='500px' label='공개 여부' contents={["공개", "부분공개", "비공개"]} />
-                        <CustomInput handleChange={props.handleCaseChange} type='radio' name='등급' width='800px' label='등급' contents={["1등급", "2등급", "3등급", "4등급", "5등급", "6등급", "7등급", "8등급"]} />
+                        <div>
+                            <CustomInput handleChange={props.handleCaseChange} type='radio' name='등급' width='800px' label='등급' contents={["1등급", "2등급", "3등급", "4등급", "5등급", "6등급", "7등급", "8등급"]} />
+                        </div>
                         <InputContainer handleChange={props.handleCaseChange} size={'small'} fontSize='12pt' id={"공개제한부분표시"} width={"400px"} type={"text"}/>
                     </PublicContainer>
                 </Row>

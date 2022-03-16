@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import InputContainer from "./InputContainer";
 import CustomButton from "../Atom/CustomButton";
 import Table from "../Atom/Table";
@@ -9,17 +9,38 @@ import CustomInput from "../Atom/CustomInput";
 
 function Ginput(props) {
     const [caseNum, setCaseNum] = useState(null);
+    const [pageInfo, setPageInfo] = useState([]);
+    const params = {
+        f_id: props.f_id,
+        v_id: props.volumeAmount,
+        v_info: pageInfo,
+    }
     const handleChange = (e) => {
         setCaseNum(parseInt(e.target.value));
     }
-
+    const handlePageChange = (e) => {
+        const rowNum = e.target.id[0];
+        const colNum = e.target.id[2];
+        if (!pageInfo[rowNum]) {
+            pageInfo[rowNum] = {};
+        }
+        if (colNum === '0') {
+            pageInfo[rowNum]['startPage'] = e.target.value;
+        } else if (colNum === '1') {
+            pageInfo[rowNum]['endPage'] = e.target.value;
+        }
+        console.log(pageInfo[rowNum]);
+    }
+    useEffect(() => {
+        setPageInfo(new Array(caseNum));
+    }, [caseNum])
     const Repeat = () => {
         const result = [];
         for (let i = 0; i < caseNum; i++) {
             result.push(<ListContainer columns={'1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
-                <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
-                <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
-                <CustomInput type='number' label='' size='small' margin='0 10px 0 10px'/>
+                <CustomInput handleChange={handlePageChange} id={`${i}-${0}`} type='number' label='' size='small' margin='0 10px 0 10px'/>
+                <CustomInput handleChange={handlePageChange} id={`${i}-${1}`} type='number' label='' size='small' margin='0 10px 0 10px'/>
+                <CustomInput handleChange={handlePageChange} id={`${i}-${2}`} type='number' label='' size='small' margin='0 10px 0 10px'/>
             </ListContainer>);
         }
         return result;
@@ -42,7 +63,10 @@ function Ginput(props) {
                 </div>
             </InfoContainer>
             <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
-                <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
+                <CustomButton onClick={() => {
+                    props.setCurrentTab(()=>2);
+                    console.log(params);
+                }} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
                 <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
             </div>
         </Box>

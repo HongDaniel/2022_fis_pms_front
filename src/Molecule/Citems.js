@@ -43,7 +43,7 @@ function Citems(props) {
                     props.handleSave();
                     props.setCurrentTab(()=>1);
                 }} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
-                <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
+                <CustomButton onClick={props.handleCDelete} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
             </div>
         </Box>
     );

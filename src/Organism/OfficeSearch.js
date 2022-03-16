@@ -21,9 +21,7 @@ function OfficeSearch(props) {
 
     const handleDoubleClick = (e) => {
         const rowId = e.target.getAttribute('name');
-        console.log(rowId);
         tmp.map((row) => {
-            console.log(row);
             if (row.o_code === rowId) {
                 props.setOInfo((prev)=> ({...prev, o_code: row.o_code, o_name: row.o_name}));
                 handleClose();

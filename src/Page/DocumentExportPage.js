@@ -290,6 +290,9 @@ const DocumentExportPage = () => {
     const [selectionModel, setSelectionModel] = useState([]); // 체크박스 State
     const [selectionScanModel, setSelectionScanModel] = useState([]); // 체크박스 State
 
+    const [loading, setLoading] = useState(false);
+    const [exLoading, setExLoading] = useState(false);
+
     const addEList = () => {
         const eList = [];
         const date = String(new Date().getFullYear()) + '-' + String(new Date().getMonth()+1).padStart(2, '0') + '-' + String(new Date().getDate()).padStart(2, '0');
@@ -318,36 +321,37 @@ const DocumentExportPage = () => {
     }
     const onLabelSearch = () => {
         console.log(searchInfo);
+        setLoading(true);
         axios.get('http://3.38.19.119:8080/export/search/label', {params: searchInfo})
             .then((res) => {
                 console.log(res);
                 setDocRows(res.data);
+                setLoading(false);
             })
             .catch(err => console.log(err))
     }
     const onDateSearch = () => {
-        if (searchDateInfo.sdate === '' && searchDateInfo.edate === '') {
-            setSearchDateInfo((prevState) => {
-                    delete prevState.edate;
-                    delete prevState.sdate;
-                    return prevState;
-                }
-            )
-        }
-        axios.get('http://3.38.19.119:8080/export/search/date', {params: searchDateInfo})
-            .then((res) => {
-                console.log(res);
-                setExportRows(res.data);
-            })
-            .catch(err => console.log(err))
+        setExLoading(true);
+        setSearchDateInfo((prevState) => {
+            axios.get('http://3.38.19.119:8080/export/search/date', {params: prevState})
+                .then((res) => {
+                    console.log(res);
+                    setExportRows(res.data);
+                    setExLoading(false);
+                })
+                .catch(err => console.log(err))
+        })
+
     }
     const onBoxSearch = () => {
+        setExLoading(true);
         axios.get('http://3.38.19.119:8080/export/search/box', {params: searchBoxInfo})
             .then((res) => {
                 console.log(res);
                 setExportRows(res.data);
             })
             .catch(err => console.log(err))
+        setExLoading(false);
     }
     useEffect(() => {
         onLabelSearch();
@@ -467,7 +471,7 @@ const DocumentExportPage = () => {
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
                         <Box width='2176px' height='400px' backgroundColor={Style.color3}>
-                            <Table selectionModel={selectionModel} setSelectionModel={setSelectionModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={docRows} columns={col} />
+                            <Table loading={loading} selectionModel={selectionModel} setSelectionModel={setSelectionModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={docRows} columns={col} />
                         </Box>
                     </div>
                 </MainBox>
@@ -520,7 +524,7 @@ const DocumentExportPage = () => {
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
                         <Box width='2176px' height='400px' backgroundColor={Style.color3}>
-                            <Table isRowSelectable={true} selectionModel={selectionScanModel} setSelectionModel={setSelectionScanModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={exportRows} columns={exCol} />
+                            <Table loading={exLoading} isRowSelectable={true} selectionModel={selectionScanModel} setSelectionModel={setSelectionScanModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={exportRows} columns={exCol} />
                         </Box>
                     </div>
                 </MainBox>
