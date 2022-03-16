@@ -89,7 +89,6 @@ const CustomInput = (props) => {
                     name={props.name}
                     sx={{width: props.width}}
                     onKeyPress={props.onKeyPress}
-                    defaultValue={props.defaultValue}
                     onChange={props.handleChange}
                     row
                 >

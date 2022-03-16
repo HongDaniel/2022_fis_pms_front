@@ -39,6 +39,7 @@ function ImageContainer(props) {
         setCurrentPage(number);
     }
     const handleKeyDown = (e) => {
+        e.preventDefault();
         if (e.keyCode === 39) {
             handleClickRight();
         }
@@ -50,7 +51,8 @@ function ImageContainer(props) {
     return (
         <div onKeyDown={handleKeyDown} tabIndex="0">
             <div style={{display: 'flex', justifyContent: 'center'}}>
-                <img style={{width: '1100px', height: '1020px'}} src={data[currentPage-1]} />
+                <img style={{width: '1100px', height: '1020px'}} src={`http://3.38.19.119:8080/images/origin/${7690}/${1}`} />
+                {/*origin => modify*/}
             </div>
             <div style={{ margin: '10px', display: 'flex', justifyContent: 'center'}}>
                 <Button style={{width: '50px', margin: '10px'}} onClick={handleClickLeft}> ← </Button>

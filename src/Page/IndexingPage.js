@@ -15,6 +15,8 @@ import AppendDots from "../Atom/AppendDots";
 import ImageContainer from "../Molecule/ImageContainer";
 import {Style} from "../Style";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import LableTable from "../Atom/LableTable";
 
 const boxColumns = [
     {
@@ -84,7 +86,7 @@ const boxColumns = [
 
 const cColumns = [
     {
-        field: 'f_id',
+        field: 'c_id',
         headerName: 'No. ',
         sortable: true,
         width: 80,
@@ -184,7 +186,7 @@ const IndexingPage = () => {
     useEffect(() => {
         if (selectionCModel.length > 0) {
             cRows.map((item) => {
-                if (item.f_id === selectionCModel[0]) {
+                if (item.c_id === selectionCModel[0]) {
                     setSelectedRow(item);
                     setVolumeAmount(item.f_volumeamount);
                     return;
@@ -204,6 +206,7 @@ const IndexingPage = () => {
     }
 
     const [oInfo, setOInfo] = useState({o_code: '', o_name: ''});
+    const [params, setParams] = useState({});
     const [cInfo, setCInfo] = useState({});
     const [gInfo, setGInfo] = useState({});
 
@@ -236,6 +239,12 @@ const IndexingPage = () => {
                 break;
             case('o_name'):
                 setOInfo({...oInfo, o_name: value})
+                break;
+            case('box'):
+                setParams({...params, box: value})
+                break;
+            case('label'):
+                setParams({...params, label: value})
                 break;
             case('철 제목'):
                 setCInfo({...cInfo, f_name: value})
@@ -308,10 +317,10 @@ const IndexingPage = () => {
         let label = e.target.id;
         let v;
         const value = e.target.value;
-        if (label === undefined) {
+        if (label === undefined || label === '') {
             label = e.target.name;
         }
-        console.log(label, value)
+        console.log(e.target)
         switch (label) {
             case('첫 페이지'):
                 setGInfo({...gInfo, c_spage: value})
@@ -321,6 +330,9 @@ const IndexingPage = () => {
                 break;
             case('쪽수'):
                 setGInfo({...gInfo, c_page: value})
+                break;
+            case('등록구분'):
+                setGInfo({...gInfo, c_class: value})
                 break;
             case('시행일자'):
                 setGInfo({...gInfo, c_dodate: value})
@@ -335,6 +347,23 @@ const IndexingPage = () => {
                 setGInfo({...gInfo, c_oldnum: value})
                 break;
             case('보존 기간'):
+                if (value === "1년") {
+                    v = 'YEAR1';
+                } else if (value === "3년") {
+                    v = 'YEAR3';
+                } else if (value === "5년") {
+                    v = 'YEAR5';
+                } else if (value === "10년") {
+                    v = 'YEAR10';
+                } else if (value === "20년") {
+                    v = 'YEAR20';
+                } else if (value === "30년") {
+                    v = 'YEAR30';
+                } else if (value === "준영구") {
+                    v = 'SEMI';
+                } else if (value === "영구") {
+                    v = 'PERMANENT';
+                }
                 setGInfo({...gInfo, c_kperiod: v})
                 break;
             case('건 제목'):
@@ -350,10 +379,37 @@ const IndexingPage = () => {
                 setGInfo({...gInfo, c_receiver: value})
                 break;
             case('전자기록물 여부'):
-                setGInfo({...gInfo, c_edoc: value})
+                if (value === "전자기록물") {
+                    v = '1';
+                } else if (value === "비전자기록물") {
+                    v = '2'
+                }
+                setGInfo({...gInfo, c_edoc: v})
                 break;
-            case('공개여부'):
+            case('공개 여부'):
+                if (value === '공개') {
+                    v = '1'
+                } else if (value === '부분공개') {
+                    v = '2'
+                } else if (value === '비공개') {
+                    v = '3'
+                }
+                if (gInfo.c_openable.length === 9) {
+                    v = v + gInfo.c_openable.substr(1, 8)
+                }
                 setGInfo({...gInfo, c_openable: v})
+                break;
+            case('등급'):
+                v = 'N'.repeat(parseInt(value[0])-1) + 'Y' + 'N'.repeat(8-parseInt(value[0]));
+                if (!gInfo.c_openable) {
+                    alert('공개 여부를 선택해주세요.');
+                } else {
+                    if (gInfo.c_openable.length === 9) {
+                        setGInfo({...gInfo, c_openable: gInfo.c_openable[0] + v})
+                    } else {
+                        setGInfo({...gInfo, c_openable: gInfo.c_openable + v})
+                    }
+                }
                 break;
             case('공개제한부분표시'):
                 setGInfo({...gInfo, c_hidden: value})
@@ -382,7 +438,7 @@ const IndexingPage = () => {
                 for (let i = 0; i < res.length; i++) {
                     result.push({
                         ...selectedRow,
-                        f_id: res[i],
+                        c_id: res[i],
                         f_volumeamount: i+1,
                     })
                 }
@@ -391,17 +447,22 @@ const IndexingPage = () => {
             });
     }
 
+    const handleCDelete = () => {
+        axios.delete(`http://3.38.19.119:8080/index/label/${selectionBoxModel[0]}`)
+            .then((res) => console.log(res))
+    }
+
     const handleGSave = () => {
         console.log(gInfo);
     }
 
     const boxSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://3.38.19.119:8080/index/search/${oInfo.o_code}`)
+        axios.get(`http://3.38.19.119:8080/index/search/${oInfo.o_code}`, {params: params})
             .then((res) => {
                 setBoxRows(res.data);
+                setBoxLoading(false);
             })
-        setBoxLoading(false);
     };
 
     const caseSearch = () => {
@@ -456,7 +517,7 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>철 목록</BoxTitle>
-                                    <Table isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
+                                    <LableTable isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
                                            width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={cRows}
                                            columns={cColumns}/>
                                 </Box>
@@ -484,8 +545,8 @@ const IndexingPage = () => {
                                     </Row>
                                     <Row columns={"2fr 2fr 1fr 1fr 1fr 1fr"}>
                                         {/*<span style={{fontSize: '17pt'}}>기관 코드 : </span>*/}
-                                        <CustomInput type='number' label='* 박스' size='small' margin='0 10px 0 10px'/>
-                                        <CustomInput type='number' label='* 레이블' size='small' margin='0 10px 0 10px'/>
+                                        <CustomInput handleChange={handleFormChange} value={params.box} id='box'  type='number' label='* 박스' size='small' margin='0 10px 0 10px'/>
+                                        <CustomInput handleChange={handleFormChange} value={params.label} id='label'  type='number' label='* 레이블' size='small' margin='0 10px 0 10px'/>
                                         <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='등록완료'/>
                                         <CustomButton onClick={boxSearch} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='검색'/>
                                         <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='출력'/>
@@ -510,7 +571,8 @@ const IndexingPage = () => {
                                     }
                                 </Box>
                                 <div style={styleForm}>
-                                    <UnstyledTabsCustomized volumeAmount={volumeAmount} value={cInfo.f_name} handleSave={handleCSave} handleGSave={handleGSave} handleCaseChange={handleCaseChange} handleChange={handleFormChange} currentTab={currentTab} setCurrentTab={setCurrentTab} />
+                                    <UnstyledTabsCustomized f_id={selectionBoxModel[0]} c_id={selectionGModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
+                                                            handleCaseChange={handleCaseChange} handleChange={handleFormChange} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                                 </div>
                             </Box>
                         </div>
