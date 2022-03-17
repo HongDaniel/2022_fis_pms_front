@@ -89,20 +89,44 @@ const ScanPage = () => {
             setPreviewText("다시수정")
         }
     }
+    const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
 
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, {type: contentType});
+        return blob;
+    }
+    //보정검수완료
     const handleSave = async () =>{ // 보정검수완료를 했을 경우
         console.log("검수완료");
-        console.log(croppedImgList);
-        // let formData = new FormData();
-        // for(let i=1;i<=fidMaxnum.maxNum;i++) {
-        //     formData.append(croppedImgList.)
-        // }
-        // await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/modify?fileId=${fidMaxnum.fid}`)
-        //     .then((res)=>{
-        //         console.log(res);})
-        //     .catch((err)=>{
-        //         console.log(err);
-        //     })
+        let formData = new FormData();
+        const imgData=croppedImgList.map(el=> el.img);
+        formData.append('fileId',fidMaxnum.fid);
+
+        for(let i=0;i<fidMaxnum.maxNum;i++) {
+            const base64=imgData[i].split(',')[1];
+            const blob = b64toBlob(base64,'image');
+            formData.append("images",blob);
+        }
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/modify`,formData,{headers: { "Content-Type" : "multipart/form-data" }})
+            .then((res)=>{
+                console.log(res);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
     }
 
     // image to Base64 string
