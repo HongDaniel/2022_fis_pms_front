@@ -30,6 +30,10 @@ const ScanPage = () => {
 
     // 이미지 리스트에서 사진을 선택했을 경우
     const handleClick = (e) => {
+        if(previewText==='다시수정') {
+            setPreviewText('미리보기');
+            setIsPreview(!isPreview);
+        }
         const source = e.target.src;
         const i = parseInt(e.target.id);
         // console.log('id: '+i);
@@ -56,6 +60,7 @@ const ScanPage = () => {
     const handleCropDone = () => {
             let tmp = croppedImgList.filter(el => el.idx !== selectedIdx);
             tmp.push({img:croppedImgSrc.img, idx: selectedIdx});
+            tmp=tmp.sort((a,b)=> {return a.idx-b.idx});
             setCroppedImgList(tmp);
     };
 
