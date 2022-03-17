@@ -86,7 +86,7 @@ const boxColumns = [
 
 const cColumns = [
     {
-        field: 'c_id',
+        field: 'v_id',
         headerName: 'No. ',
         sortable: true,
         width: 80,
@@ -186,7 +186,7 @@ const IndexingPage = () => {
     useEffect(() => {
         if (selectionCModel.length > 0) {
             cRows.map((item) => {
-                if (item.c_id === selectionCModel[0]) {
+                if (item.v_id === selectionCModel[0]) {
                     setSelectedRow(item);
                     setVolumeAmount(item.f_volumeamount);
                     return;
@@ -431,6 +431,7 @@ const IndexingPage = () => {
     const handleCSave = () => {
         axios.post("http://3.38.19.119:8080/index/label", cInfo)
             .then((res) => {
+                console.log(res.data.v_id);
                 return res.data.v_id
             })
             .then((res) => {
@@ -438,11 +439,10 @@ const IndexingPage = () => {
                 for (let i = 0; i < res.length; i++) {
                     result.push({
                         ...selectedRow,
-                        c_id: res[i],
+                        v_id: res[i],
                         f_volumeamount: i+1,
                     })
                 }
-                console.log(result);
                 setCRows((prev) => result);
             });
     }
@@ -499,7 +499,7 @@ const IndexingPage = () => {
                                 <Box width='1100px' height='1150px' backgroundColor={Style.color3}>
                                     <BoxTitle>이미지</BoxTitle>
                                     <div>
-                                        <ImageContainer />
+                                        <ImageContainer f_id={selectionBoxModel[0]} />
                                     </div>
                                 </Box>
                             </div>
@@ -525,7 +525,7 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>건 목록</BoxTitle>
-                                    <Table width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={gRows}
+                                    <LableTable width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={gRows}
                                            columns={gColumns}/>
                                 </Box>
                             </div>
@@ -571,7 +571,7 @@ const IndexingPage = () => {
                                     }
                                 </Box>
                                 <div style={styleForm}>
-                                    <UnstyledTabsCustomized f_id={selectionBoxModel[0]} c_id={selectionGModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
+                                    <UnstyledTabsCustomized f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
                                                             handleCaseChange={handleCaseChange} handleChange={handleFormChange} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                                 </div>
                             </Box>
