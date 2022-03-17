@@ -42,7 +42,7 @@ function LableTable(props) {
     const [pageSize, setPageSize] = useState(7); // Default로 한 페이지에 보이는 row 개수
     const handleRowSelectable = (params) => { // 그냥 전체 선택 X 하나만 선택 가능한 기능
         if (props.selectionModel.length > 0) {
-            return params.row.v_id === props.selectionModel[0];
+            return params.row[props.id] === props.selectionModel[0];
         } else {
             return true;
         }
@@ -70,7 +70,7 @@ function LableTable(props) {
                 selectionModel={props.selectionModel}
                 onSelectionModelChange={props.setSelectionModel}
                 // props로 체크박스 상태 넘겨줘야함.
-                getRowId={(row) => row.v_id}
+                getRowId={(row) => row[props.id]}
                 // 데이터에서 쓸 id로 변경하세요 여기서는 f_id 썼는데 받아온 데이터에 맞는 id 값 써줘야함.
                 localeText={koKR.components.MuiDataGrid.defaultProps.localeText}
             />

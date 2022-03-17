@@ -79,10 +79,10 @@ export default function UnstyledTabsCustomized(props) {
                 </div>
             </TabPanel>
             <TabPanel value={1}>
-                <Ginput f_id={props.f_id} v_id={props.v_id} volumeAmount={props.volumeAmount} setCurrentTab={setCurrentTab} />
+                <Ginput f_id={props.f_id} v_id={props.v_id} volumeAmount={props.volumeAmount} setCurrentTab={setCurrentTab} caseSearch={props.caseSearch}/>
             </TabPanel>
             <TabPanel value={2}>
-                <Gitems handleGSave={props.handleGSave} handleCaseChange={props.handleCaseChange} />
+                <Gitems handleGSave={props.handleGSave} handleCaseChange={props.handleCaseChange} caseSearch={props.caseSearch}/>
             </TabPanel>
         </TabsUnstyled>
     );
