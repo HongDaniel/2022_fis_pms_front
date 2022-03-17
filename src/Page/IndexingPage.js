@@ -20,6 +20,12 @@ import LableTable from "../Atom/LableTable";
 
 const boxColumns = [
     {
+        field: 'f_id',
+        headerName: 'No.',
+        sortable: true,
+        width: 80,
+    },
+    {
         field: 'f_labelcode',
         headerName: '레이블',
         sortable: true,
@@ -132,7 +138,7 @@ const cColumns = [
 
 const gColumns = [
     {
-        field: 'f_labelcode',
+        field: 'c_id',
         headerName: 'No. ',
         sortable: true,
         width: 80,
@@ -184,6 +190,16 @@ const IndexingPage = () => {
     const [volumeAmount, setVolumeAmount] = useState('');
 
     useEffect(() => {
+        if (selectionGModel.length > 0) {
+            setCurrentTab(()=>2);
+            setGInfo(prev => ({...prev, c_id: selectionGModel[0]}))
+        } else {
+            setCurrentTab(()=>1);
+            setGInfo({});
+        }
+    }, [selectionGModel])
+
+    useEffect(() => {
         if (selectionCModel.length > 0) {
             cRows.map((item) => {
                 if (item.v_id === selectionCModel[0]) {
@@ -192,10 +208,11 @@ const IndexingPage = () => {
                     return;
                 }
             })
+            caseSearch();
         } else {
             setVolumeAmount('');
+            setGRows([]);
         }
-        caseSearch();
     }, [selectionCModel])
 
     const styleForm = {}
@@ -380,9 +397,9 @@ const IndexingPage = () => {
                 break;
             case('전자기록물 여부'):
                 if (value === "전자기록물") {
-                    v = '1';
+                    v = 'ELEC';
                 } else if (value === "비전자기록물") {
-                    v = '2'
+                    v = 'PAPER'
                 }
                 setGInfo({...gInfo, c_edoc: v})
                 break;
@@ -394,10 +411,12 @@ const IndexingPage = () => {
                 } else if (value === '비공개') {
                     v = '3'
                 }
-                if (gInfo.c_openable.length === 9) {
+                if (gInfo.c_openable === undefined || gInfo.c_openable.length === 1 ) {
+                    setGInfo({...gInfo, c_openable: v})
+                }
+                else if (gInfo.c_openable.length === 9) {
                     v = v + gInfo.c_openable.substr(1, 8)
                 }
-                setGInfo({...gInfo, c_openable: v})
                 break;
             case('등급'):
                 v = 'N'.repeat(parseInt(value[0])-1) + 'Y' + 'N'.repeat(8-parseInt(value[0]));
@@ -429,6 +448,7 @@ const IndexingPage = () => {
     }
 
     const handleCSave = () => {
+        console.log(cInfo)
         axios.post("http://3.38.19.119:8080/index/label", cInfo)
             .then((res) => {
                 console.log(res.data.v_id);
@@ -453,7 +473,12 @@ const IndexingPage = () => {
     }
 
     const handleGSave = () => {
-        console.log(gInfo);
+        setGInfo((prevState) => {
+            console.log(prevState);
+            axios.patch("http://3.38.19.119:8080/index/save", prevState)
+                .then((res) => console.log(res))
+                .catch((err) => console.error(err));
+        })
     }
 
     const boxSearch = () => {
@@ -467,9 +492,18 @@ const IndexingPage = () => {
 
     const caseSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://3.38.19.119:8080/index/case`)
+        axios.get(`http://3.38.19.119:8080/index/volumes`, {params: {f_id: selectionBoxModel[0]}})
             .then((res) => {
-                setGRows(res.data);
+                res.data.map((row) => {
+                    if (row.v_id === selectionCModel[0]) {
+                        if (row.casesInfoList === null) {
+                            setGRows([])
+                        } else {
+                            setGRows(row.casesInfoList);
+                        }
+                        return;
+                    }
+                })
             })
         setBoxLoading(false);
     };
@@ -517,7 +551,7 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>철 목록</BoxTitle>
-                                    <LableTable isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
+                                    <LableTable id={'v_id'} isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
                                            width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={cRows}
                                            columns={cColumns}/>
                                 </Box>
@@ -525,7 +559,8 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>건 목록</BoxTitle>
-                                    <LableTable width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={gRows}
+                                    <LableTable id={'c_id'} isRowSelectable={true} selectionModel={selectionGModel} setSelectionModel={setSelectionGModel}
+                                                width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={gRows}
                                            columns={gColumns}/>
                                 </Box>
                             </div>
@@ -571,7 +606,8 @@ const IndexingPage = () => {
                                     }
                                 </Box>
                                 <div style={styleForm}>
-                                    <UnstyledTabsCustomized f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
+                                    <UnstyledTabsCustomized f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} caseSearch={caseSearch}
+                                                            handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
                                                             handleCaseChange={handleCaseChange} handleChange={handleFormChange} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                                 </div>
                             </Box>

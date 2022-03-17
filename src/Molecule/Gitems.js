@@ -53,7 +53,10 @@ function Gitems(props) {
                 </Row>
             </InfoContainer>
             <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
-                <CustomButton onClick={props.handleGSave} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
+                <CustomButton onClick={async () => {
+                    await props.handleGSave();
+                    props.caseSearch();
+                }} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
                 <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
             </div>
         </Box>
