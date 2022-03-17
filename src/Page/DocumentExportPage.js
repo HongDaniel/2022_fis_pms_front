@@ -414,6 +414,9 @@ const DocumentExportPage = () => {
             formData.append("images", files[i]);
             console.log(files[i])
         }
+        axios.post("http://3.38.19.119:8080/images/origin", formData, { headers: { "Content-Type" : "multipart/form-data" } })
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err));
     };
 
     return (

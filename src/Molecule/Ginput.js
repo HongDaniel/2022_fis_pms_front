@@ -6,14 +6,19 @@ import {columns, rows} from "../Page/DocumentExportPage";
 import Box from "../Atom/Box";
 import {styled} from "@mui/system";
 import CustomInput from "../Atom/CustomInput";
+import axios from "axios";
 
 function Ginput(props) {
     const [caseNum, setCaseNum] = useState(null);
     const [pageInfo, setPageInfo] = useState([]);
     const params = {
         f_id: props.f_id,
-        v_id: props.volumeAmount,
+        v_id: props.v_id,
         v_info: pageInfo,
+    }
+    const handleSave = () => {
+        axios.post('http://3.38.19.119:8080/index/volume', params)
+            .then((res) => console.log(res))
     }
     const handleChange = (e) => {
         setCaseNum(parseInt(e.target.value));
@@ -65,7 +70,7 @@ function Ginput(props) {
             <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
                 <CustomButton onClick={() => {
                     props.setCurrentTab(()=>2);
-                    console.log(params);
+                    handleSave();
                 }} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
                 <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
             </div>
