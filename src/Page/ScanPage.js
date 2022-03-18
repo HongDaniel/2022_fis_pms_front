@@ -26,6 +26,7 @@ const ScanPage = () => {
     const [previewText,setPreviewText]= useState("미리보기");
     const [fidMaxnum,setFidMaxnum] = useState({fid:0,maxNum:0});
     const [selectedIdx,setSelectedIdx]= useState();
+    const [imgNum, setImgNum] = useState([]);
     const cropperJS = useRef();
 
     // 이미지 리스트에서 사진을 선택했을 경우
@@ -50,11 +51,6 @@ const ScanPage = () => {
         const croppedData = cropperJS.current.cropper.getCroppedCanvas().toDataURL();
         setCroppedImgSrc({img:croppedData, idx: null} );
     }
-
-    useEffect(() => {
-        // console.log(croppedImgSrc)
-    }, [croppedImgSrc]);
-
 
     // 수정완료 버튼을 눌렀을 경우
     const handleCropDone = () => {
@@ -89,6 +85,7 @@ const ScanPage = () => {
             setPreviewText("다시수정")
         }
     }
+    // base64에서 Blob로 바꾸는 함수
     const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
         const byteCharacters = atob(b64Data);
         const byteArrays = [];
@@ -110,48 +107,61 @@ const ScanPage = () => {
     }
     //보정검수완료
     const handleSave = async () =>{ // 보정검수완료를 했을 경우
-        console.log("검수완료");
         let formData = new FormData();
         const imgData=croppedImgList.map(el=> el.img);
         formData.append('fileId',fidMaxnum.fid);
-
         for(let i=0;i<fidMaxnum.maxNum;i++) {
             const base64=imgData[i].split(',')[1];
             const blob = b64toBlob(base64,'image');
             formData.append("images",blob);
         }
-        await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/modify`,formData,{headers: { "Content-Type" : "multipart/form-data" }})
-            .then((res)=>{
-                console.log(res);
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/modify`, formData, {headers: {"Content-Type": "multipart/form-data"}});
     }
 
     // image to Base64 string
-    const toDataURL = (url) => fetch(url)
-        .then(response => response.blob())
-        .then(blob => new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.onloadend = () => resolve(reader.result)
-            reader.onerror = reject
-            reader.readAsDataURL(blob)
-        }));
+    const toDataURL =  (url) =>
+         fetch(url).then(response => response.blob())
+            .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onloadend = () => resolve(reader.result)
+                reader.onerror = reject
+                reader.readAsDataURL(blob)
+            }))
 
     // 철번호를 선택할 때마다 이미지 리스트의 src를 변경
     useEffect(async () => {
-        let srcs=[]
-        for(let i=1; i<=fidMaxnum.maxNum;i++){
-            await toDataURL(`http://${NetworkConfig.networkAddress}:8080/images/origin/${fidMaxnum.fid}/${i}`)
-                .then(dataUrl => {
-                    if(dataUrl) {
-                    srcs.push(dataUrl);
-                    setCroppedImgList((old)=>[...old,{img:dataUrl,idx:i}]); // 처음 받아올 때 croppedImgList에 dataurl추가
-                    }
-                });
-        }
+        let srcs=[];
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/modify/${fidMaxnum.fid}/1`)
+            .then(async ()=>{
+                for(let i=1; i<=fidMaxnum.maxNum;i++){
+                    await toDataURL(`http://${NetworkConfig.networkAddress}:8080/images/modify/${fidMaxnum.fid}/${i}`)
+                        .then(dataUrl => {
+                            if(dataUrl) {
+                                srcs.push(dataUrl);
+                                setCroppedImgList((old)=>[...old,{img:dataUrl,idx:i}]); // 처음 받아올 때 croppedImgList에 dataurl추가
+                            }
+                        })
+                }
+            })
+            .catch(async (err) => {
+                for(let i=1; i<=fidMaxnum.maxNum;i++){
+                    await toDataURL(`http://${NetworkConfig.networkAddress}:8080/images/origin/${fidMaxnum.fid}/${i}`)
+                        .then(dataUrl => {
+                            if(dataUrl) {
+                                srcs.push(dataUrl);
+                                setCroppedImgList((old)=>[...old,{img:dataUrl,idx:i}]); // 처음 받아올 때 croppedImgList에 dataurl추가
+                            }
+                        })
+                }
+            });
+
     }, [fidMaxnum]);
+
+    useEffect(async ()=>{
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/maxnum`)
+            .then(res => setImgNum(res.data.imagesNumList))
+            .catch(err => console.log(err));
+    },[])
 
     return (
         <Container>
@@ -166,7 +176,7 @@ const ScanPage = () => {
                                 <Autocomplete
                                     disablePortal
                                     id="combo-box-demo"
-                                    options={fid_maxnum}
+                                    options={imgNum}
                                     style={{backgroundColor: "#fff", marginLeft:"10px"}}
                                     sx={{width: 300}}
                                     placeholder={"철번호"}
