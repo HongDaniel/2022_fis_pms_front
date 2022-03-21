@@ -4,7 +4,7 @@ import styled from "styled-components";
 const MainBox = styled.div`
   width: 2250px;
   height: ${props => props.height};
-  margin: 35px 15px;
+  margin: 35px 10px;
   border: 3px solid #eee;
   border-radius: 12px;
   position: relative;

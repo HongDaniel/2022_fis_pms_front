@@ -28,25 +28,29 @@ function GitemSearch(props) {
         console.log(e.target.getAttribute('name'));
         handleClose();
     }
+    const getValue = (x) => {
+        console.log(x)
+        return x[1];
+    }
 
     return (
         <div>
             <h1>건 항목 검색결과</h1>
             <ListHeader columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'20pt'} weight={'700'} mb={'20px'}>
-                <div>등록구분</div>
-                <div>부서명</div>
-                <div>시행일자</div>
-                <div>끝 페이지</div>
-                <div>보존기간</div>
-                <div>문서번호</div>
-                <div>쪽수</div>
-                <div>생산등록일자</div>
-                <div>첫 페이지</div>
-                <div>건 제목</div>
                 <div>레이블</div>
-                <div>기록물 형태</div>
                 <div>권호수</div>
+                <div>생산등록일자</div>
+                <div>시행일자</div>
+                <div>건 제목</div>
+                <div>첫 페이지</div>
+                <div>끝 페이지</div>
+                <div>쪽수</div>
+                <div>oldnum</div>
+                <div>보존기간</div>
                 <div>기관코드</div>
+                <div>부서명</div>
+                <div>type</div>
+                <div>등록구분</div>
             </ListHeader>
             {tmp.length === 0
                 ?
@@ -56,7 +60,7 @@ function GitemSearch(props) {
                     return (
                         <ListContainer key={item.c_class} name={item.c_class} onDoubleClick={handleDoubleClick} columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
                             {Object.entries(item).map((x) => {
-                                    return (<div key={x[0]} name={x[0]}>{x[1]}</div>)
+                                    return (<div key={x[0]} name={x[0]}>{getValue(x)}</div>)
                                 }
                             )}
                         </ListContainer>

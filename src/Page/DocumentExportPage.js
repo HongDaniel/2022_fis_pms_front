@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Box from "../Atom/Box";
 import styled from "styled-components";
 import Table from "../Atom/Table";
@@ -360,51 +360,57 @@ const DocumentExportPage = () => {
     const handleChange = (e) => {
         const label = e.target.id;
         const value = e.target.value;
-        console.log(label, value);
-        switch (label) {
-            case('slabel'):
-                setSearchInfo({...searchInfo, slabel: value})
-                break;
-            case('elabel'):
-                setSearchInfo({...searchInfo, elabel: value})
-                break;
-            case('sdate'):
-                setSearchDateInfo({...searchDateInfo, sdate: value})
-                break;
-            case('edate'):
-                setSearchDateInfo({...searchDateInfo, edate: value})
-                break;
-            case('sbox'):
-                setSearchBoxInfo({...searchBoxInfo, sbox: value})
-                break;
-            case('ebox'):
-                setSearchBoxInfo({...searchBoxInfo, ebox: value})
-                break;
-        }
+        setTimeout(() => {
+            console.log(label, value);
+            switch (label) {
+                case('slabel'):
+                    setSearchInfo({...searchInfo, slabel: value})
+                    break;
+                case('elabel'):
+                    setSearchInfo({...searchInfo, elabel: value})
+                    break;
+                case('sdate'):
+                    setSearchDateInfo({...searchDateInfo, sdate: value})
+                    break;
+                case('edate'):
+                    setSearchDateInfo({...searchDateInfo, edate: value})
+                    break;
+                case('sbox'):
+                    setSearchBoxInfo({...searchBoxInfo, sbox: value})
+                    break;
+                case('ebox'):
+                    setSearchBoxInfo({...searchBoxInfo, ebox: value})
+                    break;
+            }
+        }, 100);
+
     }
 
-    const handleRegisterChange = (e) => {
+    const handleRegisterChange = useCallback( (e) => {
         const label = e.target;
         const value = e.target.value;
         let make = "";
-        if (label.id === 'b_num') {
-            setRegisterInfo({...registerInfo, b_num: value})
-        } else if (label.name === '구축여부') {
-            if (value === "구축") {
-                make = "YES";
-            } else if (value === "비구축") {
-                make = "NO";
+        setTimeout(() => {
+            console.log(label, value);
+            if (label.id === 'b_num') {
+                setRegisterInfo({...registerInfo, b_num: value})
+            } else if (label.name === '구축여부') {
+                if (value === "구축") {
+                    make = "YES";
+                } else if (value === "비구축") {
+                    make = "NO";
+                }
+                setRegisterInfo({...registerInfo, f_db: make})
+            } else if (label.name === '스캔여부') {
+                if (value === "구축") {
+                    make = "YES";
+                } else if (value === "비구축") {
+                    make = "NO";
+                }
+                setRegisterInfo({...registerInfo, f_scan: make})
             }
-            setRegisterInfo({...registerInfo, f_db: make})
-        } else if (label.name === '스캔여부') {
-            if (value === "구축") {
-                make = "YES";
-            } else if (value === "비구축") {
-                make = "NO";
-            }
-            setRegisterInfo({...registerInfo, f_scan: make})
-        }
-    };
+        }, 100);
+    }, [registerInfo]) ;
 
     const handleScan = (e) => {
         const formData = new FormData();

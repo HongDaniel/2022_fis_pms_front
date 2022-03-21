@@ -14,7 +14,7 @@ const ManagePage = () => {
     return (
         <Container>
             <Navigation />
-            <MainBox height={"1250px"}>
+            <MainBox height={"1220px"}>
                 <Title> 작업장 관리 </Title>
                 <div style={{margin: '40px 0 0 10px'}}>
                     <ManageTabs />

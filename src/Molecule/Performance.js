@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import InputContainer from "./InputContainer";
 import AutoInfoToggle from "./AutoInfoToggle";
 import Box from "../Atom/Box";
@@ -10,92 +10,105 @@ import CustomButton from "../Atom/CustomButton";
 import Table from "../Atom/Table";
 import {rows} from "../Page/DocumentExportPage";
 import {Style} from "../Style";
+import axios from "axios";
+import LableTable from "../Atom/LableTable";
 
 const columns = [
     {
-        field: 'id',
-        headerName: 'No. ',
-        sortable: true,
-        width: 80,
-    },
-    {
-        field: 'f_name',
+        field: 'name',
         headerName: '공정',
-        sortable: true,
-        width: 200,
-    },
-    {
-        field: 'f_pyear',
-        headerName: '계획',
-        sortable: true,
-        width: 200,
-    },
-    {
-        field: 'f_p',
-        headerName: '실적',
-        sortable: true,
-        width: 200,
-    },
-    {
-        field: 'f_py',
-        headerName: '진행율',
         sortable: true,
         width: 150,
     },
     {
-        field: 'f_kperiod',
-        headerName: '인원계획',
+        field: 'plan',
+        headerName: '계획',
         sortable: true,
-        width: 100,
+        width: 150,
+    },
+    {
+        field: 'worked',
+        headerName: '실적',
+        sortable: true,
+        width: 150,
+    },
+    {
+        field: 'progress',
+        headerName: '진행율',
+        sortable: true,
+        width: 150,
+        valueGetter: (params) => {
+            const p = params.row.plan;
+            const pw = params.row.worked;
+            const res = 100*(pw/p) + '%'
+            return res;
+        },
+    },
+    {
+        field: 'plan_w',
+        headerName: '투입인원',
+        sortable: true,
+        width: 150,
         flex: 1,
     },
 ];
 
 function Performance(props) {
+    const [pRows, setPRows] = useState([]);
+    const onPerformance = () => {
+        axios.get("http://3.38.19.119:8080/total/info")
+            .then((res) => {
+                setPRows(res.data)
+            });
+    }
+    useEffect(() => {
+        onPerformance();
+    }, [])
+
     return (
         <Box mt='0' width='2200px' height='1140px' backgroundColor={'#ffffff'}>
             <div style={{position: "absolute", margin: '20px'}}>
                 <Box mt='10px' width='2120px' height='400px' backgroundColor={Style.color3}>
                     {/*<Title> 계획 입력 </Title>*/}
                     <Row columns={"1fr 1fr 1fr 1fr"}>
-                        <ManageContainer name={"전수조사"}/>
-                        <ManageContainer name={"면표시검증"}/>
-                        <ManageContainer name={"색인검수"}/>
-                        <ManageContainer name={"목록작업"}/>
-                    </Row>
-                    <Row columns={"1fr 1fr 1fr 1fr"}>
-                        <ManageContainer name={"스캔문서"}/>
-                        <ManageContainer name={"로 딩"}/>
-                        <ManageContainer name={"반입반출"}/>
-                        <ManageContainer name={"스캔도면"}/>
-                    </Row>
-                    <Row columns={"1fr 1fr 1fr 1fr"}>
-                        <ManageContainer name={"재 편 철"}/>
-                        <ManageContainer name={"분 류"}/>
+                        <ManageContainer name={"사전조사"}/>
+                        <ManageContainer name={"문서반출"}/>
+                        <ManageContainer name={"스캔작업"}/>
                         <ManageContainer name={"이미지보정"}/>
-                        <ManageContainer name={"보존상자편성"}/>
-                    </Row>
-                    <Row columns={"1fr 1fr 1fr 1fr"}>
-                        <ManageContainer name={"분류검증"}/>
-                        <ManageContainer name={"이미지검수"}/>
-                        <ManageContainer name={"서가배치"}/>
-                        <ManageContainer name={"면 표 시"}/>
                     </Row>
                     <Row columns={"1fr 1fr 1fr 1fr"}>
                         <ManageContainer name={"색인입력"}/>
-                        <ManageContainer name={"기타작업"}/>
+                        <ManageContainer name={"색인검수"}/>
+                        <ManageContainer name={"업로드"}/>
+                        <ManageContainer name={"업로드완료"}/>
+                        {/*<ManageContainer name={"반입반출"}/>*/}
+                        {/*<ManageContainer name={"스캔도면"}/>*/}
+                    </Row>
+                    {/*<Row columns={"1fr 1fr 1fr 1fr"}>*/}
+                    {/*    <ManageContainer name={"재 편 철"}/>*/}
+                    {/*    <ManageContainer name={"분 류"}/>*/}
+                    {/*    <ManageContainer name={"이미지보정"}/>*/}
+                    {/*    <ManageContainer name={"보존상자편성"}/>*/}
+                    {/*</Row>*/}
+                    {/*<Row columns={"1fr 1fr 1fr 1fr"}>*/}
+                    {/*    <ManageContainer name={"분류검증"}/>*/}
+                    {/*    <ManageContainer name={"이미지검수"}/>*/}
+                    {/*    <ManageContainer name={"서가배치"}/>*/}
+                    {/*    <ManageContainer name={"면 표 시"}/>*/}
+                    {/*</Row>*/}
+                    <Row columns={"1fr"}>
+                        {/*<ManageContainer name={"색인입력"}/>*/}
+                        {/*<ManageContainer name={"기타작업"}/>*/}
                         <span />
-                        <div style={{width: '468px', justifyContent: 'right', display: 'flex'}}>
-                            <CustomButton type={"normal"} name={"저장"} width={"108px"} height={"45px"} fontSize={"22px"} margin={"20px 0 0 0"}
-                                          backgroundColor={'#50586C'} borderRadius={"25px"} content={"저장"}/>
-                        </div>
+                        <CustomButton type={"normal"} name={"저장"} width={"108px"} height={"45px"} fontSize={"22px"} margin={"30px 0 0 0"}
+                                      backgroundColor={'#50586C'} borderRadius={"25px"} content={"저장"}/>
                     </Row>
                 </Box>
                 <Row columns={"1fr 1fr"}>
                     <Box mt='30px' width='1050px' height='630px' backgroundColor={Style.color3}>
                         <BoxTitle> 계획 대비 실적(누적) </BoxTitle>
                         <div style={{marginTop: '10px'}}>
-                            <Table headerBG='#50586C' cellBG='#DCE2F0' height={'600px'} width={'1050px'} rows={rows} columns={columns}/>
+                            <LableTable checkboxSelection={false} id={'name'} headerBG='#50586C' cellBG='#DCE2F0' height={'600px'} width={'1050px'} rows={pRows} columns={columns}/>
                         </div>
                     </Box>
                     <div>
@@ -153,6 +166,7 @@ const BoxTitle = styled('div')`
 const Row = styled('div')`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
+  justify-items: center;
   & > div {
     & > label {
       font-size: 14pt;
