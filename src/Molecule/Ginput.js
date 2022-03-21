@@ -17,6 +17,7 @@ function Ginput(props) {
         v_info: pageInfo,
     }
     const handleSave = () => {
+        console.log(params);
         axios.post('http://3.38.19.119:8080/index/volume', params)
             .then((res) => console.log(res))
     }
@@ -70,7 +71,7 @@ function Ginput(props) {
             <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
                 <CustomButton onClick={async() => {
                     await handleSave();
-                    props.caseSearch();
+                    await props.caseSearch();
                     props.setCurrentTab(()=>2);
                 }} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
                 <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>

@@ -64,7 +64,7 @@ function LableTable(props) {
                 pageSize={pageSize}
                 onPageSizeChange={(newPage) => setPageSize(newPage)}
                 rowsPerPageOptions={[7, 10, 20]}
-                checkboxSelection={true}
+                checkboxSelection={props.checkboxSelection}
                 isRowSelectable={props.isRowSelectable && handleRowSelectable}
                 // disableSelectionOnClick
                 selectionModel={props.selectionModel}

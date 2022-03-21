@@ -35,7 +35,7 @@ const boxColumns = [
         field: 'f_name',
         headerName: '사전조사 철제목',
         sortable: true,
-        width: 480,
+        width: 400,
     },
     {
         field: 'f_pyear',
@@ -113,7 +113,7 @@ const cColumns = [
         field: 'f_name',
         headerName: '철제목',
         sortable: true,
-        width: 480,
+        width: 430,
     },
     {
         field: 'f_pyear',
@@ -132,6 +132,26 @@ const cColumns = [
         headerName: '보존기간',
         sortable: true,
         width: 80,
+        valueGetter: (params) => {
+            const info = params.row.f_kperiod;
+            if (info === 'YEAR1') {
+                return '1년';
+            } else if (info === 'YEAR3') {
+                return '3년';
+            } else if (info === 'YEAR5') {
+                return '5년';
+            } else if (info === 'YEAR10') {
+                return '10년';
+            } else if (info === 'YEAR20') {
+                return '20년';
+            } else if (info === 'YEAR30') {
+                return '30년';
+            } else if (info === 'SEMI') {
+                return '준영구';
+            } else {
+                return '영구';
+            }
+        },
         flex: 1,
     },
 ];
@@ -147,7 +167,7 @@ const gColumns = [
         field: 'c_pdate',
         headerName: '생산(접수)일자',
         sortable: true,
-        width: 300,
+        width: 260,
     },
     {
         field: 'c_title',
@@ -172,6 +192,26 @@ const gColumns = [
         headerName: '보존기간',
         sortable: true,
         width: 80,
+        valueGetter: (params) => {
+            const info = params.row.c_kperiod;
+            if (info === 'YEAR1') {
+                return '1년';
+            } else if (info === 'YEAR3') {
+                return '3년';
+            } else if (info === 'YEAR5') {
+                return '5년';
+            } else if (info === 'YEAR10') {
+                return '10년';
+            } else if (info === 'YEAR20') {
+                return '20년';
+            } else if (info === 'YEAR30') {
+                return '30년';
+            } else if (info === 'SEMI') {
+                return '준영구';
+            } else {
+                return '영구';
+            }
+        },
         flex: 1,
     },
 ];
@@ -229,6 +269,7 @@ const IndexingPage = () => {
 
     useEffect(() => {
         if (selectionBoxModel.length > 0) {
+            setCurrentTab(() => 0);
             boxRows.map((item) => {
                 if (item.f_id === selectionBoxModel[0]) {
                     setSelectedRow(item);
@@ -515,7 +556,7 @@ const IndexingPage = () => {
     return (
         <Container>
             <Navigation />
-            <MainBox height={'1250px'}>
+            <MainBox height={'1220px'}>
                 <Title>
                     색인
                     <CustomButton onClick={() => {
@@ -551,7 +592,7 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>철 목록</BoxTitle>
-                                    <LableTable id={'v_id'} isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
+                                    <LableTable checkboxSelection={true} id={'v_id'} isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
                                            width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={cRows}
                                            columns={cColumns}/>
                                 </Box>
@@ -559,7 +600,7 @@ const IndexingPage = () => {
                             <div style={{margin: '50px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>건 목록</BoxTitle>
-                                    <LableTable id={'c_id'} isRowSelectable={true} selectionModel={selectionGModel} setSelectionModel={setSelectionGModel}
+                                    <LableTable checkboxSelection={true} id={'c_id'} isRowSelectable={true} selectionModel={selectionGModel} setSelectionModel={setSelectionGModel}
                                                 width='1100px' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={gRows}
                                            columns={gColumns}/>
                                 </Box>

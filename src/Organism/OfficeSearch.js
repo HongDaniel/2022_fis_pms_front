@@ -37,7 +37,7 @@ function OfficeSearch(props) {
                 <div>기관명</div>
                 <div>존폐</div>
             </ListHeader>
-            {tmp.map((item) => {
+            {tmp && tmp.map((item) => {
                 return (
                     <ListContainer key={item.o_code} name={item.o_code} onDoubleClick={handleDoubleClick} columns={'1fr 2fr 1fr'} fontSize={'15pt'} weight={'400'} mb={'10px'}>
                         <div name={item.o_code}>{item.o_code}</div>

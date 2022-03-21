@@ -9,10 +9,10 @@ import {Style} from "../Style";
 
 function ImageContainer(props) {
     const data = [puppy, puppy2, puppy3, puppy4, puppy5];
-
     const [currentPage, setCurrentPage] = useState(1);
     const [totalCount, setTotalCount] = useState(data.length); // axios.get => setTotalCount(res.length)
     const [number, setNumber] = useState(1);
+
     const handleClickRight = () => {
         setCurrentPage((i) => {
             if (i < totalCount) {
@@ -51,7 +51,7 @@ function ImageContainer(props) {
     return (
         <div onKeyDown={handleKeyDown} tabIndex="0">
             <div style={{display: 'flex', justifyContent: 'center'}}>
-                <img style={{width: '1100px', height: '1020px'}} src={`http://3.38.19.119:8080/images/origin/${props.f_id}/${currentPage}`} />
+                <img style={{width: '1100px', height: '1020px'}} src={`http://3.38.19.119:8080/images/modify/${props.f_id}/${currentPage}`} />
                 {/*origin => modify*/}
             </div>
             <div style={{ margin: '10px', display: 'flex', justifyContent: 'center'}}>
