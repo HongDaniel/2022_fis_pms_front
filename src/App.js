@@ -5,7 +5,7 @@ import DocumentExportPage from "./Page/DocumentExportPage";
 import IndexingPage from "./Page/IndexingPage";
 import UploadPage from "./Page/UploadPage";
 import ManagePage from "./Page/ManagePage";
-import ScanPage from "./Page/ScanPage";
+import ImageCorrectionPage from "./Page/ImageCorrectionPage";
 import LoginPage from "./Page/LoginPage";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
                 <Route exact path={"/login"} element={<LoginPage/>}/>
                 <Route exact path={"/"} element={<PreInspectPage/>}/>
                 <Route exact path={"/export"} element={<DocumentExportPage/>}/>
-                <Route exact path={"/scan"} element={<ScanPage/>}/>
+                <Route exact path={"/imageCorrect"} element={<ImageCorrectionPage/>}/>
                 <Route exact path={"/index"} element={<IndexingPage/>}/>
                 <Route exact path={"/upload"} element={<UploadPage/>}/>
                 <Route exact path={"/manage/workplace"} element={<ManagePage/>}/>

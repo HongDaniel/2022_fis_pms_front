@@ -15,10 +15,9 @@ import axios from "axios";
 import NetworkConfig from "../configures/NetworkConfig";
 import { Autocomplete } from '@mui/material';
 import {TextField} from "@mui/material";
-import {fid_maxnum} from "../store/dummy/fid_maxnum";
 
 
-const ScanPage = () => {
+const ImageCorrectionPage = () => {
     const [selectedImg, setSelectedImg] = useState({});
     const [croppedImgSrc, setCroppedImgSrc] = useState(null);
     const [croppedImgList, setCroppedImgList] = useState([]);
@@ -437,4 +436,4 @@ const BtnContainer = styled.div` /*수정완료, 미리보기 버튼*/
     margin-bottom: 25px;
   }
 `;
-export default ScanPage;
+export default ImageCorrectionPage;

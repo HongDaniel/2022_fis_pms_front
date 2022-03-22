@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
 import logo from '../Media/logo.png'
 import LogoutIcon from '@mui/icons-material/Logout';
-import FileInput from "../Atom/FileInput";
 import {Style} from "../Style";
 import axios from "axios";
 import * as XLSX from "xlsx";
@@ -17,8 +16,6 @@ import * as XLSX from "xlsx";
 
 const Navigation = () => {
     let navigate = useNavigate();
-    const [open, setOpen] = useState(false);
-    const [files, setFiles] = useState(null);
     const handleClick = (e) => { // 버튼을 클릭했을 때
         const btnName=e.target.value
         switch (btnName) {
@@ -28,8 +25,8 @@ const Navigation = () => {
             case '문서반출':
                 navigate('/export')
                 break
-            case '스캔':
-                navigate('/scan')
+            case '이미지보정':
+                navigate('/imageCorrect')
                 break
             case '색인':
                 navigate('/index')
@@ -37,18 +34,11 @@ const Navigation = () => {
             case '업로드':
                 navigate('/upload')
                 break
-            case '작업장 관리':
+            case '작업장관리':
                 navigate('/manage/workplace')
                 break
         }
     }
-    const handleClickManage = (e) => {
-        if (open) {
-            setOpen(false);
-        } else {
-            setOpen(true);
-        }
-    };
     const handleUpload = (event) => {
         const formData = new FormData();
         const file = event.target.files[0];
@@ -81,65 +71,48 @@ const Navigation = () => {
             })
         };
         reader.readAsBinaryString(input.files[0]);
-
+    }
+    const logout = async () =>{
+        await axios.post("http://3.38.19.119:8080/logout")
+            .then((res) => {
+                console.log(res);
+                navigate('/login');
+            })
+            .catch(err => console.log(err));
     }
     return (
         <Container>
             <img src={logo} alt={"logo"}/>
             <BtnContainer>
-                <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
-                              fontSize={"23px"} content={"사전조사"} value={"사전조사"} boxShadow ={""} onClick={handleClick}/>
-                <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
-                              fontSize={"23px"} content={"문서반출"} value={"문서반출"} onClick={handleClick}/>
-                <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
-                              fontSize={"23px"} content={"이미지보정"} value={"스캔"} onClick={handleClick}/>
-                <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
-                              fontSize={"23px"} content={"색인"} value={"색인"} onClick={handleClick}/>
-                <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
-                              fontSize={"23px"} content={"업로드"} value={"업로드"} onClick={handleClick}/>
-                <CustomButton type={"normal"} width={"100%"} height={"50px"} backgroundColor={"#50586C"}
-                              fontSize={"23px"} content={"관리"} value={"관리"} onClick={handleClickManage}/>
-                {open &&
-                    <div style={{ marginLeft: '25%', borderLeft: '3px solid #50586C'}}>
-                        <div style={{margin: '10px'}}>
-                            <Button value={"작업장 관리"} onClick={handleClick}>작업장 관리</Button>
-                        </div>
-                        <div style={{margin: '10px'}}>
-                            <Label className={'input-file-button'} for={'input-file'}>
-                                기관코드 등록
-                            </Label>
-                            <input type={'file'} name='excel' id={'input-file'} style={{display: 'none'}} onChange={handleUpload}/>
-                        </div>
-                    </div>
-                }
+                <Button value={"사전조사"} onClick={handleClick}>사전조사</Button>
+                <Button value={"문서반출"} onClick={handleClick}>문서반출</Button>
+                <Button value={"스캔"} onClick={handleClick}>스캔</Button>
+                <Button value={"이미지보정"} onClick={handleClick}>이미지보정</Button>
+                <Button value={"색인"} onClick={handleClick}>색인</Button>
+                <Button value={"검수"} onClick={handleClick}>검수</Button>
+                <Button value={"업로드"} onClick={handleClick}>업로드</Button>
+                <Button value={"작업장관리"} onClick={handleClick}>작업장 관리</Button>
             </BtnContainer>
-            <Bottom>
-                <LogoutIcon className="icon" onClick={()=>{
-                    axios.post("http://3.38.19.119:8080/logout")
-                        .then(console.log);
-                    navigate('/login');
-                }}/>{/*로그아웃*/}
-            </Bottom>
+            <LogoutIcon className="icon" onClick={logout}/>{/*로그아웃*/}
         </Container>
     );
 };
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  //justify-content: center;
+  display: grid;
+  grid-template-columns: 200px auto 150px;
   align-items: center;
-  background-color: #DCE2F0;
-  width: 280px;
-  height: 100vh;
+  background-color: ${Style.color2};
+  width: 100%;
+  height: 75px;
   &>img { //fis logo
-    width: 125px;
-    margin: 45px 0;
+    height: 50px;
+    margin-left: 50px;
   }
   & .icon {
-    //color: #FFD400;
-    color: ${Style.color2};
+    color: #fff;
     font-size: 42px;
+    margin-left: 50px;
   }
   & .icon:hover {
     transform: scale(1.2);
@@ -148,9 +121,16 @@ const Container = styled.div`
 `;
 
 const BtnContainer = styled.div`
-width: 95%;
-  &>button {
-    margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: center;
+  & .manage {
+    width: 100%;
+  }
+  & > button {
+    box-sizing: border-box;
+    margin: 0 5px;
   }
 `;
 
@@ -166,14 +146,17 @@ const Label = styled.label`
 `
 
 const Button = styled.button`
+  width: 100%;
+  height: 70px;
+  box-sizing: border-box;
+  background-color: ${Style.color2};
   border: none;
-  width: 168px;
-  border-bottom: 1px solid #50586C;
-  padding: 6px 25px;
-  font-size: 15pt;
-  background-color: #DCE2F0;
-  color: #50586C;
   cursor: pointer;
+  font-size: 23px;
+  color: #fff;
+  &:hover {
+    transform: scale(1.05);
+  }
 `
 
 const Bottom = styled.div`
