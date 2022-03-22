@@ -208,7 +208,7 @@ const gColumns = [
                 return '30년';
             } else if (info === 'SEMI') {
                 return '준영구';
-            } else {
+            } else if (info === 'PERMANENT') {
                 return '영구';
             }
         },
@@ -231,8 +231,15 @@ const IndexingPage = () => {
 
     useEffect(() => {
         if (selectionGModel.length > 0) {
+            setOpenImage(true);
             setCurrentTab(()=>2);
-            setGInfo(prev => ({...prev, c_id: selectionGModel[0]}))
+            gRows.map((row) => {
+                if (selectionGModel[0] === row.c_id) {
+                    console.log(row);
+                    setGInfo(row);
+                    return;
+                }
+            })
         } else {
             setCurrentTab(()=>1);
             setGInfo({});
@@ -265,7 +272,7 @@ const IndexingPage = () => {
     const [oInfo, setOInfo] = useState({o_code: '', o_name: ''});
     const [params, setParams] = useState({});
     const [cInfo, setCInfo] = useState({});
-    const [gInfo, setGInfo] = useState({});
+    const [gInfo, setGInfo] = useState({c_edoc: 'PAPER'});
 
     useEffect(() => {
         if (selectionBoxModel.length > 0) {
@@ -439,10 +446,11 @@ const IndexingPage = () => {
             case('전자기록물 여부'):
                 if (value === "전자기록물") {
                     v = 'ELEC';
-                } else if (value === "비전자기록물") {
+                    setGInfo({...gInfo, c_edoc: v})
+                } else {
                     v = 'PAPER'
+                    setGInfo({...gInfo, c_edoc: v})
                 }
-                setGInfo({...gInfo, c_edoc: v})
                 break;
             case('공개 여부'):
                 if (value === '공개') {
@@ -452,7 +460,7 @@ const IndexingPage = () => {
                 } else if (value === '비공개') {
                     v = '3'
                 }
-                if (gInfo.c_openable === undefined || gInfo.c_openable.length === 1 ) {
+                if (gInfo.c_openable === null || gInfo.c_openable.length === 1 ) {
                     setGInfo({...gInfo, c_openable: v})
                 }
                 else if (gInfo.c_openable.length === 9) {
@@ -517,9 +525,27 @@ const IndexingPage = () => {
         setGInfo((prevState) => {
             console.log(prevState);
             axios.patch("http://3.38.19.119:8080/index/save", prevState)
-                .then((res) => console.log(res))
+                .then((res) => {
+                    console.log(res)
+                    alert('저장되었습니다.');
+                    setSelectionGModel([]);
+                })
                 .catch((err) => console.error(err));
         })
+    }
+
+    const handleSearchOffice = () => {
+        if (oInfo.o_code.length > 0) {
+            axios.get(`http://3.38.19.119:8080/search/office/${oInfo.o_code}`)
+                .then(res => setOInfo(prev => (
+                    {...prev, o_name: res.data.data[0].o_name})
+                ))
+        } else if (oInfo.o_name.length > 0) {
+            axios.get(`http://3.38.19.119:8080/search/office`, {params: {o_name: oInfo.o_name}})
+                .then(res => setOInfo(prev => (
+                    {...prev, o_code: res.data.data[0].o_code})
+                ))
+        }
     }
 
     const boxSearch = () => {
@@ -611,13 +637,12 @@ const IndexingPage = () => {
                         <div style={{margin: '50px 0 0 15px'}}>
                             <Box width='1050px' height='140px' backgroundColor={Style.color3}>
                                 <InfoContainer>
-                                    <Row columns={"1fr 1fr 1.9fr"}>
-                                        <CustomInput disabled={true} handleChange={handleFormChange} value={oInfo.o_name} id='o_name' type='text' width='410px' label='* 기관명' size='small' margin='0 10px 0 10px'/>
-                                        <span style={{fontSize: '17pt'}}>
-                                            (<CustomInput disabled={true} handleChange={handleFormChange} value={oInfo.o_code} id='o_code' type='number' width='160px' label='* 기관코드' size='small' margin='0 10px 0 10px'/>)
-                                        </span>
+                                    <Row columns={"1fr 1fr 1fr 3fr"}>
+                                        <CustomInput handleChange={handleFormChange} value={oInfo.o_name} id='o_name' type='text' width='410px' label='* 기관명' size='small' margin='0 10px 0 10px'/>
+                                        <CustomInput handleChange={handleFormChange} value={oInfo.o_code} id='o_code' type='number' width='160px' label='* 기관코드' size='small' margin='0 10px 0 10px'/>
                                         {/*<CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='기관코드 찾기'/>*/}
                                         <TransitionsModal currentTab={currentTab} content={'기관코드 찾기'} oInfo={oInfo} setOInfo={setOInfo}/>
+                                        <CustomButton onClick={handleSearchOffice} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='기관 검색'/>
                                     </Row>
                                     <Row columns={"2fr 2fr 1fr 1fr 1fr 1fr"}>
                                         {/*<span style={{fontSize: '17pt'}}>기관 코드 : </span>*/}
@@ -647,7 +672,7 @@ const IndexingPage = () => {
                                     }
                                 </Box>
                                 <div style={styleForm}>
-                                    <UnstyledTabsCustomized f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} caseSearch={caseSearch}
+                                    <UnstyledTabsCustomized gInfo={gInfo} setOpenImage={setOpenImage} f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} c_id={selectionGModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} caseSearch={caseSearch}
                                                             handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
                                                             handleCaseChange={handleCaseChange} handleChange={handleFormChange} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                                 </div>

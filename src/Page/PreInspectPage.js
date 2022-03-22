@@ -74,7 +74,7 @@ const columns = [
                 return '30년';
             } else if (info === 'SEMI') {
                 return '준영구';
-            } else {
+            } else if (info === 'PERMANENT') {
                 return '영구';
             }
         }
