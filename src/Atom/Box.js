@@ -10,6 +10,5 @@ const Box = styled.div`
   margin: 10px;
   margin-top: ${props => props.mt};
   position: relative;
-  overflow: hidden;
 `
 export default Box;
