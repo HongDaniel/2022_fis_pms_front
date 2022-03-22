@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 
 const MainBox = styled.div`
-  width: 2250px;
+  width: 95%;
   height: ${props => props.height};
   margin: 35px 10px;
   border: 3px solid #eee;

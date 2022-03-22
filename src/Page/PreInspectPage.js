@@ -200,7 +200,7 @@ const columns = [
 
 const PreInspectPage = () => {
     const [modal, setModal] = useState(false);
-    const [searchInfo, setSearchInfo] = useState({f_name: "", f_pyear: "", f_labelcode: "", o_code: ""}); //검색하는 정보
+    const [searchInfo, setSearchInfo] = useState({f_name: "", b_num: "", f_labelcode: "", o_code: ""}); //검색하는 정보
     const [searchResult, setSearchResult] = useState(()=>JSON.parse(localStorage.getItem("searchResult"))||[]); //검색한 정보
     const [saveInfo,setSaveInfo] = useState({f_id:"",f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:{chung:"",yall:"",bun:"",suga:""},f_kplace:"",f_type:"",f_typenum:"",})
     const [selected,setSelected] = useState([]);
@@ -250,8 +250,8 @@ const PreInspectPage = () => {
             case("레이블"):
                 setSearchInfo({...searchInfo,f_labelcode: content})
                 break;
-            case("생산년도"):
-                setSearchInfo({...searchInfo,f_pyear: String(content)})
+            case("박스번호"):
+                setSearchInfo({...searchInfo,b_num: String(content)})
                 break;
             case("기관코드"):
                 setSearchInfo({...searchInfo,o_code: String(content)})
@@ -517,19 +517,19 @@ const PreInspectPage = () => {
                 <Title> 입력 및 검색 </Title>
                 <BoxContainer>
                     {/*입력정보*/}
-                    <Box width='2000px' height='340px' backgroundColor={Style.color3}>
+                    <Box width='90%' height='340px' backgroundColor={Style.color3}>
                         <InfoContainer>
                             <h3>필수 입력 정보</h3>
                             <Row columns={"3fr 2fr"}>
                                 <InputContainer id={"철제목"} width={"350px"} type={"text"} handleChange={handleSearchInfo}
                                                 onKeyPress={onKeyPress}/>
-                                <InputContainer id={"생산년도"} width={"300px"} type={"number"}
+                                <InputContainer id={"박스번호"} width={"240px"} type={"number"}
                                                 handleChange={handleSearchInfo} onKeyPress={onKeyPress}/>
                             </Row>
                             <Row columns={"3fr 2fr"}>
                                 <InputContainer id={"레이블"} width={"350px"} type={"text"} handleChange={handleSearchInfo}
                                                 onKeyPress={onKeyPress}/>
-                                <InputContainer id={"기관코드"} width={"300px"} type={"number"}
+                                <InputContainer id={"기관코드"} width={"240px"} type={"number"}
                                                 handleChange={handleSearchInfo} onKeyPress={onKeyPress}/>
                             </Row>
                         </InfoContainer>
@@ -541,7 +541,7 @@ const PreInspectPage = () => {
                         </BtnContainer>
                     </Box>
                     {/*조회 데이터*/}
-                    <Box width='2000px' height='670px' backgroundColor={Style.color3}>
+                    <Box width='90%' height='670px' backgroundColor={Style.color3}>
                         <Table rows={searchResult} columns={columns} selectionModel={selected}
                                setSelectionModel={setSelected} headerBG={Style.color2} cellBG={Style.color1}
                                width={"88%"} height={"85%"}/>

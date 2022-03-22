@@ -17,7 +17,7 @@ const CustomInput = (props) => {
         return (
             <TextField id= {props.id}
                        label={props.label}
-                       sx={{width: props.width, m: props.margin}}
+                       sx={{width: props.width, m: props.margin, boxSizing:'border-box'}}
                        variant="outlined"
                        type={"text"}
                        size={props.size}
@@ -36,7 +36,7 @@ const CustomInput = (props) => {
                        id= {props.id}
                        disabled={props.disabled}
                        label={props.label}
-                       sx={{width: props.width, m: props.margin}}
+                       sx={{width: props.width, m: props.margin, boxSizing:'border-box'}}
                        variant="outlined"
                        size={"small"}
                        name={props.name}
