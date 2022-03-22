@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import InputContainer from "./InputContainer";
 import CustomInput from "../Atom/CustomInput";
 import Box from "../Atom/Box";
@@ -6,13 +6,14 @@ import {styled} from "@mui/system";
 import CustomButton from "../Atom/CustomButton";
 
 function Gitems(props) {
+    console.log(props.c_id);
     return (
         <Box mt='0' width='1030px' height='810px' backgroundColor={'#ecf0f1'}>
             <InfoContainer>
                 <Row columns={"1fr 1fr 1fr"}>
-                    <InputContainer handleChange={props.handleCaseChange} size={'small'} className={'page'} id={"첫 페이지"} width={"100px"} type={"text"}/>
-                    <InputContainer handleChange={props.handleCaseChange} size={'small'} className={'page'} id={"끝 페이지"} width={"100px"} labelWidth={'100px'} type={"text"}/>
-                    <InputContainer handleChange={props.handleCaseChange} size={'small'} className={'page'} id={"쪽수"} width={"100px"} labelWidth={'55px'} type={"text"}/>
+                    <InputContainer value={props.gInfo === undefined ? '' : props.gInfo.c_spage} handleChange={props.handleCaseChange} size={'small'} className={'page'} id={"첫 페이지"} width={"100px"} type={"text"}/>
+                    <InputContainer value={props.gInfo === undefined ? '' : props.gInfo.c_epage} handleChange={props.handleCaseChange} size={'small'} className={'page'} id={"끝 페이지"} width={"100px"} labelWidth={'100px'} type={"text"}/>
+                    <InputContainer value={props.gInfo === undefined ? '' : props.gInfo.c_page} handleChange={props.handleCaseChange} size={'small'} className={'page'} id={"쪽수"} width={"100px"} labelWidth={'55px'} type={"text"}/>
                 </Row>
                 <Row columns={"1fr"}>
                     <InputContainer handleChange={props.handleCaseChange} size={'small'} id={"등록구분"} width={"600px"} type={"text"}/>
@@ -39,7 +40,7 @@ function Gitems(props) {
                     <InputContainer handleChange={props.handleCaseChange} size={'small'} id={"수(발)신자"} width={"600px"} type={"text"}/>
                 </Row>
                 <Row columns={"1fr"}>
-                    <InputContainer handleChange={props.handleCaseChange} size={'small'} className={'record'} fontSize='13pt' id={"전자기록물 여부"} width={"600px"} type={"select"} contents={['전자기록물', '비전자기록물']}/>
+                    <InputContainer defaultValue={props.gInfo === undefined ? '' : props.gInfo.c_edoc === 'ELEC' ? '전자기록물' : '비전자기록물'} handleChange={props.handleCaseChange} size={'small'} className={'record'} fontSize='13pt' id={"전자기록물 여부"} width={"600px"} type={"select"} contents={['전자기록물', '비전자기록물']}/>
                 </Row>
                 <Row columns={"1fr 4fr"}>
                     <span style={{fontSize: '14pt'}}>* 공개 여부</span>
@@ -55,7 +56,9 @@ function Gitems(props) {
             <div style={{position:"absolute", bottom: '27px', right: '25px'}}>
                 <CustomButton onClick={async () => {
                     await props.handleGSave();
+                    props.setCurrentTab(()=>1);
                     props.caseSearch();
+                    props.setOpenImage(false);
                 }} width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='저장'/>
                 <CustomButton width='100px' height='40px' type='normal' margin='0 0 0 50px' color='#ffffff' backgroundColor='#50586C' content='삭제'/>
             </div>
