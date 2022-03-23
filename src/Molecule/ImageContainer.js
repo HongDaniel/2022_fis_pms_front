@@ -51,7 +51,7 @@ function ImageContainer(props) {
     return (
         <div onKeyDown={handleKeyDown} tabIndex="0">
             <div style={{display: 'flex', justifyContent: 'center'}}>
-                <img style={{width: '1100px', height: '1020px'}} src={`http://3.38.19.119:8080/images/modify/${props.f_id}/${currentPage}`} />
+                <img style={{width: '1100px', height: '940px'}} src={`http://3.38.19.119:8080/images/modify/${props.f_id}/${currentPage}`} />
                 {/*origin => modify*/}
             </div>
             <div style={{ margin: '10px', display: 'flex', justifyContent: 'center'}}>

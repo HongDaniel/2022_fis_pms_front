@@ -199,10 +199,10 @@ const UploadPage = () => {
     return (
         <Container>
             <Navigation/>
-            <MainBox height={"1220px"}>
+            <MainBox height={"1140px"}>
                 <Title>업로드</Title>
                 <BoxContainer>
-                    <Box width='2200px' height='320px' backgroundColor={Style.color3}>
+                    <Box width='2200px' height='250px' backgroundColor={Style.color3}>
                         <Search>
                             <div className={"code"}>
                                 <label htmlFor={"code"}>기관코드</label>
@@ -255,7 +255,7 @@ const Search = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 70px 90px;
-  height: 180px;
+  height: 140px;
   & > div {
     display: flex;
     flex-direction: row;
@@ -292,6 +292,6 @@ const Content = styled.div`
   & button {
     position: absolute;
     top: 30px;
-    right: 50px;
+    right: 130px;
   }
 `;

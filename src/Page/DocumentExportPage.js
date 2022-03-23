@@ -429,7 +429,7 @@ const DocumentExportPage = () => {
         <Container>
             <Navigation/>
             <div>
-                <MainBox height='620px'>
+                <MainBox height='590px'>
                     <Title>문서반출</Title>
                     <div style={{margin: 25, display:"flex", flexDirection: "row"}}>
                         <div style={{margin:10}}>
@@ -474,8 +474,8 @@ const DocumentExportPage = () => {
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Box width='2176px' height='400px' backgroundColor={Style.color3}>
-                            <Table loading={loading} selectionModel={selectionModel} setSelectionModel={setSelectionModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={docRows} columns={col} />
+                        <Box width='2176px' height='380px' backgroundColor={Style.color3}>
+                            <Table loading={loading} selectionModel={selectionModel} setSelectionModel={setSelectionModel} width='2170px' height='370px' headerBG={Style.color2} cellBG={Style.color1} rows={docRows} columns={col} />
                         </Box>
                     </div>
                 </MainBox>
