@@ -582,7 +582,7 @@ const IndexingPage = () => {
     return (
         <Container>
             <Navigation />
-            <MainBox height={'1220px'}>
+            <MainBox height={'1140px'}>
                 <Title>
                     색인
                     <CustomButton onClick={() => {
@@ -597,7 +597,7 @@ const IndexingPage = () => {
                     {openImage ?
                         <div>
                             <div style={{margin: '50px 0 0 15px'}}>
-                                <Box width='1100px' height='1150px' backgroundColor={Style.color3}>
+                                <Box width='1100px' height='1070px' backgroundColor={Style.color3}>
                                     <BoxTitle>이미지</BoxTitle>
                                     <div>
                                         <ImageContainer f_id={selectionBoxModel[0]} />
@@ -615,7 +615,7 @@ const IndexingPage = () => {
                                            columns={boxColumns}/>
                                 </Box>
                             </div>
-                            <div style={{margin: '50px 0 0 15px'}}>
+                            <div style={{margin: '20px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>철 목록</BoxTitle>
                                     <LableTable checkboxSelection={true} id={'v_id'} isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
@@ -623,7 +623,7 @@ const IndexingPage = () => {
                                            columns={cColumns}/>
                                 </Box>
                             </div>
-                            <div style={{margin: '50px 0 0 15px'}}>
+                            <div style={{margin: '20px 0 0 15px'}}>
                                 <Box width='1100px' height='350px' backgroundColor={Style.color3}>
                                     <BoxTitle>건 목록</BoxTitle>
                                     <LableTable checkboxSelection={true} id={'c_id'} isRowSelectable={true} selectionModel={selectionGModel} setSelectionModel={setSelectionGModel}
@@ -657,7 +657,7 @@ const IndexingPage = () => {
                             </Box>
                         </div>
                         <div style={{margin: '20px 0 0 15px'}}>
-                            <Box width='1050px' height='990px' backgroundColor='white'>
+                            <Box width='1050px' height='920px' backgroundColor='white'>
                                 <Box width='1030px' height='100px' backgroundColor= {Style.color3}>
                                     {currentTab !== 1 &&
                                         <div style={{position: 'absolute', margin: '30px 0 0 250px'}}>
@@ -687,6 +687,7 @@ const IndexingPage = () => {
     );
 };
 
+//style
 const BoxTitle = styled.div`
   position: absolute;
   margin: -15px 0 0 20px;
