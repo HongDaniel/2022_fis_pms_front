@@ -10,7 +10,6 @@ import CustomInput from "../Atom/CustomInput";
 import Container from "../Atom/Container";
 import {Style} from "../Style";
 import axios from "axios";
-import {useRecoilState} from "recoil";
 
 export const columns = [
     { field: 'f_id', headerName: 'ID', width: 90 },
@@ -43,12 +42,10 @@ export const columns = [
             }`,
     },
 ];
-
 export const rows = [
     { f_id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
     { f_id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
 ];
-
 const col = [
     {
         field: 'f_labelcode',
@@ -96,7 +93,6 @@ const col = [
         flex: 1,
     },
 ];
-
 const exCol = [
     {
         field: 'f_id',

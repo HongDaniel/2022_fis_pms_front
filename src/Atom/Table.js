@@ -2,52 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {DataGrid, koKR} from "@mui/x-data-grid";
 import {makeStyles} from "@mui/styles";
 
-const boxColumns = [
-    {
-        field: 'f_labelcode',
-        headerName: '레이블',
-        sortable: true,
-        width: 150,
-    },
-    {
-        field: 'f_name',
-        headerName: '사전조사 철제목',
-        sortable: true,
-        width: 480,
-    },
-    {
-        field: 'f_pyear',
-        headerName: '생산년도',
-        sortable: true,
-        width: 80,
-    },
-    {
-        field: 'f_kperiod',
-        headerName: '보존기간',
-        sortable: true,
-        valueGetter: (params) => {
-            const info = params.row.f_kperiod;
-            if (info === 'YEAR1') {
-                return '1년';
-            } else if (info === 'YEAR3') {
-                return '3년';
-            } else if (info === 'YEAR5') {
-                return '5년';
-            } else {
-                return '영구';
-            }
-        },
-        width: 80,
-    },
-    {
-        field: 'f_check',
-        headerName: '검수',
-        sortable: true,
-        width: 80,
-        flex: 1,
-    },
-];
-
 const useStyles = makeStyles(theme => ({
     root: {
         margin: '10px',
