@@ -25,6 +25,9 @@ const Navigation = () => {
             case '문서반출':
                 navigate('/export')
                 break
+            case '스캔':
+                navigate('/scan')
+                break
             case '이미지보정':
                 navigate('/imageCorrect')
                 break
