@@ -21,13 +21,6 @@ function LoginTemplate(props) {
             [name]: value // name 키를 가진 값을 value 로 설정
         });
     };
-
-    /*
-        날짜: 2022/01/19 3:43 오후
-        작성자: 한명수
-        작성내용: login 버튼을 눌렀을 때 작동하는 함수
-    */
-
     return (
         <div>
             <LoginForm onClickFunction={onLogin} onChangeFunction={handleInputFormChange}/>
