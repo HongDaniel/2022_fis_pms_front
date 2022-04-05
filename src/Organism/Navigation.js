@@ -7,6 +7,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {Style} from "../Style";
 import axios from "axios";
 import * as XLSX from "xlsx";
+import {useRecoilState} from "recoil";
+import {isLogedIn} from "../store/LoginInfo";
 
 /*
 날짜: 2022/02/14 2:11 PM
@@ -16,6 +18,8 @@ import * as XLSX from "xlsx";
 
 const Navigation = () => {
     let navigate = useNavigate();
+    const [logInStatus, setLogInStatus] = useRecoilState(isLogedIn);
+
     const handleClick = (e) => { // 버튼을 클릭했을 때
         const btnName=e.target.value
         switch (btnName) {
@@ -79,7 +83,8 @@ const Navigation = () => {
         await axios.post("http://3.38.19.119:8080/logout")
             .then((res) => {
                 console.log(res);
-                navigate('/login');
+                setLogInStatus(false);
+                navigate('/');
             })
             .catch(err => console.log(err));
     }

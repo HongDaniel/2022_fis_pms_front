@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import logo from "../Media/logo.png";
 import {BiUser} from "react-icons/bi";
@@ -8,37 +8,55 @@ import CustomButton from "../Atom/CustomButton";
 import {useNavigate} from "react-router-dom";
 import SignUpForm from "../Organism/SignUpForm";
 import Modal from "@mui/material/Modal";
+import axios from "axios";
+import {useRecoilState} from "recoil";
+import {isLogedIn, u_authority, userInfo} from "../store/LoginInfo";
 
 function LoginForm(props) {
-    const navigate = useNavigate();
     const [isModal, setIsModal] = useState(false);
+    const [loginInfo, setLoginInfo] = useRecoilState(userInfo);
+    const [loginState, setLoginState] = useRecoilState(isLogedIn);
+    const [authoriy, setAuthority] = useRecoilState(u_authority);
     const handleOpen = () => setIsModal(true);
     const handleClose = () => setIsModal(false);
 
-    const handleLogin = (e) =>{
+    const handleLogin = async (e) =>{
         e.preventDefault();
-        console.log("login");
+        await axios.post('http://3.38.19.119:8080/login', loginInfo)
+            .then(res => { // 로그인에 성공했을 경우
+                setLoginState(true);
+                setAuthority(res.data.authority);
+                console.log(res.data);
+            })
+            .catch(() => window.alert("아이디나 비밀번호가 일치하지 않습니다."));
+    }
 
+    const handleChange = (e) =>{ // 로그인 입력창 정보
+        if(e.target.name==="nickname"){
+        setLoginInfo({...loginInfo,"nickname":e.target.value})
+        }
+        else{
+            setLoginInfo({...loginInfo,"password":e.target.value})
+        }
     }
-    const handleSignup = (e) =>{
-        e.preventDefault();
-        console.log("signup");
-    }
+
     return (
         <Main>
             <Container>
                 <img src={logo}/> {/*회사로고*/}
                 <div>
+                    <form>
                     <InputRow> {/*아이디*/}
                         <div className="icon"><BiUser/></div>
-                        <input required name="u_nickname" id="username" type="text" placeholder="아이디"
-                               onChange={props.onChangeFunction}/>
+                        <input required name="nickname" id="username" type="text" placeholder="아이디"
+                               onChange={handleChange}/>
                     </InputRow>
                     <InputRow> {/*비밀번호*/}
                         <div className="icon"><RiLockPasswordLine/></div>
-                        <input required name="u_pwd" id="password" type="password" placeholder="비밀번호"
-                               onChange={props.onChangeFunction}/>
+                        <input required name="password" id="password" type="password" placeholder="비밀번호"
+                               onChange={handleChange} autoComplete={"on"}/>
                     </InputRow>
+                    </form>
                     <BtnContainer>
                         <CustomButton type="normal" width="100%" height="40px" backgroundColor={Style.color2}
                                       color={Style.color1} borderRadius={"10px"} content={"로그인"} onClick={handleLogin}/>
