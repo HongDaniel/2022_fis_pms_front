@@ -498,7 +498,7 @@ const IndexingPage = () => {
 
     const handleCSave = () => {
         console.log(cInfo)
-        axios.post("http://localhost:8080/index/label", cInfo, {withCredentials: true})
+        axios.post("http://3.38.19.119:8080/index/label", cInfo)
             .then((res) => {
                 console.log(res.data.v_id);
                 return res.data.v_id
@@ -517,14 +517,14 @@ const IndexingPage = () => {
     }
 
     const handleCDelete = () => {
-        axios.delete(`http://localhost:8080/index/label/${selectionBoxModel[0]}`, {withCredentials: true})
+        axios.delete(`http://3.38.19.119:8080/index/label/${selectionBoxModel[0]}`)
             .then((res) => console.log(res))
     }
 
     const handleGSave = () => {
         setGInfo((prevState) => {
             console.log(prevState);
-            axios.patch("http://localhost:8080/index/save", prevState, {withCredentials: true})
+            axios.patch("http://3.38.19.119:8080/index/save", prevState)
                 .then((res) => {
                     console.log(res)
                     alert('저장되었습니다.');
@@ -536,12 +536,12 @@ const IndexingPage = () => {
 
     const handleSearchOffice = () => {
         if (oInfo.o_code.length > 0) {
-            axios.get(`http://localhost:8080/office/search/${oInfo.o_code}`, {withCredentials: true})
+            axios.get(`http://3.38.19.119:8080/search/office/${oInfo.o_code}`)
                 .then(res => setOInfo(prev => (
                     {...prev, o_name: res.data.data[0].o_name})
                 ))
         } else if (oInfo.o_name.length > 0) {
-            axios.get(`http://localhost:8080/office/search`, {params: {o_name: oInfo.o_name}, withCredentials: true})
+            axios.get(`http://3.38.19.119:8080/search/office`, {params: {o_name: oInfo.o_name}})
                 .then(res => setOInfo(prev => (
                     {...prev, o_code: res.data.data[0].o_code})
                 ))
@@ -550,7 +550,7 @@ const IndexingPage = () => {
 
     const boxSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://localhost:8080/file/index/input/${oInfo.o_code}`, {params: params, withCredentials: true})
+        axios.get(`http://3.38.19.119:8080/index/search/${oInfo.o_code}`, {params: params})
             .then((res) => {
                 setBoxRows(res.data);
                 setBoxLoading(false);
@@ -563,7 +563,7 @@ const IndexingPage = () => {
 
     const caseSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://localhost:8080/index/volumes`, {params: {f_id: selectionBoxModel[0]}, withCredentials: true})
+        axios.get(`http://3.38.19.119:8080/index/volumes`, {params: {f_id: selectionBoxModel[0]}})
             .then((res) => {
                 res.data.map((row) => {
                     if (row.v_id === selectionCModel[0]) {
@@ -623,8 +623,8 @@ const IndexingPage = () => {
                                 <BoxTitle>철 목록</BoxTitle>
                                 <Box width='100%' height='350px' backgroundColor={Style.color3}>
                                     <LableTable checkboxSelection={true} id={'v_id'} isRowSelectable={true} selectionModel={selectionCModel} setSelectionModel={setSelectionCModel}
-                                           width='100%' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={cRows}
-                                           columns={cColumns}/>
+                                                width='100%' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={cRows}
+                                                columns={cColumns}/>
                                 </Box>
                             </div>
                             <div style={{margin: '50px 0 0 15px'}}>
@@ -632,7 +632,7 @@ const IndexingPage = () => {
                                 <Box width='100%' height='350px' backgroundColor={Style.color3}>
                                     <LableTable checkboxSelection={true} id={'c_id'} isRowSelectable={true} selectionModel={selectionGModel} setSelectionModel={setSelectionGModel}
                                                 width='100%' height='330px' headerBG={Style.color2} cellBG={Style.color1} rows={gRows}
-                                           columns={gColumns}/>
+                                                columns={gColumns}/>
                                 </Box>
                             </div>
                         </div>
@@ -652,10 +652,10 @@ const IndexingPage = () => {
                                         {/*<span style={{fontSize: '17pt'}}>기관 코드 : </span>*/}
                                         <CustomInput handleChange={handleFormChange} value={params.box} id='box'  type='number' label='* 박스' size='small' margin='0 10px 0 10px'/>
                                         <CustomInput handleChange={handleFormChange} value={params.label} id='label'  type='number' label='* 레이블' size='small' margin='0 10px 0 10px'/>
-                                        <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='등록완료'/>
+                                        {/*<CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='등록완료'/>*/}
                                         <CustomButton onClick={boxSearch} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content='검색'/>
                                         <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='출력'/>
-                                        {/*<CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='검수'/>*/}
+                                        <CustomButton type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor={Style.color2} content='검수'/>
                                     </Row>
                                 </InfoContainer>
                             </Box>

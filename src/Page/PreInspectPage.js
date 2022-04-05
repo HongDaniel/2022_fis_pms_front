@@ -211,7 +211,7 @@ const PreInspectPage = () => {
     const modalClose = () => { setModal(false); } // 모달창 닫기
 
     const handleSearch = async () => { //검색
-        await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, {params:searchInfo}, {withCredentials: true})
+        await axios.get(`http://localhost:8080/preinfo/file`, {params:searchInfo}, {withCredentials: true})
             .then((res) => {
                 console.log(res.data);
                 const data = res.data;
@@ -392,7 +392,7 @@ const PreInspectPage = () => {
                 formData.append("excelfile",e.target.files[0]);
                 // FormData의 value 확인
                 e.target.value='';
-                await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`, formData, {withCredentials: true})
+                await axios.post(`http://localhost:8080/preinfo/excel`, formData, {withCredentials: true})
                     .then((res) => {
                         handleSearch();
                         console.log(res.data);
@@ -411,7 +411,7 @@ const PreInspectPage = () => {
         modalOpen();
     }
     const handleSave = async () => { //저장버튼을 눌렀을 때
-            await axios.post(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, saveInfo, {withCredentials: true})
+            await axios.post(`http://localhost:8080/preinfo/file`, saveInfo, {withCredentials: true})
                 .then((res) => {
                     // console.log(res);
                     handleSearch();
@@ -448,7 +448,7 @@ const PreInspectPage = () => {
             window.alert("필수 입력 정보를 모두 입력해주세요!");
         }
         else {
-            await axios.patch(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, saveInfo, {withCredentials: true})
+            await axios.patch(`http://localhost:8080/preinfo/file`, saveInfo, {withCredentials: true})
                 .then((res)=>{
                     console.log(res);
                     handleSearch();
@@ -466,7 +466,7 @@ const PreInspectPage = () => {
     }
     const handleDelete=async ()=>{ //철삭제
         if(selected.length>=1){
-            await axios.delete(`http://${NetworkConfig.networkAddress}:8080/preinfo/file`, {data:{f_id:[...selected]},withCredentials: true})
+            await axios.delete(`http://localhost:8080/preinfo/file`, {data:{f_id:[...selected]},withCredentials: true})
                 .then((res) => {
                     console.log(res);
                     handleSearch();
@@ -481,7 +481,7 @@ const PreInspectPage = () => {
 
     }
     const handleDownload = async () => { //엑셀로 저장하기
-        await axios.get(`http://${NetworkConfig.networkAddress}:8080/preinfo/excel`,{withCredentials: true, responseType: 'blob'})
+        await axios.get(`http://localhost:8080/preinfo/excel`,{withCredentials: true, responseType: 'blob'})
             .then((res)=>{
                 const url = window.URL.createObjectURL(new Blob([res.data]));
                 const link = document.createElement('a');
@@ -501,7 +501,7 @@ const PreInspectPage = () => {
         formData.append("excelFile",e.target.files[0]);
         // FormData의 value 확인
         e.target.value='';
-        await axios.post(`http://${NetworkConfig.networkAddress}:8080/office/excel`, formData, {withCredentials: true})
+        await axios.post(`http://localhost:8080/office/excel`, formData, {withCredentials: true})
             .then((res) => {
                 setIsOcode(true);
                 console.log(res);

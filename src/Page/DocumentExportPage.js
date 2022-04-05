@@ -277,7 +277,7 @@ const exCol = [
     },
 ];
 
-const DocumentExportPage = () => {
+const DocumentExportPage = (url, config) => {
     const [docRows, setDocRows] = useState([]);
     const [searchInfo, setSearchInfo] = useState({});
     const [searchDateInfo, setSearchDateInfo] = useState({});
@@ -305,13 +305,13 @@ const DocumentExportPage = () => {
             })
         }))
         setSaveInfo((item) => {
-            item['e_list'] = eList;
+            item['exportInfoList'] = eList;
         })
-        console.log(saveInfo.e_list);
+        console.log(saveInfo.exportInfoList);
     };
 
     const onRegister = () => {
-        axios.patch('http://3.38.19.119:8080/export/save', saveInfo)
+        axios.patch('http://localhost:8080/file/export', saveInfo, {withCredentials: true})
             .then((res) => {
                 setSaveInfo({});
                 console.log(res);
@@ -321,7 +321,7 @@ const DocumentExportPage = () => {
     const onLabelSearch = () => {
         console.log(searchInfo);
         setLoading(true);
-        axios.get('http://3.38.19.119:8080/export/search/label', {params: searchInfo})
+        axios.get('http://localhost:8080/file/export/label', {params: searchInfo, withCredentials: true})
             .then((res) => {
                 console.log(res);
                 setDocRows(res.data);
@@ -332,7 +332,7 @@ const DocumentExportPage = () => {
     const onDateSearch = () => {
         setExLoading(true);
         setSearchDateInfo((prevState) => {
-            axios.get('http://3.38.19.119:8080/export/search/date', {params: prevState})
+            axios.get('http://localhost:8080/file/export/date', {params: prevState, withCredentials: true})
                 .then((res) => {
                     console.log(res);
                     setExportRows(res.data);
@@ -342,9 +342,9 @@ const DocumentExportPage = () => {
         })
 
     }
-    const onBoxSearch = () => {
+    const onBoxSearch = (url, config) => {
         setExLoading(true);
-        axios.get('http://3.38.19.119:8080/export/search/box', {params: searchBoxInfo})
+        axios.get('http://localhost:8080/file/export/box', {params: searchBoxInfo, withCredentials: true})
             .then((res) => {
                 console.log(res);
                 setExportRows(res.data);
@@ -420,8 +420,11 @@ const DocumentExportPage = () => {
             formData.append("images", files[i]);
             console.log(files[i])
         }
-        axios.post("http://3.38.19.119:8080/images/origin", formData, { headers: { "Content-Type" : "multipart/form-data" } })
-            .then(res => console.log(res.data))
+        axios.post("http://localhost:8080/images/origin", formData, { headers: { "Content-Type" : "multipart/form-data" }, withCredentials: true })
+            .then(res => {
+                console.log(res.data);
+                onDateSearch();
+            })
             .catch(err => console.log(err));
     };
 
@@ -444,7 +447,7 @@ const DocumentExportPage = () => {
                         <div style={{marginTop:10}}>
                             <CustomButton onClick={onLabelSearch} type='normal' color='#ffffff' backgroundColor={Style.color2} content='레이블 검색'/>
                         </div>
-                        <div style={{marginLeft:1150, marginTop:10}}>
+                        <div style={{marginLeft:1230, marginTop:10}}>
                             <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='박스 출력'/>
                             <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='철 출력'/>
                             <CustomButton type='normal' margin='5px' color='#ffffff' backgroundColor={Style.color2} content='모두 출력'/>
