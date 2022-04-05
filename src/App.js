@@ -1,5 +1,5 @@
-import React from "react";
-import {Routes, Route} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Routes, Route, Navigate} from "react-router-dom";
 import PreInspectPage from "./Page/PreInspectPage";
 import DocumentExportPage from "./Page/DocumentExportPage";
 import IndexingPage from "./Page/IndexingPage";
@@ -9,8 +9,21 @@ import ImageCorrectionPage from "./Page/ImageCorrectionPage";
 import LoginPage from "./Page/LoginPage";
 import InspectionPage from "./Page/InspectionPage";
 import ScanPage from "./Page/ScanPage";
+import {isLogedIn} from "./store/LoginInfo";
+import {useRecoilValue} from "recoil";
+import axios from "axios";
+import NetworkConfig from "./configures/NetworkConfig";
 
 function App() {
+    const loginStatus = useRecoilValue(isLogedIn);
+    console.log(loginStatus);
+
+    useEffect(async () => {
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/userInfo`, {withCredentials: true})
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+    }, []);
+
     return (
         <div className="App">
             <Routes>

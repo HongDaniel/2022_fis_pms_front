@@ -19,6 +19,7 @@ const InputContainer = (props) => {
                          onKeyPress={props.onKeyPress}
                          maxLength={props.maxLength}
                          disabled={props.disabled}
+                         isSame={props.isSame}
             />
         </Container>
     );

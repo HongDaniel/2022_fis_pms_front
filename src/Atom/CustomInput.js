@@ -30,6 +30,24 @@ const CustomInput = (props) => {
             />
         )
     }
+    else if(props.type==="password"){
+        return (
+            <TextField id= {props.label}
+                       label={props.label}
+                       sx={{width: props.width, m: props.margin, boxSizing:'border-box'}}
+                       variant="outlined"
+                       type={"password"}
+                       size={props.size}
+                       error={props.isSame===false && props.label==='비밀번호확인'}
+                       helperText={props.isSame===false && "비밀번호가 일치하지 않습니다."}
+                       defaultValue={props.defaultValue}
+                       value={props.value}
+                       onChange={props.handleChange}
+                       onKeyPress={props.onKeyPress}
+                       disabled={props.disabled}
+            />
+        )
+    }
     else if(props.type==="number"){
         const maxLength=props.maxLength||30;
         return (

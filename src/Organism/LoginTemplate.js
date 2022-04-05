@@ -23,7 +23,7 @@ function LoginTemplate(props) {
     };
     return (
         <div>
-            <LoginForm onClickFunction={onLogin} onChangeFunction={handleInputFormChange}/>
+            <LoginForm/>
         </div>
     );
 }

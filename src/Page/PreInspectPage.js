@@ -211,13 +211,17 @@ const PreInspectPage = () => {
     const modalClose = () => { setModal(false); } // 모달창 닫기
 
     const handleSearch = async () => { //검색
-        await axios.get(`http://localhost:8080/preinfo/file`, {params:searchInfo}, {withCredentials: true})
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/file/preinfo`, {params: searchInfo}, {withCredentials: true})
             .then((res) => {
                 console.log(res.data);
                 const data = res.data;
                 setSearchResult(data);
             })
-    }
+            .catch(err => {{
+                console.log(err);
+                window.alert(err.message);
+            }});
+    };
 
     useEffect(()=>{
         localStorage.setItem("searchResult",JSON.stringify(searchResult));
