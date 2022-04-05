@@ -7,7 +7,7 @@ import AutoInfoToggle from "./AutoInfoToggle";
 
 function Citems(props) {
     return (
-        <Box mt='0' width='1030px' height='810px' backgroundColor={'#ecf0f1'}>
+        <Box mt='0' width='98%' height='810px' backgroundColor={'#ecf0f1'}>
             <InfoContainer>
                 <Row columns={"1fr"}>
                     <InputContainer value={props.value} handleChange={props.handleChange} id={"철 제목"} width={"600px"} type={"text"} labelColor='red'/>

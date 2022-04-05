@@ -50,21 +50,26 @@ function ImageContainer(props) {
 
     return (
         <div onKeyDown={handleKeyDown} tabIndex="0">
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-                <img style={{width: '1100px', height: '940px'}} src={`http://3.38.19.119:8080/images/modify/${props.f_id}/${currentPage}`} />
-                {/*origin => modify*/}
-            </div>
-            <div style={{ margin: '10px', display: 'flex', justifyContent: 'center'}}>
-                <Button style={{width: '50px', margin: '10px'}} onClick={handleClickLeft}> ← </Button>
-                <h2 style={{margin: '10px'}}>{currentPage} 페이지</h2>
-                <Button style={{width: '50px', margin: '10px'}} onClick={handleClickRight}> → </Button>
-            </div>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-                <form onSubmit={handleClickNumber}>
-                    <Input min={1} max={totalCount} type={'number'} value={number} onChange={handleChange}/>
-                    <Submit type={'submit'} value={'이동'}/>
-                </form>
-            </div>
+            {props.f_id === undefined ?
+                <h1>대상 목록을 선택해주세요.</h1>
+                :
+                <>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <img style={{width: '1100px', height: '1020px'}} src={`http://3.38.19.119:8080/images/modify/${props.f_id}/${currentPage}`} />
+                    </div>
+                    <div style={{ margin: '10px', display: 'flex', justifyContent: 'center'}}>
+                        <Button style={{width: '50px', margin: '10px'}} onClick={handleClickLeft}> ← </Button>
+                        <h2 style={{margin: '10px'}}>{currentPage} 페이지</h2>
+                        <Button style={{width: '50px', margin: '10px'}} onClick={handleClickRight}> → </Button>
+                    </div>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <form onSubmit={handleClickNumber}>
+                            <Input min={1} max={totalCount} type={'number'} value={number} onChange={handleChange}/>
+                            <Submit type={'submit'} value={'이동'}/>
+                        </form>
+                    </div>
+                </>
+            }
         </div>
 
     );

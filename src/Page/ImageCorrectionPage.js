@@ -114,7 +114,7 @@ const ImageCorrectionPage = () => {
             const blob = b64toBlob(base64,'image');
             formData.append("images",blob);
         }
-        await axios.post(`http://${NetworkConfig.networkAddress}:8080/images/modify`, formData, {headers: {"Content-Type": "multipart/form-data"}});
+        await axios.post(`http://localhost:8080/images/modify`, formData, {headers: {"Content-Type": "multipart/form-data"}});
     }
 
     // image to Base64 string
@@ -130,10 +130,10 @@ const ImageCorrectionPage = () => {
     // 철번호를 선택할 때마다 이미지 리스트의 src를 변경
     useEffect(async () => {
         let srcs=[];
-        await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/modify/${fidMaxnum.fid}/1`)
+        await axios.get(`http://localhost:8080/images/modify/${fidMaxnum.fid}/1`)
             .then(async ()=>{
                 for(let i=1; i<=fidMaxnum.maxNum;i++){
-                    await toDataURL(`http://${NetworkConfig.networkAddress}:8080/images/modify/${fidMaxnum.fid}/${i}`)
+                    await toDataURL(`http://localhost:8080/images/modify/${fidMaxnum.fid}/${i}`)
                         .then(dataUrl => {
                             if(dataUrl) {
                                 srcs.push(dataUrl);
@@ -144,7 +144,7 @@ const ImageCorrectionPage = () => {
             })
             .catch(async (err) => {
                 for(let i=1; i<=fidMaxnum.maxNum;i++){
-                    await toDataURL(`http://${NetworkConfig.networkAddress}:8080/images/origin/${fidMaxnum.fid}/${i}`)
+                    await toDataURL(`http://localhost:8080/images/origin/${fidMaxnum.fid}/${i}`)
                         .then(dataUrl => {
                             if(dataUrl) {
                                 srcs.push(dataUrl);
@@ -157,7 +157,7 @@ const ImageCorrectionPage = () => {
     }, [fidMaxnum]);
 
     useEffect(async ()=>{
-        await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/maxnum`)
+        await axios.get(`http://localhost:8080/images/maxnum`, {withCredentials: true})
             .then(res => setImgNum(res.data.imagesNumList))
             .catch(err => console.log(err));
     },[])

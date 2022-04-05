@@ -45,11 +45,11 @@ function GitemSearch(props) {
                 <div>첫 페이지</div>
                 <div>끝 페이지</div>
                 <div>쪽수</div>
-                <div>oldnum</div>
+                <div>문서 번호</div>
                 <div>보존기간</div>
                 <div>기관코드</div>
                 <div>부서명</div>
-                <div>type</div>
+                <div>기록물 형태</div>
                 <div>등록구분</div>
             </ListHeader>
             {tmp.length === 0

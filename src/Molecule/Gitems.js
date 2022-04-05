@@ -6,9 +6,9 @@ import {styled} from "@mui/system";
 import CustomButton from "../Atom/CustomButton";
 
 function Gitems(props) {
-    console.log(props.c_id);
+    console.log(props.gInfo);
     return (
-        <Box mt='0' width='1030px' height='810px' backgroundColor={'#ecf0f1'}>
+        <Box mt='0' width='98%' height='810px' backgroundColor={'#ecf0f1'}>
             <InfoContainer>
                 <Row columns={"1fr 1fr 1fr"}>
                     <InputContainer value={props.gInfo === undefined ? '' : props.gInfo.c_spage} handleChange={props.handleCaseChange} size={'small'} className={'page'} id={"첫 페이지"} width={"100px"} type={"text"}/>

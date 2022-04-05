@@ -38,6 +38,9 @@ const Navigation = () => {
             case '색인':
                 navigate('/index')
                 break
+            case '검수':
+                navigate('/inspection')
+                break
             case '업로드':
                 navigate('/upload')
                 break

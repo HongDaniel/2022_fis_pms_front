@@ -22,31 +22,77 @@ const columns = [
     },
     {
         field: 'plan',
-        headerName: '계획',
+        headerName: '계획(권)',
         sortable: true,
         width: 150,
     },
     {
-        field: 'worked',
+        field: 'count',
         headerName: '실적',
         sortable: true,
         width: 150,
     },
     {
-        field: 'progress',
+        field: 'rate',
         headerName: '진행율',
         sortable: true,
         width: 150,
-        valueGetter: (params) => {
-            const p = params.row.plan;
-            const pw = params.row.worked;
-            const res = 100*(pw/p) + '%'
-            return res;
-        },
+        flex: 1,
+    },
+    // {
+    //     field: 'progress',
+    //     headerName: '진행율',
+    //     sortable: true,
+    //     width: 150,
+    //     flex: 1,
+    //     valueGetter: (params) => {
+    //         const p = params.row.plan;
+    //         const pw = params.row.worked;
+    //         const res = 100*(pw/p) + '%'
+    //         return res;
+    //     },
+    // },
+    // {
+    //     field: 'plan_w',
+    //     headerName: '투입인원',
+    //     sortable: true,
+    //     width: 150,
+    //     flex: 1,
+    // },
+];
+
+const organColumns = [
+    {
+        field: 'o_code',
+        headerName: '기관코드',
+        sortable: true,
+        width: 150,
     },
     {
-        field: 'plan_w',
-        headerName: '투입인원',
+        field: 'o_name',
+        headerName: '생산기관명',
+        sortable: true,
+        width: 400,
+    },
+    {
+        field: 'count',
+        headerName: '실적',
+        sortable: true,
+        width: 150,
+        flex: 1,
+    },
+];
+
+const overAllColumns = [
+    {
+        field: 'name',
+        headerName: '공정',
+        sortable: true,
+        width: 150,
+    },
+    {
+        field: 'count',
+        headerName: '완료(건)',
         sortable: true,
         width: 150,
         flex: 1,
@@ -55,20 +101,36 @@ const columns = [
 
 function Performance(props) {
     const [pRows, setPRows] = useState([]);
+    const [ogRows, setOgRows] = useState([]);
+    const [oRows, setORows] = useState([]);
     const onPerformance = () => {
-        axios.get("http://3.38.19.119:8080/total/info")
+        axios.get("http://3.38.19.119:8080/workList/prepare",  {withCredentials: true})
             .then((res) => {
-                setPRows(res.data)
+                setPRows(res.data.data)
             });
+    }
+    const onOrganList = () => {
+        axios.get("http://3.38.19.119:8080/file/registrationStatus", {withCredentials: true})
+            .then((res) => {
+                setOgRows(res.data.data)
+            })
+    }
+    const onOverall = () => {
+        axios.get("http://3.38.19.119:8080/workList/overall", {withCredentials: true})
+            .then((res) => {
+                setORows(res.data)
+            })
     }
     useEffect(() => {
         onPerformance();
+        onOrganList();
+        onOverall();
     }, [])
 
     return (
-        <Box mt='0' width='2200px' height='1140px' backgroundColor={'#ffffff'}>
+        <Box mt='0' width='2200px' height='1100px' backgroundColor={'#ffffff'}>
             <div style={{position: "absolute", margin: '20px'}}>
-                <Box mt='10px' width='2120px' height='400px' backgroundColor={Style.color3}>
+                <Box mt='10px' width='2120px' height='380px' backgroundColor={Style.color3}>
                     {/*<Title> 계획 입력 </Title>*/}
                     <Row columns={"1fr 1fr 1fr 1fr"}>
                         <ManageContainer name={"사전조사"}/>
@@ -105,23 +167,25 @@ function Performance(props) {
                     </Row>
                 </Box>
                 <Row columns={"1fr 1fr"}>
-                    <Box mt='30px' width='1050px' height='630px' backgroundColor={Style.color3}>
-                        <BoxTitle> 계획 대비 실적(누적) </BoxTitle>
-                        <div style={{marginTop: '10px'}}>
-                            <LableTable checkboxSelection={false} id={'name'} headerBG='#50586C' cellBG='#DCE2F0' height={'600px'} width={'1050px'} rows={pRows} columns={columns}/>
-                        </div>
-                    </Box>
                     <div>
-                        <Box mt='30px' width='1050px' height='300px' backgroundColor={Style.color3}>
-                            <BoxTitle> 등록된 과 리스트 </BoxTitle>
+                        <BoxTitle> 계획 대비 실적(누적) </BoxTitle>
+                        <Box mt='30px' width='1050px' height='630px' backgroundColor={Style.color3}>
                             <div style={{marginTop: '10px'}}>
-                                <Table headerBG='#50586C' cellBG='#DCE2F0' height={'270px'} width={'1050px'} rows={rows} columns={columns}/>
+                                <LableTable checkboxSelection={false} id={'name'} headerBG='#50586C' cellBG='#DCE2F0' height={'600px'} width={'1050px'} rows={pRows} columns={columns}/>
                             </div>
                         </Box>
+                    </div>
+                    <div>
+                        <BoxTitle> 등록된 과 리스트 </BoxTitle>
                         <Box mt='30px' width='1050px' height='300px' backgroundColor={Style.color3}>
-                            <BoxTitle> 과별 공정상황</BoxTitle>
                             <div style={{marginTop: '10px'}}>
-                                <Table headerBG='#50586C' cellBG='#DCE2F0' height={'270px'} width={'1050px'} rows={rows} columns={columns}/>
+                                <LableTable checkboxSelection={false} id={'o_code'} headerBG='#50586C' cellBG='#DCE2F0' height={'270px'} width={'1050px'} rows={ogRows} columns={organColumns}/>
+                            </div>
+                        </Box>
+                        <BoxTitle> 과별 공정상황</BoxTitle>
+                        <Box mt='30px' width='1050px' height='300px' backgroundColor={Style.color3}>
+                            <div style={{marginTop: '10px'}}>
+                                <LableTable checkboxSelection={false} id={'name'} headerBG='#50586C' cellBG='#DCE2F0' height={'270px'} width={'1050px'} rows={oRows} columns={overAllColumns}/>
                             </div>
                         </Box>
                     </div>
@@ -157,7 +221,7 @@ const InfoContainer = styled('div')`
 
 const BoxTitle = styled('div')`
   position: absolute;
-  margin: -15px 0 0 20px;
+  margin: 15px 0 0 20px;
   font-size: 20px;
   background-color: #fff;
   z-index: 2;

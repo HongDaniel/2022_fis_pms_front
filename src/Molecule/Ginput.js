@@ -53,7 +53,7 @@ function Ginput(props) {
     }
 
     return (
-        <Box mt='0' width='1030px' height='810px' backgroundColor={'#ecf0f1'}>
+        <Box mt='0' width='98%' height='810px' backgroundColor={'#ecf0f1'}>
             <InfoContainer>
                 <Row columns={"2fr 1.5fr 0.5fr"}>
                     <InputContainer value={props.volumeAmount} disabled={true} id={"권호수 선택"} width={"200px"} type={"text"} size={'large'} label='권호수 선택' contents={["001", "002", "003"]}/>
