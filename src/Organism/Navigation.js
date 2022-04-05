@@ -25,6 +25,9 @@ const Navigation = () => {
             case '문서반출':
                 navigate('/export')
                 break
+            case '스캔':
+                navigate('/scan')
+                break
             case '이미지보정':
                 navigate('/imageCorrect')
                 break
@@ -42,39 +45,39 @@ const Navigation = () => {
                 break
         }
     }
-    const handleUpload = (event) => {
-        const formData = new FormData();
-        const file = event.target.files[0];
-        formData.append("excelFile", file);
-        console.log(file);
-        axios.post("http://3.38.19.119:8080/office/excel", formData, { headers: { "Content-Type" : "multipart/form-data" } })
-            .then(res => console.log(res));
-        let input = event.target;
-        let reader = new FileReader();
-        reader.onload = function () {
-            let data = reader.result;
-            let workBook = XLSX.read(data, { type: 'binary' });
-            workBook.SheetNames.forEach(function (sheetName) {
-                console.log('SheetName: ' + sheetName);
-                let rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
-                let res = [];
-                rows.map((row) => {
-                    res.push({
-                        o_code: String(row.기관코드),
-                        o_name: row.전체기관명,
-                        o_del: String(row.폐지구분),
-                    })
-                })
-                res.push({
-                    o_code: '0000001',
-                    o_name: '서울특별시 마포구 상수동 와우산로 94 홍익대학교',
-                    o_del: '1',
-                })
-                localStorage.setItem('organ', JSON.stringify(res));
-            })
-        };
-        reader.readAsBinaryString(input.files[0]);
-    }
+    // const handleUpload = (event) => {
+    //     const formData = new FormData();
+    //     const file = event.target.files[0];
+    //     formData.append("excelFile", file);
+    //     console.log(file);
+    //     axios.post("http://3.38.19.119:8080/office/excel", formData, { headers: { "Content-Type" : "multipart/form-data" } })
+    //         .then(res => console.log(res));
+    //     let input = event.target;
+    //     let reader = new FileReader();
+    //     reader.onload = function () {
+    //         let data = reader.result;
+    //         let workBook = XLSX.read(data, { type: 'binary' });
+    //         workBook.SheetNames.forEach(function (sheetName) {
+    //             console.log('SheetName: ' + sheetName);
+    //             let rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
+    //             let res = [];
+    //             rows.map((row) => {
+    //                 res.push({
+    //                     o_code: String(row.기관코드),
+    //                     o_name: row.전체기관명,
+    //                     o_del: String(row.폐지구분),
+    //                 })
+    //             })
+    //             res.push({
+    //                 o_code: '0000001',
+    //                 o_name: '서울특별시 마포구 상수동 와우산로 94 홍익대학교',
+    //                 o_del: '1',
+    //             })
+    //             localStorage.setItem('organ', JSON.stringify(res));
+    //         })
+    //     };
+    //     reader.readAsBinaryString(input.files[0]);
+    // }
     const logout = async () =>{
         await axios.post("http://3.38.19.119:8080/logout")
             .then((res) => {
@@ -83,6 +86,7 @@ const Navigation = () => {
             })
             .catch(err => console.log(err));
     }
+
     return (
         <Container>
             <img src={logo} alt={"logo"}/>
@@ -118,7 +122,7 @@ const Container = styled.div`
     margin-left: 50px;
   }
   & .icon:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     cursor: pointer;
   }
 `;
@@ -158,7 +162,9 @@ const Button = styled.button`
   font-size: 23px;
   color: #fff;
   &:hover {
-    transform: scale(1.05);
+    background-color: ${Style.color1};
+    color: ${Style.color2};
+    transition: 0.3s;
   }
 `
 

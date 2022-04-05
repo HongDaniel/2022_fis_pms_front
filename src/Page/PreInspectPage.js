@@ -31,13 +31,13 @@ const columns = [
     {
         field: 'o_name',
         headerName: '생산기관명',
-        width: 160,
+        width: 150,
         editable: true,
     },
     {
         field: 'o_code',
         headerName: '기관코드',
-        width: 90,
+        width: 120,
         editable: true,
     },
     {
@@ -544,7 +544,7 @@ const PreInspectPage = () => {
                     <Box width='90%' height='670px' backgroundColor={Style.color3}>
                         <Table rows={searchResult} columns={columns} selectionModel={selected}
                                setSelectionModel={setSelected} headerBG={Style.color2} cellBG={Style.color1}
-                               width={"88%"} height={"85%"}/>
+                               width={"90%"} height={"85%"}/>
 
                         <BtnContainer3>
                             <CustomButton type={"normal"} name={"저장"} width={"120px"} height={"50px"} fontSize={"22px"}
@@ -643,7 +643,7 @@ const BtnContainer = styled.div`
 
 const BtnContainer2 = styled.div`
   position: absolute;
-  right: 2%;
+  right: 0.7%;
   display: flex;
   flex-direction: column;
 
@@ -669,8 +669,8 @@ const BtnContainer2 = styled.div`
 `;
 const BtnContainer3 = styled.div`
 position: absolute;
-  right: 630px;
-  bottom: 45px;
+  right: 28%;
+  bottom: 60px;
   &>button {
     margin-right: 15px;
   }

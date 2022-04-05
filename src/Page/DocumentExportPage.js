@@ -10,7 +10,6 @@ import CustomInput from "../Atom/CustomInput";
 import Container from "../Atom/Container";
 import {Style} from "../Style";
 import axios from "axios";
-import {useRecoilState} from "recoil";
 
 export const columns = [
     { field: 'f_id', headerName: 'ID', width: 90 },
@@ -43,12 +42,10 @@ export const columns = [
             }`,
     },
 ];
-
 export const rows = [
     { f_id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
     { f_id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
 ];
-
 const col = [
     {
         field: 'f_labelcode',
@@ -96,7 +93,6 @@ const col = [
         flex: 1,
     },
 ];
-
 const exCol = [
     {
         field: 'f_id',
@@ -432,7 +428,7 @@ const DocumentExportPage = (url, config) => {
         <Container>
             <Navigation/>
             <div>
-                <MainBox height='620px'>
+                <MainBox height='590px'>
                     <Title>문서반출</Title>
                     <div style={{margin: 25, display:"flex", flexDirection: "row"}}>
                         <div style={{margin:10}}>
@@ -477,8 +473,8 @@ const DocumentExportPage = (url, config) => {
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Box width='2176px' height='400px' backgroundColor={Style.color3}>
-                            <Table loading={loading} selectionModel={selectionModel} setSelectionModel={setSelectionModel} width='2170px' height='380px' headerBG={Style.color2} cellBG={Style.color1} rows={docRows} columns={col} />
+                        <Box width='2176px' height='380px' backgroundColor={Style.color3}>
+                            <Table loading={loading} selectionModel={selectionModel} setSelectionModel={setSelectionModel} width='2170px' height='370px' headerBG={Style.color2} cellBG={Style.color1} rows={docRows} columns={col} />
                         </Box>
                     </div>
                 </MainBox>

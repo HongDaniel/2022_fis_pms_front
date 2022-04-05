@@ -586,7 +586,7 @@ const IndexingPage = () => {
     return (
         <Container>
             <Navigation />
-            <MainBox height={'1220px'}>
+            <MainBox height={'1140px'}>
                 <Title>
                     색인
                     <CustomButton onClick={() => {
@@ -691,6 +691,7 @@ const IndexingPage = () => {
     );
 };
 
+//style
 const BoxTitle = styled.div`
   position: absolute;
   margin: -15px 0 0 20px;

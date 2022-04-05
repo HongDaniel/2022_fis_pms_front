@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import styled from "styled-components";
 import Container from "../Atom/Container";
 import Navigation from "../Organism/Navigation";
@@ -30,13 +30,13 @@ const ImageCorrectionPage = () => {
 
     // 이미지 리스트에서 사진을 선택했을 경우
     const handleClick = (e) => {
+        // console.log(e.target);
         if(previewText==='다시수정') {
             setPreviewText('미리보기');
             setIsPreview(!isPreview);
         }
-        const source = e.target.src;
+        const source = e.target.dataset.src;
         const i = parseInt(e.target.id);
-        // console.log('id: '+i);
         setSelectedIdx(i);
         if(source) {
              // 몇 번째 사진인지 구한다
@@ -165,10 +165,10 @@ const ImageCorrectionPage = () => {
     return (
         <Container>
             <Navigation/>
-            <MainBox height={"1220px"}>
+            <MainBox height={"1140px"}>
                 <Title>스캔 및 보정</Title>
                 <BoxContainer>
-                    <Box width='2200px' height='190px' backgroundColor={Style.color3}>
+                    <Box width='91%' height='100px' backgroundColor={Style.color3}>
                         <Content>
                             <div>
                                 <label htmlFor={"combo-box-demo"}>철번호</label>
@@ -185,7 +185,6 @@ const ImageCorrectionPage = () => {
                                         value&&setFidMaxnum({fid:value.label, maxNum:value.maxnum});
                                     }}
                                 />
-
                                 {/*
                                 <label htmlFor={"uploadImg"} className="uploadImg">파일선택</label>
                                 <input type="file"
@@ -197,25 +196,17 @@ const ImageCorrectionPage = () => {
                                        style={{display:"none"}}
                                 />*/}
                             </div>
-                            <div>
-                                <label htmlFor={"box"}>박스</label>
-                                <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center", border:"1px solid #b5b5b5",borderRadius:"5px",fontSize:"20px"}}>
-                                    <option value={"1"}>1</option>
-                                    <option value={"2"}>2</option>
-                                    <option value={"3"}>3</option>
-                                    <option value={"4"}>4</option>
-                                    <option value={"5"}>5</option>
-                                </select>
-                                <label htmlFor={"box"}>레이블</label>
-                                <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center", border:"1px solid #b5b5b5",borderRadius:"5px",fontSize:"20px"}}>
-                                    <option value={"1"}>1</option>
-                                    <option value={"2"}>2</option>
-                                    <option value={"3"}>3</option>
-                                    <option value={"4"}>4</option>
-                                    <option value={"5"}>5</option>
-                                </select>
-                            </div>
-                            <CustomButton type={"normal"} name={"완료"} width={"310px"} height={"85px"} fontSize={"32px"}
+                            {/*<div>*/}
+                            {/*    <label htmlFor={"box"}>박스</label>*/}
+                            {/*    <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center", border:"1px solid #b5b5b5",borderRadius:"5px",fontSize:"20px"}}>*/}
+                            {/*        <option value={"1"}>1</option>*/}
+                            {/*    </select>*/}
+                            {/*    <label htmlFor={"box"}>레이블</label>*/}
+                            {/*    <select id={"box"} style={{width: "65px", height: "30px", textAlign: "center", border:"1px solid #b5b5b5",borderRadius:"5px",fontSize:"20px"}}>*/}
+                            {/*        <option value={"1"}>1</option>*/}
+                            {/*    </select>*/}
+                            {/*</div>*/}
+                            <CustomButton type={"normal"} name={"완료"} width={"250px"} height={"55px"} fontSize={"28px"}
                                           borderRadius={"25px"} content={"보정 검수 완료"} onClick={handleSave}
                                           backgroundColor={Style.color2}
                             />
@@ -223,17 +214,20 @@ const ImageCorrectionPage = () => {
                         </Content>
                     </Box>
                     <Bottom>
-                        <Box width='700px' height='940px' backgroundColor={Style.color3}>
+
+                        <Box width='18%' height='860px' backgroundColor={Style.color3}>
                             <h3>이미지 리스트</h3>
                             <ImageContainer onClick={handleClick}>
                                 {croppedImgList.map((el, idx) => {
                                     return (
-                                        <img src={el.img} alt={"img"} id={el.idx} key={el.idx}/>
+                                        // <img src={el.img} alt={"img"} id={el.idx} key={el.idx}/>
+                                            <div data-src={el.img} key={el.idx} >{el.idx}.jpg</div>
                                     )
                                 })}
                             </ImageContainer>
                         </Box>
-                        <Box width='1400px' height='940px' backgroundColor={Style.color3} id={"selectedImg"}>
+
+                        <Box width='80%' height='860px' backgroundColor={Style.color3} id={"selectedImg"}>
                             {selectedImg ?
                                 <div>
                                     {isPreview ?
@@ -241,8 +235,8 @@ const ImageCorrectionPage = () => {
                                         <Cropper
                                             ref={cropperJS}
                                             style={{
-                                                maxWidth: "1100px",
-                                                maxHeight: "900px",
+                                                width: "1400px",
+                                                height: "830px",
                                                 marginTop: "20px",
                                                 marginLeft: "50px"
                                             }}
@@ -324,56 +318,76 @@ const BoxContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 650px;
-  justify-items: center;
-  height: 920px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 850px;
+  position: relative;
   overflow: auto;
 
   & img {
     object-fit: cover;
-    width: 280px;
+    width: 340px;
     height: 300px;
     margin-bottom: 50px;
     cursor: pointer;
+  }
+  
+  & div { // img 리스트
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    height: 50px;
+    font-size: 27px;
+    padding: 3px 0;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 2px;
+    margin: 3px 0;
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 `;
 
 const Content = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
   width: 100%;
-  height: 190px;
+  height: 100%;
   font-size: 25px;
-
-  & > div {
+  
+  & > div { // 철번호 select
     display: flex;
-    height: 80px;
-    margin-left: 50px;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    & label {
+      margin-right: 15px;
+    }
+    & input {
+      box-sizing: border-box;
+      height: 30px;
+    }
+    & select {
+      margin-right: 50px;
+    }
   }
 
-  & label {
-    margin-right: 15px;
-  }
-
-  & input {
-    margin-right: 10px;
-    box-sizing: border-box;
-    height: 27px;
-  }
-
-  & select {
-    margin-right: 50px;
-  }
-
-  & > button {
+  & > button { //보정 검수 완료 버튼
     position: absolute;
-    right: 155px;
-    bottom: 50px;
+    right: 200px;
   }
+  
+  
+  
+  
+  
+  
 `;
 
 const Bottom = styled.div`

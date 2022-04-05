@@ -57,10 +57,9 @@ const CustomInput = (props) => {
     }
     else if(props.type==="select"){
         return (
-            <FormControl style={{width: props.width}} size="small">
+            <FormControl style={{width: props.width}} id= {props.label} size="small">
                 <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
                 <Select
-                    id= {props.label}
                     disabled={props.disabled}
                     label={props.label}
                     variant="outlined"
@@ -73,7 +72,9 @@ const CustomInput = (props) => {
                 >
                     {props.contents.map((content,idx) => {
                         // console.log(props.id);
+                        if(content){
                         return <MenuItem key={idx} value={content}>{content}</MenuItem>;
+                        }
                     })}
                 </Select>
             </FormControl>
