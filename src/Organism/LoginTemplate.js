@@ -8,10 +8,10 @@ function LoginTemplate(props) {
         u_pwd: ""
     });
     const onLogin = () => {
-        axios.post('http://3.38.19.119:8080/login', {
+        axios.post('http://localhost:8080/login', {
             nickname: loginInfo.u_nickname,
             password: loginInfo.u_pwd,
-        }).then((res) => console.log(res))
+        },  {withCredentials: true}).then((res) => console.log(res))
             .catch((err) => console.log(err))
     }
     const handleInputFormChange = (e) => {

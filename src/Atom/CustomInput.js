@@ -26,6 +26,7 @@ const CustomInput = (props) => {
                        onChange={props.handleChange}
                        onKeyPress={props.onKeyPress}
                        disabled={props.disabled}
+                       InputProps={props.InputProps}
             />
         )
     }

@@ -21,38 +21,42 @@ function DailyWork(props) {
     }
 
     return (
-        <Box mt='0' width='2200px' height='1140px' backgroundColor={'#ffffff'}>
+        <Box mt='0' width='2200px' height='1100px' backgroundColor={'#ffffff'}>
             <div style={{position: 'absolute', margin: '30px'}}>
-                <Box mt='10px' width='2120px' height='300px' backgroundColor={Style.color3}>
+                <div>
                     <Title>일일 작업 조회</Title>
-                    <div style={{position: 'absolute', margin: '40px'}}>
-                        <Row columns={'1fr 1fr 2fr 2fr'}>
-                            <InputContainer fontSize='15pt' id={"날짜 선택"} width={"200px"} type={"text"}/>
-                            <CustomButton type={"normal"} name={"저장"} width={"80px"} height={"35px"} fontSize={"15px"} margin={"0 0 0 10px"}
-                                          backgroundColor={'#50586C'} borderRadius={"25px"} content={"저장"}/>
-                            <InputContainer fontSize='15pt' id={"작업자 선택"} width={"200px"} type={"text"}/>
-                            <InputContainer fontSize='15pt' id={"출근"} width={"200px"} type={"text"}/>
-                        </Row>
-                        <Row columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr'}>
-                            <Worker name={'지각'} />
-                            <Worker name={'조퇴'} />
-                            <Worker name={'외출'} />
-                            <Worker name={'야근'} />
-                            <InputContainer fontSize='15pt' id={"공정선택"} width={"100px"} type={"text"}/>
-                            <InputContainer fontSize='15pt' id={"작업량"} width={"100px"} type={"text"}/>
-                            <InputContainer fontSize='15pt' id={"기타작업내용"} width={"100px"} type={"text"}/>
-                        </Row>
-                        <div style={{right: '10px', position: 'absolute'}}>
-                            <CustomButton type='normal' color='#ffffff' backgroundColor='#50586C' content='엑셀로 저장'/>
+                    <Box mt='10px' width='2120px' height='230px' backgroundColor={Style.color3}>
+                        <div style={{position: 'absolute', margin: '40px'}}>
+                            <Row columns={'3fr 1fr'}>
+                                <input id={"날짜 선택"} width={"200px"} type={"date"}/>
+                                <CustomButton type={"normal"} name={"저장"} width={"80px"} height={"35px"} fontSize={"15px"} margin={"0px 0 0 30px"}
+                                              backgroundColor={'#50586C'} borderRadius={"25px"} content={"조회"}/>
+                                {/*<InputContainer fontSize='15pt' id={"작업자 선택"} width={"200px"} type={"text"}/>*/}
+                                {/*<InputContainer fontSize='15pt' id={"출근"} width={"200px"} type={"text"}/>*/}
+                            </Row>
+                            {/*<Row columns={'1fr 1fr 1fr 1fr 1fr 1fr 1fr'}>*/}
+                            {/*    <Worker name={'지각'} />*/}
+                            {/*    <Worker name={'조퇴'} />*/}
+                            {/*    <Worker name={'외출'} />*/}
+                            {/*    <Worker name={'야근'} />*/}
+                            {/*    <InputContainer fontSize='15pt' id={"공정선택"} width={"100px"} type={"text"}/>*/}
+                            {/*    <InputContainer fontSize='15pt' id={"작업량"} width={"100px"} type={"text"}/>*/}
+                            {/*    <InputContainer fontSize='15pt' id={"기타작업내용"} width={"100px"} type={"text"}/>*/}
+                            {/*</Row>*/}
+                            {/*<div style={{right: '10px', position: 'absolute'}}>*/}
+                            {/*    <CustomButton type='normal' color='#ffffff' backgroundColor='#50586C' content='엑셀로 저장'/>*/}
+                            {/*</div>*/}
                         </div>
-                    </div>
-                </Box>
-                <Box mt='50px' width='2120px' height='720px' backgroundColor={Style.color3}>
+                    </Box>
+                </div>
+                <div>
                     <Title>등록 내역</Title>
-                    <div style={{margin: '20px', top: '50px', position: 'absolute'}}>
-                        <Table width='2080px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
-                    </div>
-                </Box>
+                    <Box mt='50px' width='2120px' height='720px' backgroundColor={Style.color3}>
+                        <div style={{margin: '20px', top: '50px', position: 'absolute'}}>
+                            <Table width='2080px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
+                        </div>
+                    </Box>
+                </div>
             </div>
         </Box>
     );
