@@ -9,7 +9,7 @@ import axios from "axios";
 function CRecords(props) {
 
     const onFile = () => {
-        axios.get("http://${NetworkConfig.networkAddress}:8080/workList/file", {withCredentials: true})
+        axios.get("http://localhost:8080/workList/file", {withCredentials: true})
             .then((res) => {
                 console.log(res.data.data);
             })
