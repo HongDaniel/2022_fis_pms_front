@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
 import axios from "axios";
+import NetworkConfig from "../configures/NetworkConfig";
 
 function OfficeSearch(props) {
     const {currentTab, handleClose} = props;
 
     const searchOcode = () => {
-        axios.get(`http://3.38.19.119:8080/search/office/${'dd'}`).then();
+        axios.get(`http://${NetworkConfig.networkAddress}:8080/search/office/${'dd'}`).then();
     }
 
     const tmp = JSON.parse(localStorage.getItem('organ'));

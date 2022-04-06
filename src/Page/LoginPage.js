@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from "styled-components"
 import {Container} from "@mui/material";
-import LoginTemplate from "../Organism/LoginTemplate";
+import LoginForm from "../Molecule/LoginForm";
 
 function LoginPage(props) {
     return (
         <Main>
             <Container maxWidth={"sm"}>
-                <LoginTemplate setIsLogined={props.setIsLogined}/>
+                <LoginForm/>
             </Container>
         </Main>
     );
