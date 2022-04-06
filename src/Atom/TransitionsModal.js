@@ -33,7 +33,7 @@ export default function TransitionsModal(props) {
     return (
         <div>
             <CustomButton onClick={()=>{
-                // axios.get("http://3.38.19.119:8080/index/label")
+                // axios.get("http://${NetworkConfig.networkAddress}:8080/index/label")
                 //     .then((res) => console.log(res.data));
                 handleOpen();
             }} type='normal' margin='0 0 0 10px' width='120px' height='40px' color='#ffffff' backgroundColor='#50586C' content={props.content}/>

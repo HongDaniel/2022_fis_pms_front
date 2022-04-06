@@ -498,7 +498,7 @@ const IndexingPage = () => {
 
     const handleCSave = () => {
         console.log(cInfo)
-        axios.post("http://3.38.19.119:8080/index/label", cInfo)
+        axios.post("http://${NetworkConfig.networkAddress}:8080/index/label", cInfo)
             .then((res) => {
                 console.log(res.data.v_id);
                 return res.data.v_id
@@ -517,14 +517,14 @@ const IndexingPage = () => {
     }
 
     const handleCDelete = () => {
-        axios.delete(`http://3.38.19.119:8080/index/label/${selectionBoxModel[0]}`)
+        axios.delete(`http://${NetworkConfig.networkAddress}:8080/index/label/${selectionBoxModel[0]}`)
             .then((res) => console.log(res))
     }
 
     const handleGSave = () => {
         setGInfo((prevState) => {
             console.log(prevState);
-            axios.patch("http://3.38.19.119:8080/index/save", prevState)
+            axios.patch("http://${NetworkConfig.networkAddress}:8080/index/save", prevState)
                 .then((res) => {
                     console.log(res)
                     alert('저장되었습니다.');
@@ -536,12 +536,12 @@ const IndexingPage = () => {
 
     const handleSearchOffice = () => {
         if (oInfo.o_code.length > 0) {
-            axios.get(`http://3.38.19.119:8080/search/office/${oInfo.o_code}`)
+            axios.get(`http://${NetworkConfig.networkAddress}:8080/search/office/${oInfo.o_code}`)
                 .then(res => setOInfo(prev => (
                     {...prev, o_name: res.data.data[0].o_name})
                 ))
         } else if (oInfo.o_name.length > 0) {
-            axios.get(`http://3.38.19.119:8080/search/office`, {params: {o_name: oInfo.o_name}})
+            axios.get(`http://${NetworkConfig.networkAddress}:8080/search/office`, {params: {o_name: oInfo.o_name}})
                 .then(res => setOInfo(prev => (
                     {...prev, o_code: res.data.data[0].o_code})
                 ))
@@ -550,7 +550,7 @@ const IndexingPage = () => {
 
     const boxSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://3.38.19.119:8080/index/search/${oInfo.o_code}`, {params: params})
+        axios.get(`http://${NetworkConfig.networkAddress}:8080/index/search/${oInfo.o_code}`, {params: params})
             .then((res) => {
                 setBoxRows(res.data);
                 setBoxLoading(false);
@@ -563,7 +563,7 @@ const IndexingPage = () => {
 
     const caseSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://3.38.19.119:8080/index/volumes`, {params: {f_id: selectionBoxModel[0]}})
+        axios.get(`http://${NetworkConfig.networkAddress}:8080/index/volumes`, {params: {f_id: selectionBoxModel[0]}})
             .then((res) => {
                 res.data.map((row) => {
                     if (row.v_id === selectionCModel[0]) {

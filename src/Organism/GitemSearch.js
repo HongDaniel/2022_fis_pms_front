@@ -20,7 +20,7 @@ function GitemSearch(props) {
         onSearch();
     }, [])
     const onSearch = () => {
-        axios.get('http://3.38.19.119:8080/index/case', {params: params})
+        axios.get('http://${NetworkConfig.networkAddress}:8080/index/case', {params: params})
             .then((res) => setTmp(res.data))
     }
 
