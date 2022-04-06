@@ -22,7 +22,7 @@ function LoginForm(props) {
 
     const handleLogin = async (e) =>{
         e.preventDefault();
-        await axios.post('http://3.38.19.119:8080/login', loginInfo)
+        await axios.post('http://localhost:8080/login', loginInfo, {withCredentials: true})
             .then(res => { // 로그인에 성공했을 경우
                 setLoginState(true);
                 setAuthority(res.data.authority);

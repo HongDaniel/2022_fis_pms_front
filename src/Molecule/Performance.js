@@ -104,19 +104,19 @@ function Performance(props) {
     const [ogRows, setOgRows] = useState([]);
     const [oRows, setORows] = useState([]);
     const onPerformance = () => {
-        axios.get("http://3.38.19.119:8080/workList/prepare",  {withCredentials: true})
+        axios.get("http://localhost:8080/workList/prepare",  {withCredentials: true})
             .then((res) => {
                 setPRows(res.data.data)
             });
     }
     const onOrganList = () => {
-        axios.get("http://3.38.19.119:8080/file/registrationStatus", {withCredentials: true})
+        axios.get("http://localhost:8080/file/registrationStatus", {withCredentials: true})
             .then((res) => {
                 setOgRows(res.data.data)
             })
     }
     const onOverall = () => {
-        axios.get("http://3.38.19.119:8080/workList/overall", {withCredentials: true})
+        axios.get("http://localhost:8080/workList/overall", {withCredentials: true})
             .then((res) => {
                 setORows(res.data)
             })

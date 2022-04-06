@@ -1,15 +1,96 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Box from "../Atom/Box";
 import Title from "../Atom/Title";
 import Table from "../Atom/Table";
-import {columns, rows} from "../Page/DocumentExportPage";
 import {styled} from "@mui/system";
 import InputContainer from "./InputContainer";
 import CustomButton from "../Atom/CustomButton";
 import CustomInput from "../Atom/CustomInput";
 import {Style} from "../Style";
+import axios from "axios";
+import LableTable from "../Atom/LableTable";
+
+
+const columns = [
+    {
+        field: 'name',
+        headerName: '이름',
+        sortable: true,
+        width: 80,
+    },
+    {
+        field: 'PREINFO',
+        headerName: '사전조사',
+        sortable: true,
+        width: 110,
+        valueGetter: (params) => {
+            const info = params.row.work.PREINFO.count;
+            return info;
+        },
+    },
+    {
+        field: 'EXPORT',
+        headerName: '문서반출',
+        sortable: true,
+        width: 110,
+        valueGetter: (params) => {
+            const info = params.row.work.EXPORT.count;
+            return info;
+        },
+    },
+    {
+        field: 'IMGMODIFY',
+        headerName: '이미지 보정',
+        sortable: true,
+        width: 430,
+        valueGetter: (params) => {
+            const info = params.row.work.IMGMODIFY.count;
+            return info;
+        },
+    },
+    {
+        field: 'INPUT',
+        headerName: '색인',
+        sortable: true,
+        width: 80,
+        valueGetter: (params) => {
+            const info = params.row.work.INPUT.count;
+            return info;
+        },
+    },
+    {
+        field: 'CHECK',
+        headerName: '검수',
+        sortable: true,
+        width: 80,
+        valueGetter: (params) => {
+            const info = params.row.work.CHECK.count;
+            return info;
+        },
+    },
+    {
+        field: 'UPLOAD',
+        headerName: '업로드',
+        sortable: true,
+        width: 80,
+        valueGetter: (params) => {
+            const info = params.row.work.UPLOAD.count;
+            return info;
+        },
+        flex: 1,
+    },
+];
 
 function DailyWork(props) {
+    const [rows, setRows] = useState([]);
+
+    const onData = () => {
+        axios.get(`http://localhost:8080/workList/worker?date=2022-04-01`, {withCredentials: true})
+            .then((res) => {
+                setRows(res.data.data);
+            })
+    }
+
     const Worker = ({name}) => {
         return (
             <Row style={{margin: '0px'}} columns={'1fr 1fr 3fr'}>
@@ -29,7 +110,7 @@ function DailyWork(props) {
                         <div style={{position: 'absolute', margin: '40px'}}>
                             <Row columns={'3fr 1fr'}>
                                 <input id={"날짜 선택"} width={"200px"} type={"date"}/>
-                                <CustomButton type={"normal"} name={"저장"} width={"80px"} height={"35px"} fontSize={"15px"} margin={"0px 0 0 30px"}
+                                <CustomButton onClick={onData} type={"normal"} name={"조회"} width={"80px"} height={"35px"} fontSize={"15px"} margin={"0px 0 0 30px"}
                                               backgroundColor={'#50586C'} borderRadius={"25px"} content={"조회"}/>
                                 {/*<InputContainer fontSize='15pt' id={"작업자 선택"} width={"200px"} type={"text"}/>*/}
                                 {/*<InputContainer fontSize='15pt' id={"출근"} width={"200px"} type={"text"}/>*/}
@@ -53,7 +134,7 @@ function DailyWork(props) {
                     <Title>등록 내역</Title>
                     <Box mt='50px' width='2120px' height='720px' backgroundColor={Style.color3}>
                         <div style={{margin: '20px', top: '50px', position: 'absolute'}}>
-                            <Table width='2080px' height='330px' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
+                            <LableTable id={'id'} width='2080px' height='45vh' headerBG='#50586C' cellBG='#DCE2F0' rows={rows} columns={columns} />
                         </div>
                     </Box>
                 </div>
