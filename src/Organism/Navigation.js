@@ -9,6 +9,7 @@ import axios from "axios";
 import * as XLSX from "xlsx";
 import {useRecoilState} from "recoil";
 import {isLogedIn} from "../store/LoginInfo";
+import NetworkConfig from "../configures/NetworkConfig";
 
 /*
 날짜: 2022/02/14 2:11 PM
@@ -24,7 +25,7 @@ const Navigation = () => {
         const btnName=e.target.value
         switch (btnName) {
             case '사전조사':
-                navigate('/')
+                navigate('/preinspect')
                 break
             case '문서반출':
                 navigate('/export')
@@ -54,7 +55,7 @@ const Navigation = () => {
     //     const file = event.target.files[0];
     //     formData.append("excelFile", file);
     //     console.log(file);
-    //     axios.post("http://3.38.19.119:8080/office/excel", formData, { headers: { "Content-Type" : "multipart/form-data" } })
+    //     axios.post(`http://${NetworkConfig.networkAddress}:8080/office/excel`, formData, { headers: { "Content-Type" : "multipart/form-data" } })
     //         .then(res => console.log(res));
     //     let input = event.target;
     //     let reader = new FileReader();
@@ -82,8 +83,8 @@ const Navigation = () => {
     //     };
     //     reader.readAsBinaryString(input.files[0]);
     // }
-    const logout = async () =>{
-        await axios.post("http://3.38.19.119:8080/logout")
+    const logout = async () =>{ // 로그아웃 버튼을 눌렀을 경우
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/logout`)
             .then((res) => {
                 console.log(res);
                 setLogInStatus(false);
@@ -109,7 +110,7 @@ const Navigation = () => {
         </Container>
     );
 };
-
+// style
 const Container = styled.div`
   display: grid;
   grid-template-columns: 200px auto 150px;
@@ -146,17 +147,6 @@ const BtnContainer = styled.div`
   }
 `;
 
-const Label = styled.label`
-  display: block;
-  width: 118px;
-  border-bottom: 1px solid #50586C;
-  padding: 6px 25px;
-  font-size: 15pt;
-  background-color: #DCE2F0;
-  color: #50586C;
-  cursor: pointer;
-`
-
 const Button = styled.button`
   width: 100%;
   height: 70px;
@@ -172,11 +162,5 @@ const Button = styled.button`
     transition: 0.3s;
   }
 `
-
-const Bottom = styled.div`
-  align-self: end;
-  justify-self: center;
-  margin-bottom: 45px;
-`;
 
 export default Navigation;

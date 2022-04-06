@@ -18,7 +18,7 @@ function Ginput(props) {
     }
     const handleSave = () => {
         console.log(params);
-        axios.post('http://3.38.19.119:8080/index/volume', params)
+        axios.post('http://${NetworkConfig.networkAddress}:8080/index/volume', params)
             .then((res) => console.log(res))
     }
     const handleChange = (e) => {

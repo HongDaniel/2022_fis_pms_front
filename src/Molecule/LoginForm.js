@@ -11,6 +11,7 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {isLogedIn, u_authority, userInfo} from "../store/LoginInfo";
+import NetworkConfig from "../configures/NetworkConfig";
 
 function LoginForm(props) {
     const [isModal, setIsModal] = useState(false);
@@ -19,13 +20,15 @@ function LoginForm(props) {
     const [authoriy, setAuthority] = useRecoilState(u_authority);
     const handleOpen = () => setIsModal(true);
     const handleClose = () => setIsModal(false);
+    const navigate = useNavigate();
 
     const handleLogin = async (e) =>{
         e.preventDefault();
-        await axios.post('http://3.38.19.119:8080/login', loginInfo)
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/login`, loginInfo)
             .then(res => { // 로그인에 성공했을 경우
                 setLoginState(true);
                 setAuthority(res.data.authority);
+                navigate('/preinspect');
                 console.log(res.data);
             })
             .catch(() => window.alert("아이디나 비밀번호가 일치하지 않습니다."));

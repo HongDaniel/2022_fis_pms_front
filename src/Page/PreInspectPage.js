@@ -200,9 +200,9 @@ const columns = [
 
 const PreInspectPage = () => {
     const [modal, setModal] = useState(false);
-    const [searchInfo, setSearchInfo] = useState({f_name: "", b_num: "", f_labelcode: "", o_code: ""}); //검색하는 정보
+    const [searchInfo, setSearchInfo] = useState({ Bnum: "", f_labelcode: "", f_name: "",f_pyear:"", o_code: ""}); //검색하는 정보
     const [searchResult, setSearchResult] = useState(()=>JSON.parse(localStorage.getItem("searchResult"))||[]); //검색한 정보
-    const [saveInfo,setSaveInfo] = useState({f_id:"",f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:{chung:"",yall:"",bun:"",suga:""},f_kplace:"",f_type:"",f_typenum:"",})
+    const [saveInfo,setSaveInfo] = useState({f_labelcode:"",o_name:"",o_code:"",f_name:"",f_pyear:"",f_kperiod:"",f_db:"",f_scan:"", b_num:"", f_location:{chung:"",yall:"",bun:"",suga:""},f_kplace:"",f_type:"",f_typenum:"",})
     const [selected,setSelected] = useState([]);
     const [selectedRow,setSelectedRow] = useState({});
     const [formState,setFormState] = useState('');
@@ -210,8 +210,8 @@ const PreInspectPage = () => {
     const modalOpen = () => { setModal(true); } // 모달창 열기
     const modalClose = () => { setModal(false); } // 모달창 닫기
 
-    const handleSearch = async () => { //검색
-        await axios.get(`http://${NetworkConfig.networkAddress}:8080/file/preinfo`, {params: searchInfo}, {withCredentials: true})
+    const handleSearch = async () => { //검색 params: searchInfo,
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/file/preInfo`, {params: searchInfo, withCredentials: true})
             .then((res) => {
                 console.log(res.data);
                 const data = res.data;
@@ -219,7 +219,6 @@ const PreInspectPage = () => {
             })
             .catch(err => {{
                 console.log(err);
-                window.alert(err.message);
             }});
     };
 
@@ -235,8 +234,7 @@ const PreInspectPage = () => {
     //     console.log(selectedRow);
     // },[selectedRow])
 
-    // useEffect(() => {
-    //     console.log("saveInfo");
+    // useEffect(() => { // 철 추가정보 트래킹
     //     console.log(saveInfo);
     // }, [saveInfo]);
 
@@ -255,7 +253,7 @@ const PreInspectPage = () => {
                 setSearchInfo({...searchInfo,f_labelcode: content})
                 break;
             case("박스번호"):
-                setSearchInfo({...searchInfo,b_num: String(content)})
+                setSearchInfo({...searchInfo,BNum: String(content)})
                 break;
             case("기관코드"):
                 setSearchInfo({...searchInfo,o_code: String(content)})
@@ -396,7 +394,7 @@ const PreInspectPage = () => {
                 formData.append("excelfile",e.target.files[0]);
                 // FormData의 value 확인
                 e.target.value='';
-                await axios.post(`http://localhost:8080/preinfo/excel`, formData, {withCredentials: true})
+                await axios.post(`http://${NetworkConfig.networkAddress}:8080/file/preInfo/excel`, formData, {withCredentials: true})
                     .then((res) => {
                         handleSearch();
                         console.log(res.data);
@@ -415,9 +413,9 @@ const PreInspectPage = () => {
         modalOpen();
     }
     const handleSave = async () => { //저장버튼을 눌렀을 때
-            await axios.post(`http://localhost:8080/preinfo/file`, saveInfo, {withCredentials: true})
+            await axios.post(`http://${NetworkConfig.networkAddress}:8080/file/preInfo`, saveInfo, {withCredentials: true})
                 .then((res) => {
-                    // console.log(res);
+                    console.log(res);
                     handleSearch();
                     modalClose();
                 })
@@ -452,7 +450,7 @@ const PreInspectPage = () => {
             window.alert("필수 입력 정보를 모두 입력해주세요!");
         }
         else {
-            await axios.patch(`http://localhost:8080/preinfo/file`, saveInfo, {withCredentials: true})
+            await axios.patch(`http://${NetworkConfig.networkAddress}:8080/file/preInfo`, saveInfo, {withCredentials: true})
                 .then((res)=>{
                     console.log(res);
                     handleSearch();
@@ -470,7 +468,7 @@ const PreInspectPage = () => {
     }
     const handleDelete=async ()=>{ //철삭제
         if(selected.length>=1){
-            await axios.delete(`http://localhost:8080/preinfo/file`, {data:{f_id:[...selected]},withCredentials: true})
+            await axios.delete(`http://${NetworkConfig.networkAddress}:8080/file/preInfo`, {data:{f_id:[...selected]},withCredentials: true})
                 .then((res) => {
                     console.log(res);
                     handleSearch();
@@ -485,7 +483,7 @@ const PreInspectPage = () => {
 
     }
     const handleDownload = async () => { //엑셀로 저장하기
-        await axios.get(`http://localhost:8080/preinfo/excel`,{withCredentials: true, responseType: 'blob'})
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/file/preInfo/excel`,{withCredentials: true, responseType: 'blob'})
             .then((res)=>{
                 const url = window.URL.createObjectURL(new Blob([res.data]));
                 const link = document.createElement('a');
@@ -500,12 +498,12 @@ const PreInspectPage = () => {
             }
             )
     };
-    const handleOcodeRegister = async (e) =>{
+    const handleOcodeRegister = async (e) =>{ // 기관코드등록
         let formData = new FormData()
         formData.append("excelFile",e.target.files[0]);
         // FormData의 value 확인
         e.target.value='';
-        await axios.post(`http://localhost:8080/office/excel`, formData, {withCredentials: true})
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/office/excel`, formData, {withCredentials: true})
             .then((res) => {
                 setIsOcode(true);
                 console.log(res);
@@ -588,8 +586,6 @@ const PreInspectPage = () => {
         </Container>
     );
 };
-
-
 
 // style
 const BoxContainer = styled.div`

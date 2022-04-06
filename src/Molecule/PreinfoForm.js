@@ -97,6 +97,7 @@ const Modal = styled.div`
   z-index: 10;
 
   & .bg { //배경색깔
+    position: fixed;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);

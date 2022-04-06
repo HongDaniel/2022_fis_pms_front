@@ -19,7 +19,7 @@ function CitemSearch(props) {
         onSearch();
     }, [])
     const onSearch = () => {
-        axios.get('http://3.38.19.119:8080/index/label', {params: params})
+        axios.get('http://${NetworkConfig.networkAddress}:8080/index/label', {params: params})
             .then((res) => setTmp(res.data))
     }
 

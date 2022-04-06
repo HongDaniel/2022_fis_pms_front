@@ -38,7 +38,7 @@ function Process(props) {
 
     const handleRefer = () => {
         console.log(date)
-        axios.get("http://3.38.19.119:8080/workList/date", {params: date})
+        axios.get("http://${NetworkConfig.networkAddress}:8080/workList/date", {params: date})
             .then((res) => {
                 console.log(res.data);
             })
