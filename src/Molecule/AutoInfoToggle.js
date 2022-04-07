@@ -3,7 +3,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CustomButton from "../Atom/CustomButton";
-import Gitems from "./Gitems";
+import IndexGitems from "./IndexGitems";
 import InputContainer from "./InputContainer";
 import CustomInput from "../Atom/CustomInput";
 import Box from "../Atom/Box";

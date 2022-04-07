@@ -216,7 +216,7 @@ const gColumns = [
     },
 ];
 
-const IndexingPage = () => {
+const InspectionPage = () => {
     const [currentTab, setCurrentTab] = useState(()=>0);
     const [openImage, setOpenImage] = useState(() => false);
     const [boxRows, setBoxRows] = useState([]);
@@ -225,7 +225,7 @@ const IndexingPage = () => {
     const [selectionBoxModel, setSelectionBoxModel] = useState([]);
     const [selectionCModel, setSelectionCModel] = useState([]);
     const [selectionGModel, setSelectionGModel] = useState([]);
-    const [selectedRow, setSelectedRow] = useState();
+    const [selectedRow, setSelectedRow] = useState({});
     const [boxLoading, setBoxLoading] = useState(false);
     const [volumeAmount, setVolumeAmount] = useState('');
 
@@ -281,7 +281,8 @@ const IndexingPage = () => {
                 if (item.f_id === selectionBoxModel[0]) {
                     setSelectedRow(item);
                     console.log(item);
-                    setCInfo((prevState) => ({...prevState, f_name: item.f_name, o_name: item.o_name, f_pyear: item.f_pyear}));
+                    setCInfo((prevState) => ({...prevState, f_id: selectionBoxModel[0], f_name: item.f_name, f_pyear: item.f_pyear, f_volumeamount: item.f_volumeamount, f_typenum: item.f_typenum, f_manager: item.f_manager, f_kperiod: item.f_kperiod,
+                        f_kmethod: item.f_kmethod, f_kplace: item.f_kplace, f_type: item.f_type, o_name: item.o_name }));
                     return;
                 }
             })
@@ -497,51 +498,56 @@ const IndexingPage = () => {
     }
 
     const handleCSave = () => {
-        console.log(cInfo)
-        axios.post("http://${NetworkConfig.networkAddress}:8080/index/label", cInfo)
-            .then((res) => {
-                console.log(res.data.v_id);
-                return res.data.v_id
-            })
-            .then((res) => {
-                const result = [];
-                for (let i = 0; i < res.length; i++) {
-                    result.push({
-                        ...selectedRow,
-                        v_id: res[i],
-                        f_volumeamount: i+1,
-                    })
-                }
-                setCRows((prev) => result);
-            });
+        setCInfo(x => {
+            console.log(x)
+            axios.post("http://localhost:8080/file/index/check", x, {withCredentials: true})
+                .then((res) => {
+                    console.log(res.data.v_id);
+                    return res.data.v_id
+                })
+                .then((res) => {
+                    const result = [];
+                    for (let i = 0; i < res.length; i++) {
+                        result.push({
+                            ...selectedRow,
+                            v_id: res[i],
+                            f_volumeamount: i+1,
+                        })
+                    }
+                    setCRows((prev) => result);
+                });
+        })
+
     }
 
     const handleCDelete = () => {
-        axios.delete(`http://${NetworkConfig.networkAddress}:8080/index/label/${selectionBoxModel[0]}`)
+        axios.delete(`http://localhost:8080/index/label/${selectionBoxModel[0]}`, {withCredentials: true})
             .then((res) => console.log(res))
     }
 
     const handleGSave = () => {
         setGInfo((prevState) => {
             console.log(prevState);
-            axios.patch("http://${NetworkConfig.networkAddress}:8080/index/save", prevState)
+            axios.patch("http://localhost:8080/case/index/check", prevState, {withCredentials: true})
                 .then((res) => {
                     console.log(res)
-                    alert('저장되었습니다.');
+                    alert('검수 완료되었습니다.');
+                    caseSearch();
                     setSelectionGModel([]);
                 })
                 .catch((err) => console.error(err));
+            return {};
         })
     }
 
     const handleSearchOffice = () => {
         if (oInfo.o_code.length > 0) {
-            axios.get(`http://${NetworkConfig.networkAddress}:8080/search/office/${oInfo.o_code}`)
+            axios.get(`http://localhost:8080/office/search/${oInfo.o_code}`, {withCredentials: true})
                 .then(res => setOInfo(prev => (
                     {...prev, o_name: res.data.data[0].o_name})
                 ))
         } else if (oInfo.o_name.length > 0) {
-            axios.get(`http://${NetworkConfig.networkAddress}:8080/search/office`, {params: {o_name: oInfo.o_name}})
+            axios.get(`http://localhost:8080/office/search`, {params: {o_name: oInfo.o_name}, withCredentials: true})
                 .then(res => setOInfo(prev => (
                     {...prev, o_code: res.data.data[0].o_code})
                 ))
@@ -550,7 +556,7 @@ const IndexingPage = () => {
 
     const boxSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://${NetworkConfig.networkAddress}:8080/index/search/${oInfo.o_code}`, {params: params})
+        axios.get(`http://localhost:8080/file/index/check/${oInfo.o_code}`, {params: params, withCredentials: true})
             .then((res) => {
                 setBoxRows(res.data);
                 setBoxLoading(false);
@@ -563,7 +569,7 @@ const IndexingPage = () => {
 
     const caseSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://${NetworkConfig.networkAddress}:8080/index/volumes`, {params: {f_id: selectionBoxModel[0]}})
+        axios.get(`http://localhost:8080/volume/index/check`, {params: {f_id: selectionBoxModel[0]}, withCredentials: true})
             .then((res) => {
                 res.data.map((row) => {
                     if (row.v_id === selectionCModel[0]) {
@@ -575,18 +581,19 @@ const IndexingPage = () => {
                         return;
                     }
                 })
+                console.log(res.data)
+                setBoxLoading(false);
             })
-        setBoxLoading(false);
+            .catch((err) => {
+                window.location.reload();
+            })
     };
 
-    useEffect(() => {
-        setCInfo((prevState) => ({...prevState, f_id: selectionBoxModel[0]}))
-    }, [selectionBoxModel])
 
     return (
         <Container>
             <Navigation />
-            <MainBox height={'1220px'}>
+            <MainBox height={'1140px'}>
                 <Title>
                     색인
                     <CustomButton onClick={() => {
@@ -676,8 +683,8 @@ const IndexingPage = () => {
                                     }
                                 </Box>
                                 <div style={styleForm}>
-                                    <UnstyledTabsCustomized gInfo={gInfo} setOpenImage={setOpenImage} f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} c_id={selectionGModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} caseSearch={caseSearch}
-                                                            handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
+                                    <UnstyledTabsCustomized gInfo={gInfo} setOpenImage={setOpenImage} f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} c_id={selectionGModel[0]} volumeAmount={volumeAmount} cInfo={selectedRow}
+                                                            caseSearch={caseSearch} handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
                                                             handleCaseChange={handleCaseChange} handleChange={handleFormChange} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                                 </div>
                             </Box>
@@ -691,6 +698,7 @@ const IndexingPage = () => {
     );
 };
 
+//style
 const BoxTitle = styled.div`
   position: absolute;
   margin: -15px 0 0 20px;
@@ -710,4 +718,4 @@ const InfoContainer = styled.div`
   margin: 20px;
 `;
 
-export default IndexingPage;
+export default InspectionPage;

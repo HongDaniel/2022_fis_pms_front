@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { styled } from '@mui/system';
 import TabsUnstyled from '@mui/base/TabsUnstyled';
 import TabsListUnstyled from '@mui/base/TabsListUnstyled';
@@ -8,10 +8,7 @@ import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import Citems from "../Molecule/Citems";
 import Ginput from "../Molecule/Ginput";
 import IndexGitems from "../Molecule/IndexGitems";
-import Performance from "../Molecule/Performance";
-import Process from "../Molecule/Process";
-import DailyWork from "../Molecule/DailyWork";
-import CRecords from "../Molecule/CRecords";
+import IndexCitems from "../Molecule/IndexCitems";
 
 const Tab = styled(TabUnstyled)`
   font-family: IBM Plex Sans, sans-serif;
@@ -67,26 +64,26 @@ const TabsList = styled(TabsListUnstyled)`
   align-content: space-between;
 `;
 
-export default function ManageTabs(props) {
+export default function IndexUnstyledTabsCustomized(props) {
+    const {currentTab, setCurrentTab} = props;
+    console.log(currentTab);
     return (
-        <TabsUnstyled defaultValue={0}>
+        <TabsUnstyled onChange={(event) => setCurrentTab(parseInt(event.target.id))} value={currentTab}>
             <TabsList>
-                <Tab id={'0'}>계획대비 실적</Tab>
-                <Tab id={'1'}>기간별 공정</Tab>
-                <Tab id={'2'}>일일 작업</Tab>
-                <Tab id={'3'}>철별 이력</Tab>
+                <Tab id={0}>철항목</Tab>
+                <Tab id={1}>건수입력</Tab>
+                <Tab id={2}>건항목</Tab>
             </TabsList>
             <TabPanel value={0}>
-                <Performance />
+                <div>
+                    <IndexCitems cInfo={props.cInfo} handleSave={props.handleSave} handleChange={props.handleChange} handleCDelete={props.handleCDelete} setCurrentTab={setCurrentTab} />
+                </div>
             </TabPanel>
             <TabPanel value={1}>
-                <Process />
+                <Ginput f_id={props.f_id} v_id={props.v_id} volumeAmount={props.volumeAmount} setCurrentTab={setCurrentTab} caseSearch={props.caseSearch}/>
             </TabPanel>
             <TabPanel value={2}>
-                <DailyWork />
-            </TabPanel>
-            <TabPanel value={3}>
-                <CRecords />
+                <IndexGitems c_id={props.c_id} gInfo={props.gInfo} setOpenImage={props.setOpenImage} handleGSave={props.handleGSave} handleCaseChange={props.handleCaseChange} caseSearch={props.caseSearch} setCurrentTab={setCurrentTab} />
             </TabPanel>
         </TabsUnstyled>
     );

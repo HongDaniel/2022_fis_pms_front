@@ -17,6 +17,7 @@ import {Style} from "../Style";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import LableTable from "../Atom/LableTable";
+import IndexUnstyledTabsCustomized from "../Atom/IndexUnstyledTabsCustomized";
 
 const boxColumns = [
     {
@@ -252,6 +253,7 @@ const IndexingPage = () => {
                 if (item.v_id === selectionCModel[0]) {
                     setSelectedRow(item);
                     setVolumeAmount(item.f_volumeamount);
+                    setCInfo((prevState) => ({...prevState, f_name: item.f_name, o_name: item.o_name, f_pyear: item.f_pyear}));
                     return;
                 }
             })
@@ -498,7 +500,7 @@ const IndexingPage = () => {
 
     const handleCSave = () => {
         console.log(cInfo)
-        axios.post("http://localhost:8080/index/label", cInfo, {withCredentials: true})
+        axios.post("http://localhost:8080/file/index/input", cInfo, {withCredentials: true})
             .then((res) => {
                 console.log(res.data.v_id);
                 return res.data.v_id
@@ -517,17 +519,18 @@ const IndexingPage = () => {
     }
 
     const handleCDelete = () => {
-        axios.delete(`http://localhost:8080/index/label/${selectionBoxModel[0]}`, {withCredentials: true})
+        axios.delete(`http://localhost:8080/file/index/${selectionBoxModel[0]}`, {withCredentials: true})
             .then((res) => console.log(res))
     }
 
     const handleGSave = () => {
         setGInfo((prevState) => {
             console.log(prevState);
-            axios.patch("http://localhost:8080/index/save", prevState, {withCredentials: true})
+            axios.patch("http://localhost:8080/case/index/input", prevState, {withCredentials: true})
                 .then((res) => {
                     console.log(res)
                     alert('저장되었습니다.');
+                    caseSearch();
                     setSelectionGModel([]);
                 })
                 .catch((err) => console.error(err));
@@ -553,6 +556,7 @@ const IndexingPage = () => {
         axios.get(`http://localhost:8080/file/index/input/${oInfo.o_code}`, {params: params, withCredentials: true})
             .then((res) => {
                 setBoxRows(res.data);
+                console.log(res.data)
                 setBoxLoading(false);
             })
             .catch((err) => {
@@ -563,7 +567,7 @@ const IndexingPage = () => {
 
     const caseSearch = () => {
         setBoxLoading(true);
-        axios.get(`http://localhost:8080/index/volumes`, {params: {f_id: selectionBoxModel[0]}, withCredentials: true})
+        axios.get(`http://localhost:8080/volume/index/input`, {params: {f_id: selectionBoxModel[0]}, withCredentials: true})
             .then((res) => {
                 res.data.map((row) => {
                     if (row.v_id === selectionCModel[0]) {
@@ -575,8 +579,12 @@ const IndexingPage = () => {
                         return;
                     }
                 })
+                console.log(res.data)
+                setBoxLoading(false);
             })
-        setBoxLoading(false);
+            .catch((err) => {
+                window.location.reload();
+            })
     };
 
     useEffect(() => {
@@ -676,7 +684,7 @@ const IndexingPage = () => {
                                     }
                                 </Box>
                                 <div style={styleForm}>
-                                    <UnstyledTabsCustomized gInfo={gInfo} setOpenImage={setOpenImage} f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} c_id={selectionGModel[0]} volumeAmount={volumeAmount} value={cInfo.f_name} caseSearch={caseSearch}
+                                    <IndexUnstyledTabsCustomized gInfo={gInfo} setOpenImage={setOpenImage} f_id={selectionBoxModel[0]} v_id={selectionCModel[0]} c_id={selectionGModel[0]} volumeAmount={volumeAmount} cInfo={cInfo} caseSearch={caseSearch}
                                                             handleSave={handleCSave} handleGSave={handleGSave} handleCDelete={handleCDelete}
                                                             handleCaseChange={handleCaseChange} handleChange={handleFormChange} currentTab={currentTab} setCurrentTab={setCurrentTab} />
                                 </div>
