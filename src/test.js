@@ -11,7 +11,7 @@ const columns = [
         width: 120,
         editable: true,
     },
-    {생
+    {
         field: 'o_name',
         headerName: '생산기관명',
         width: 230,

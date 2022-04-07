@@ -278,7 +278,7 @@ const DocumentExportPage = (url, config) => {
     const [searchInfo, setSearchInfo] = useState({});
     const [searchDateInfo, setSearchDateInfo] = useState({});
     const [searchBoxInfo, setSearchBoxInfo] = useState({});
-    const [registerInfo, setRegisterInfo] = useState({b_num: "", f_db: "", f_scan: ""});
+    const [registerInfo, setRegisterInfo] = useState({b_num: "", f_db: "", f_scan: "", tmp_db: '', tmp_scan: ''});
     const [saveInfo, setSaveInfo] = useState({});
 
     const [exportRows, setExportRows] = useState([]);
@@ -295,7 +295,7 @@ const DocumentExportPage = (url, config) => {
             eList.push({
                 b_num: registerInfo.b_num,
                 f_db: registerInfo.f_db,
-                f_exportdate: date,
+                // f_exportdate: date,
                 f_id: f_id,
                 f_scan: registerInfo.f_scan,
             })
@@ -303,7 +303,7 @@ const DocumentExportPage = (url, config) => {
         setSaveInfo((item) => {
             item['exportInfoList'] = eList;
         })
-        console.log(saveInfo.exportInfoList);
+        console.log(saveInfo);
     };
 
     const onRegister = () => {
@@ -311,6 +311,9 @@ const DocumentExportPage = (url, config) => {
             .then((res) => {
                 setSaveInfo({});
                 console.log(res);
+                setRegisterInfo({b_num: "", f_db: "", f_scan: "", tmp_db: '', tmp_scan: ''});
+                onDateSearch();
+                onLabelSearch();
             })
             .catch((err) => console.log(err))
     }
@@ -330,7 +333,7 @@ const DocumentExportPage = (url, config) => {
         setSearchDateInfo((prevState) => {
             axios.get('http://localhost:8080/file/export/date', {params: prevState, withCredentials: true})
                 .then((res) => {
-                    console.log(res);
+                    console.log(res.data);
                     setExportRows(res.data);
                     setExLoading(false);
                 })
@@ -344,9 +347,9 @@ const DocumentExportPage = (url, config) => {
             .then((res) => {
                 console.log(res);
                 setExportRows(res.data);
+                setExLoading(false);
             })
             .catch(err => console.log(err))
-        setExLoading(false);
     }
     useEffect(() => {
         onLabelSearch();
@@ -396,14 +399,14 @@ const DocumentExportPage = (url, config) => {
                 } else if (value === "비구축") {
                     make = "NO";
                 }
-                setRegisterInfo({...registerInfo, f_db: make})
+                setRegisterInfo({...registerInfo, f_db: make, tmp_db: value})
             } else if (label.name === '스캔여부') {
                 if (value === "구축") {
                     make = "YES";
                 } else if (value === "비구축") {
                     make = "NO";
                 }
-                setRegisterInfo({...registerInfo, f_scan: make})
+                setRegisterInfo({...registerInfo, f_scan: make, tmp_scan: value})
             }
         }, 100);
     }, [registerInfo]) ;
@@ -451,13 +454,13 @@ const DocumentExportPage = (url, config) => {
                     </div>
                     <div style={{ justifyContent:'right', display:"flex", flexDirection: "row"}}>
                         <div style={{margin:10}}>
-                            <CustomInput type='number' handleChange={handleRegisterChange} id={'b_num'} label='박스 번호' size='small'/>
+                            <CustomInput type='number' value={registerInfo.b_num} handleChange={handleRegisterChange} id={'b_num'} label='박스 번호' size='small'/>
                         </div>
                         <div style={{margin:10}}>
-                            <CustomInput type='select' handleChange={handleRegisterChange} id={'f_db'} name='구축여부' width='130px' label='구축여부' contents={["구축", "비구축"]} />
+                            <CustomInput type='select' defaultValue={registerInfo.tmp_db} handleChange={handleRegisterChange} id={'f_db'} name='구축여부' width='130px' label='구축여부' contents={["구축", "비구축"]} />
                         </div>
                         <div style={{margin:10}}>
-                            <CustomInput type='select' handleChange={handleRegisterChange} id={'f_scan'} name='스캔여부' width='130px' label='스캔여부' contents={["구축", "비구축"]} />
+                            <CustomInput type='select' defaultValue={registerInfo.tmp_scan} handleChange={handleRegisterChange} id={'f_scan'} name='스캔여부' width='130px' label='스캔여부' contents={["구축", "비구축"]} />
                         </div>
                         <div style={{marginTop:6, marginRight:50}}>
                             <CustomButton onClick={async () => {
@@ -467,8 +470,7 @@ const DocumentExportPage = (url, config) => {
                                 }
                                 addEList();
                                 await onRegister();
-                                onLabelSearch();
-                                onDateSearch();
+                                return;
                             }} type='normal' margin='5px' color='#ffffff' backgroundColor='#50586C' content='등록'/>
                         </div>
                     </div>

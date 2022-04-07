@@ -7,6 +7,7 @@ import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 import Citems from "../Molecule/Citems";
 import Ginput from "../Molecule/Ginput";
+import IndexGitems from "../Molecule/IndexGitems";
 import Gitems from "../Molecule/Gitems";
 
 const Tab = styled(TabUnstyled)`
@@ -75,7 +76,7 @@ export default function UnstyledTabsCustomized(props) {
             </TabsList>
             <TabPanel value={0}>
                 <div>
-                    <Citems value={props.value} handleSave={props.handleSave} handleChange={props.handleChange} handleCDelete={props.handleCDelete} setCurrentTab={setCurrentTab} />
+                    <Citems cInfo={props.cInfo} handleSave={props.handleSave} handleChange={props.handleChange} handleCDelete={props.handleCDelete} setCurrentTab={setCurrentTab} />
                 </div>
             </TabPanel>
             <TabPanel value={1}>

@@ -48,6 +48,10 @@ function Table(props) {
         }
     }
 
+    useEffect(() => {
+        console.log(rows);
+    }, [rows])
+
 
     return (
         <div style={{height: `${props.height}`, width: `${props.width}`, position: 'absolute'}}>
