@@ -29,7 +29,7 @@ function LoginForm(props) {
                 setLoginState(true);
                 setAuthority(res.data.authority);
                 navigate('/preinspect');
-                console.log(res.data);
+                // console.log(res.data);
             })
             .catch(() => window.alert("아이디나 비밀번호가 일치하지 않습니다."));
     }
@@ -49,16 +49,16 @@ function LoginForm(props) {
                 <img src={logo}/> {/*회사로고*/}
                 <div>
                     <form>
-                    <InputRow> {/*아이디*/}
-                        <div className="icon"><BiUser/></div>
-                        <input required name="nickname" id="username" type="text" placeholder="아이디"
-                               onChange={handleChange}/>
-                    </InputRow>
-                    <InputRow> {/*비밀번호*/}
-                        <div className="icon"><RiLockPasswordLine/></div>
-                        <input required name="password" id="password" type="password" placeholder="비밀번호"
-                               onChange={handleChange} autoComplete={"on"}/>
-                    </InputRow>
+                        <InputRow> {/*아이디*/}
+                            <div className="icon"><BiUser/></div>
+                            <input required name="nickname" id="username" type="text" placeholder="아이디"
+                                   onChange={handleChange}/>
+                        </InputRow>
+                        <InputRow> {/*비밀번호*/}
+                            <div className="icon"><RiLockPasswordLine/></div>
+                            <input required name="password" id="password" type="password" placeholder="비밀번호"
+                                   onChange={handleChange} autoComplete={"on"}/>
+                        </InputRow>
                     </form>
                     <BtnContainer>
                         <CustomButton type="normal" width="100%" height="40px" backgroundColor={Style.color2}
@@ -66,20 +66,17 @@ function LoginForm(props) {
                         <CustomButton type="normal" width="100%" height="40px" backgroundColor={Style.color2}
                                       color={Style.color1} borderRadius={"10px"} content={"회원가입"}
                                       onClick={handleOpen}/>
-                        <Modal
-                            open={isModal}
-                            onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <SignUpForm handleClose={handleClose}/>
-                        </Modal>
                     </BtnContainer>
                 </div>
             </Container>
+            {isModal && // 회원가입 창
+                <Background>
+                    <SignUpForm handleClose={handleClose}/>
+                </Background>}
         </Main>
     );
 }
+// style
 const Main = styled.div`
   width: 100%;
   height: 100%;
@@ -109,8 +106,7 @@ const Container = styled.div`
     text-decoration: none;
   }
 `;
-
-const InputRow = styled.div`
+const InputRow = styled.div` // 입력창
   display: grid;
   grid-template-columns: 1.2fr 9fr;
   border: 1px solid #dadada;
@@ -141,4 +137,15 @@ const BtnContainer = styled.div`
   margin-bottom: 20px;
 }
 `;
+
+const Background = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 3;
+`;
+
 export default LoginForm;

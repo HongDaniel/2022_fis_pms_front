@@ -84,7 +84,7 @@ const Navigation = () => {
     //     reader.readAsBinaryString(input.files[0]);
     // }
     const logout = async () =>{ // 로그아웃 버튼을 눌렀을 경우
-        await axios.post(`http://${NetworkConfig.networkAddress}:8080/logout`)
+        await axios.post(`http://${NetworkConfig.networkAddress}:8080/logout`,{},{withCredentials:true})
             .then((res) => {
                 console.log(res);
                 setLogInStatus(false);
@@ -99,7 +99,7 @@ const Navigation = () => {
             <BtnContainer>
                 <Button value={"사전조사"} onClick={handleClick}>사전조사</Button>
                 <Button value={"문서반출"} onClick={handleClick}>문서반출</Button>
-                <Button value={"스캔"} onClick={handleClick}>스캔</Button>
+                {/*<Button value={"스캔"} onClick={handleClick}>스캔</Button>*/}
                 <Button value={"이미지보정"} onClick={handleClick}>이미지보정</Button>
                 <Button value={"색인"} onClick={handleClick}>색인</Button>
                 <Button value={"검수"} onClick={handleClick}>검수</Button>

@@ -90,7 +90,7 @@ const CustomInput = (props) => {
                 >
                     {props.contents.map((content,idx) => {
                         // console.log(props.id);
-                        if(content){
+                        if(content!==undefined){
                         return <MenuItem key={idx} value={content}>{content}</MenuItem>;
                         }
                     })}

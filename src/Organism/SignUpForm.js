@@ -6,6 +6,7 @@ import CustomButton from "../Atom/CustomButton";
 import axios from "axios";
 
 const SignUpForm = ({handleClose}) => {
+
     const [signUpInfo, setSignUpInfo] = useState(
         {
             "nickname": "",
@@ -15,8 +16,7 @@ const SignUpForm = ({handleClose}) => {
             "w_name": "",
             "w_tel": ""
         });
-    const [isSame, setIsSame] = useState();
-    const signUpForm = useRef(null);
+    const [isSame, setIsSame] = useState(); // 비밀번호와 비밀번호 확인이 같은지
 
     const handleChange = (e) =>{ // 입력창에 인풋이 되었을 때
         const type = e.target.id;
@@ -36,7 +36,7 @@ const SignUpForm = ({handleClose}) => {
                 setSignUpInfo({...signUpInfo, "w_address": text});
                 break
             case '권한' && undefined: // e.target이 다르기 때문에 처리
-                text==='관리자'?setSignUpInfo({...signUpInfo, "w_authority": 'ADMIN'}):setSignUpInfo({...signUpInfo, w_authority: 'WORKER'})
+                text==='관리자'? setSignUpInfo({...signUpInfo, "w_authority": 'ADMIN'}):setSignUpInfo({...signUpInfo, w_authority: 'WORKER'})
                 break
             case '이름':
                 setSignUpInfo({...signUpInfo, "w_name": text});
@@ -45,11 +45,11 @@ const SignUpForm = ({handleClose}) => {
                 setSignUpInfo({...signUpInfo, "w_tel": text});
                 break
         }
-    }
+    } // 입력되는 정보
 
-    useEffect(() => {
-        console.log(signUpInfo);
-    }, [signUpInfo]);
+    // useEffect(() => {
+    //     console.log(signUpInfo);
+    // }, [signUpInfo]);
 
     const handleSignUp = async () => {
         const values = Object.values(signUpInfo);
@@ -66,34 +66,33 @@ const SignUpForm = ({handleClose}) => {
         }
     }
 
-    const handleCancel= () =>{
-        handleClose();
-    };
-
     return (
         <Container>
             <Modal>
                 <div className={"signupFont"}>회원가입</div>
-                <Inputs>
-                    <InputContainer id={"아이디"} width={"320px"} height={"30px"} type={"text"}
-                                    handleChange={handleChange}/>
-                    <InputContainer id={"비밀번호"} width={"320px"} type={"password"} handleChange={handleChange}/>
-                    <InputContainer id={"비밀번호확인"} width={"320px"} type={"password"} handleChange={handleChange}
-                                    isSame={isSame}/>
-                    <InputContainer id={"주소"} width={"320px"} type={"text"} handleChange={handleChange}/>
-                    <InputContainer id={"권한"} width={"320px"} type={"select"} contents={["관리자", "일반직원"]}
-                                    handleChange={handleChange}/>
-                    <InputContainer id={"이름"} width={"320px"} type={"text"} handleChange={handleChange}/>
-                    <InputContainer id={"전화번호"} width={"320px"} type={"text"} handleChange={handleChange}/>
-                    <BtnContainer>
-                        <CustomButton type={"normal"} name={"회원가입"} width={"180px"} height={"55px"} fontSize={"22px"}
-                                      borderRadius={"25px"} content={"회원가입"} backgroundColor={Style.color2}
-                                      onClick={handleSignUp}/>
-                        <CustomButton type={"normal"} name={"취소"} width={"180px"} height={"55px"} fontSize={"22px"}
-                                      borderRadius={"25px"} content={"취소"} backgroundColor={Style.color2}
-                                      onClick={handleCancel}/>
-                    </BtnContainer>
-                </Inputs>
+                <form>
+                    <Inputs>
+                        <InputContainer id={"아이디"} width={"320px"} height={"30px"} type={"text"}
+                                        handleChange={handleChange}/>
+                        <InputContainer id={"비밀번호"} width={"320px"} type={"password"} handleChange={handleChange}/>
+                        <InputContainer id={"비밀번호확인"} width={"320px"} type={"password"} handleChange={handleChange}
+                                        isSame={isSame}/>
+                        <InputContainer id={"주소"} width={"320px"} type={"text"} handleChange={handleChange}/>
+                        <InputContainer id={"권한"} width={"320px"} type={"select"} contents={["관리자", "일반직원"]}
+                                        handleChange={handleChange}/>
+                        <InputContainer id={"이름"} width={"320px"} type={"text"} handleChange={handleChange}/>
+                        <InputContainer id={"전화번호"} width={"320px"} type={"text"} handleChange={handleChange}/>
+                        <BtnContainer>
+                            <CustomButton type={"normal"} name={"회원가입"} width={"180px"} height={"55px"}
+                                          fontSize={"22px"}
+                                          borderRadius={"25px"} content={"회원가입"} backgroundColor={Style.color2}
+                                          onClick={handleSignUp}/>
+                            <CustomButton type={"normal"} name={"취소"} width={"180px"} height={"55px"} fontSize={"22px"}
+                                          borderRadius={"25px"} content={"취소"} backgroundColor={Style.color2}
+                                          onClick={()=>handleClose()}/>
+                        </BtnContainer>
+                    </Inputs>
+                </form>
             </Modal>
         </Container>
     );
@@ -101,8 +100,10 @@ const SignUpForm = ({handleClose}) => {
 
 //style
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
