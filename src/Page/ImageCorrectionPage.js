@@ -23,14 +23,14 @@ const ImageCorrectionPage = () => {
     const [croppedImgList, setCroppedImgList] = useState([]);
     const [isPreview, setIsPreview] = useState(false);
     const [previewText,setPreviewText]= useState("미리보기");
-    const [fidMaxnum,setFidMaxnum] = useState({fid:0,maxNum:0});
+    const [fidMaxnum,setFidMaxnum] = useState({fid:0,maxNum:0,fname:""});
     const [selectedIdx,setSelectedIdx]= useState();
     const [imgNum, setImgNum] = useState([]);
     const cropperJS = useRef();
 
     // 이미지 리스트에서 사진을 선택했을 경우
     const handleClick = (e) => {
-        // console.log(e.target);
+        console.log(e.target);
         if(previewText==='다시수정') {
             setPreviewText('미리보기');
             setIsPreview(!isPreview);
@@ -130,10 +130,10 @@ const ImageCorrectionPage = () => {
     // 철번호를 선택할 때마다 이미지 리스트의 src를 변경
     useEffect(async () => {
         let srcs=[];
-        await axios.get(`http://localhost:8080/images/modify/${fidMaxnum.fid}/1`)
-            .then(async ()=>{
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/modify/${fidMaxnum.fid}/1`)
+            .then(async ()=>{ // modify 내역이 있을 경우
                 for(let i=1; i<=fidMaxnum.maxNum;i++){
-                    await toDataURL(`http://localhost:8080/images/modify/${fidMaxnum.fid}/${i}`)
+                    await toDataURL(`http://${NetworkConfig.networkAddress}:8080/images/modify/${fidMaxnum.fid}/${i}`)
                         .then(dataUrl => {
                             if(dataUrl) {
                                 srcs.push(dataUrl);
@@ -142,7 +142,7 @@ const ImageCorrectionPage = () => {
                         })
                 }
             })
-            .catch(async (err) => {
+            .catch(async (err) => { // modify 내역이 없는 경우
                 for(let i=1; i<=fidMaxnum.maxNum;i++){
                     await toDataURL(`http://localhost:8080/images/origin/${fidMaxnum.fid}/${i}`)
                         .then(dataUrl => {
@@ -156,16 +156,24 @@ const ImageCorrectionPage = () => {
 
     }, [fidMaxnum]);
 
-    useEffect(async ()=>{
-        await axios.get(`http://localhost:8080/images/maxnum`, {withCredentials: true})
-            .then(res => setImgNum(res.data.imagesNumList))
+    useEffect(async ()=>{ // 첫 렌더링 때 철 번호에 따른 maxnum 정보 받아오기
+        await axios.get(`http://${NetworkConfig.networkAddress}:8080/images/maxnum`, {withCredentials: true})
+            .then(res => {
+                setImgNum(res.data.imagesNumList);
+                console.log(res.data);
+            })
             .catch(err => console.log(err));
-    },[])
+    },[]);
+
+    useEffect(() => {
+        console.log(selectedImg);
+    }, [selectedImg]);
 
     return (
         <Container>
             <Navigation/>
             <MainBox height={"1140px"}>
+                <img src={'ZGF0YTphcHBsaWNhdGlvbi9qc29uO2Jhc2U2NCxleUpqYjJSbElqbzBNREVzSW0xbGPigKZyb1p6cXQ3anNuYmpzbmJRZzY1Q1k3S2VBN0pXSzdKV1k3SXExNjR1STY0dWtJbjA9'} style={{width:'700px'}}/>
                 <Title>스캔 및 보정</Title>
                 <BoxContainer>
                     <Box width='91%' height='100px' backgroundColor={Style.color3}>
@@ -182,19 +190,9 @@ const ImageCorrectionPage = () => {
                                     renderInput={(params) => < TextField {...params} label="철번호"/>}
                                     onChange={(event, value) => {
                                         setCroppedImgList([]);
-                                        value&&setFidMaxnum({fid:value.label, maxNum:value.maxnum});
+                                        value && setFidMaxnum({fid:value.label, maxNum:value.maxnum,fname:value.f_name});
                                     }}
                                 />
-                                {/*
-                                <label htmlFor={"uploadImg"} className="uploadImg">파일선택</label>
-                                <input type="file"
-                                       id="uploadImg"
-                                       accept="image/*"
-                                       multiple={"multiple"}
-                                       onChange={uploadImg}
-                                       onClick={getPicture}
-                                       style={{display:"none"}}
-                                />*/}
                             </div>
                             {/*<div>*/}
                             {/*    <label htmlFor={"box"}>박스</label>*/}
@@ -220,8 +218,8 @@ const ImageCorrectionPage = () => {
                             <ImageContainer onClick={handleClick}>
                                 {croppedImgList.map((el, idx) => {
                                     return (
-                                        // <img src={el.img} alt={"img"} id={el.idx} key={el.idx}/>
-                                            <div data-src={el.img} key={el.idx} >{el.idx}.jpg</div>
+                                        // <img src={el.img} alt={"img"} id={el.idx} key={el.idx}/> => 이미지로 표시
+                                            <div data-src={el.img} key={el.idx} id={el.idx}> {el.idx}.jpg </div> // => 간단하게 표시
                                     )
                                 })}
                             </ImageContainer>

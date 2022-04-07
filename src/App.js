@@ -13,6 +13,7 @@ import {isLogedIn} from "./store/LoginInfo";
 import {useRecoilState, useRecoilValue} from "recoil";
 import axios from "axios";
 import NetworkConfig from "./configures/NetworkConfig";
+import NotFound from "./Page/NotFound";
 
 function App() {
     const [logInStatus, setLogInStatus] = useRecoilState(isLogedIn);
@@ -21,14 +22,14 @@ function App() {
     const logInCheck = async () => {
         await axios.get(`http://${NetworkConfig.networkAddress}:8080/userInfo`, {withCredentials: true})
             .then(res => { // 로그인이 되어 있을 때
-                console.log(res);
+                // console.log(res);
                 setLogInStatus(true);
             })
             .catch(err => { // 로그인이 만료되었을 때
                 console.log(err);
                 navigate('/'); // 로그인 페이지로 이동
                 setLogInStatus(false);
-                window.alert("로그아웃되었습니다.");
+                // window.alert("로그아웃되었습니다.");
             });
     }
 
@@ -42,12 +43,13 @@ function App() {
                     <Route exact path={"/"} element={<LoginPage/>}/>
                     <Route exact path={"/preinspect"} element={<PreInspectPage/>}/>
                     <Route exact path={"/export"} element={<DocumentExportPage/>}/>
-                    <Route exact path={"/scan"} element={<ScanPage/>}/>
+                    {/*<Route exact path={"/scan"} element={<ScanPage/>}/> 스캔페이지는 제외 */}
                     <Route exact path={"/imageCorrect"} element={<ImageCorrectionPage/>}/>
                     <Route exact path={"/index"} element={<IndexingPage/>}/>
                     <Route exact path={"/inspection"} element={<InspectionPage/>}/>
                     <Route exact path={"/upload"} element={<UploadPage/>}/>
                     <Route exact path={"/manage/workplace"} element={<ManagePage/>}/>
+                    <Route path={"*"} element={<NotFound/>}/>
                 </Routes>
             </div>
         );
